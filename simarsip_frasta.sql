@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 04, 2024 at 06:29 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Mar 11, 2024 at 07:41 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,25 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `arsip_dokumentasi` (
-  `id_arsip_dokumentasi` int(11) NOT NULL,
-  `kode_arsip_dokumentasi` varchar(100) NOT NULL,
+  `id_arsip_dokumentasi` int NOT NULL,
+  `kode_arsip_dokumentasi` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_dokumentasi` date NOT NULL,
-  `id_karyawan` bigint(20) NOT NULL,
-  `id_departemen` bigint(20) NOT NULL,
-  `keterangan` text NOT NULL,
-  `file_arsip_dokumentasi` varchar(255) NOT NULL,
+  `id_karyawan` bigint NOT NULL,
+  `id_departemen` bigint NOT NULL,
+  `keterangan` text COLLATE utf8mb4_general_ci NOT NULL,
+  `file_arsip_dokumentasi` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `arsip_dokumentasi`
---
-
-INSERT INTO `arsip_dokumentasi` (`id_arsip_dokumentasi`, `kode_arsip_dokumentasi`, `tanggal_dokumentasi`, `id_karyawan`, `id_departemen`, `keterangan`, `file_arsip_dokumentasi`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(9, 'AD0001', '2024-01-04', 9, 2, 'asdas', 'assets/file-arsip-dokumentasi/92tJ3a7QgZNipWDrkgn43j2oQBQzEdLc22qXIAcb.jpg', '2024-01-03 22:43:34', '2024-01-03 22:43:34', NULL),
-(10, 'AD0002', '2024-01-10', 9, 1, 'Foto ini diambil pada saat buka bersama 2023', 'assets/file-arsip-dokumentasi/WcmCFUiNoM0nZdACFJvY2TgIlVzgKiNRiGiHsfDt.jpg', '2024-01-09 03:20:54', '2024-01-09 03:20:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -55,24 +48,18 @@ INSERT INTO `arsip_dokumentasi` (`id_arsip_dokumentasi`, `kode_arsip_dokumentasi
 --
 
 CREATE TABLE `arsip_karyawan` (
-  `id_arsip_karyawan` int(11) NOT NULL,
-  `kode_arsip_karyawan` varchar(255) NOT NULL,
-  `id_kategori_arsip` bigint(20) NOT NULL,
-  `id_karyawan` bigint(20) NOT NULL,
-  `id_departemen` bigint(20) NOT NULL,
-  `retensi_arsip` varchar(100) NOT NULL,
-  `file_arsip_karyawan` varchar(255) NOT NULL,
+  `id_arsip_karyawan` int NOT NULL,
+  `kode_arsip_karyawan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_kategori_arsip` bigint NOT NULL,
+  `id_karyawan` bigint NOT NULL,
+  `id_departemen` bigint NOT NULL,
+  `retensi_arsip` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `file_arsip_karyawan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` bigint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `arsip_karyawan`
---
-
-INSERT INTO `arsip_karyawan` (`id_arsip_karyawan`, `kode_arsip_karyawan`, `id_kategori_arsip`, `id_karyawan`, `id_departemen`, `retensi_arsip`, `file_arsip_karyawan`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'AK0001', 3, 3, 3, '2024-01-25 sampai 2024-01-31', 'assets/file-arsip-karyawan/nvKsrLAGcv1BZa7RI6sdfxTukQeflTEReQnBdwIJ.pdf', '2024-01-03 22:41:00', '2024-01-03 22:43:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,40 +68,51 @@ INSERT INTO `arsip_karyawan` (`id_arsip_karyawan`, `kode_arsip_karyawan`, `id_ka
 --
 
 CREATE TABLE `arsip_surat` (
-  `id_arsip_surat` bigint(20) UNSIGNED NOT NULL,
-  `kode_surat` varchar(255) NOT NULL,
+  `id_arsip_surat` bigint UNSIGNED NOT NULL,
+  `kode_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tanggal_surat` date NOT NULL,
   `tanggal_diterima` date NOT NULL,
-  `perihal` varchar(255) NOT NULL,
-  `id_departemen` bigint(20) UNSIGNED NOT NULL,
-  `id_pengirim_surat` bigint(20) DEFAULT NULL,
-  `id_penerima_surat` bigint(11) DEFAULT NULL,
-  `file_arsip_surat` varchar(255) NOT NULL,
-  `tipe_surat` varchar(255) NOT NULL,
-  `status_surat` enum('pending','Approve','Not Approve','Request Update','Revisi') NOT NULL DEFAULT 'pending',
-  `komentar` text DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `perihal` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_departemen` bigint UNSIGNED NOT NULL,
+  `id_pengirim_surat` bigint DEFAULT NULL,
+  `id_penerima_surat` bigint DEFAULT NULL,
+  `file_arsip_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipe_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status_surat` enum('pending','Approve','Not Approve','Request Update','Revisi') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `komentar` text COLLATE utf8mb4_unicode_ci,
+  `user_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `arsip_surat`
+-- Table structure for table `avatar`
 --
 
-INSERT INTO `arsip_surat` (`id_arsip_surat`, `kode_surat`, `tanggal_surat`, `tanggal_diterima`, `perihal`, `id_departemen`, `id_pengirim_surat`, `id_penerima_surat`, `file_arsip_surat`, `tipe_surat`, `status_surat`, `komentar`, `user_id`, `created_at`, `updated_at`) VALUES
-(22, 'SM0001', '2024-01-04', '2024-01-04', 'tes', 2, NULL, 3, 'assets/letter-file/lltyYPhqOcHGgQbSxs5lUQBAIMAfafbMb7ffY3C8.pdf', 'Surat Masuk', 'Not Approve', '', NULL, '2024-01-03 22:38:58', '2024-01-03 22:39:36'),
-(23, 'SK0001', '2024-01-04', '2024-01-05', 'asdas', 2, 5, NULL, 'assets/letter-file/EhMxi9xzgxe7ov75Q7wevAQ5kwjSrZLNlzfT1Drq.pdf', 'Surat Keluar', 'Approve', '', NULL, '2024-01-03 22:40:01', '2024-01-03 22:40:37'),
-(24, 'SM0002', '2024-01-04', '2024-01-04', 'Kerja Sama Perusahaan', 1, NULL, 1, 'assets/letter-file/4HJcNxmoVrBYNQqZeC5h0kwnno1TLpILrjVXzwGa.pdf', 'Surat Masuk', 'Approve', '', NULL, '2024-01-04 03:12:14', '2024-01-04 03:14:46'),
-(26, 'SM0003', '2024-03-04', '2024-03-06', 'Hamdan', 4, NULL, 3, 'assets/letter-file/bVMJBqZT06L5PzaBwOsXza8x7K3vtnovBTqm9s4S.pdf', 'Surat Masuk', 'pending', '', NULL, '2024-03-03 10:05:44', '2024-03-03 10:12:50'),
-(27, 'SM0004', '2024-03-04', '2024-03-06', 'jajanan', 2, NULL, 6, 'assets/letter-file/8GQMCgZgahVHb9Bj5GfGx9zjNVSiNwb0Wtn20Onl.pdf', 'Surat Masuk', 'Approve', '', NULL, '2024-03-03 10:07:54', '2024-03-03 10:14:01'),
-(28, 'SK0002', '2024-03-05', '2024-03-08', 'Ham', 5, 4, NULL, 'assets/letter-file/pAVEKup0TdD5ISIFaM9UkxMAG7G2hcqzA1RFmvt4.pdf', 'Surat Keluar', 'pending', '', NULL, '2024-03-03 10:15:24', '2024-03-03 10:15:24'),
-(29, 'SM0005', '2024-03-04', '2024-03-07', 'jajanan', 6, NULL, 5, 'assets/letter-file/ziPcFbExEFyzAZlJK8YIZLesS3OYWisI0AMma3re.pdf', 'Surat Masuk', 'pending', '', NULL, '2024-03-03 19:57:21', '2024-03-03 19:57:21'),
-(30, 'SM0006', '2024-03-04', '2024-03-08', 'as', 4, NULL, 5, 'assets/letter-file/onju33Zt9QcjLCxuSc9hYIb8Cps1voTxFEG8qIGQ.pdf', 'Surat Masuk', 'Request Update', '', NULL, '2024-03-03 20:00:39', '2024-03-04 08:06:05'),
-(31, 'SM0007', '2024-03-04', '2024-03-08', 'bandung', 1, NULL, 5, 'assets/letter-file/IZTmFoTQfyidsPkDZmq8X4UmH0nbfnpJHMVXwvoj.pdf', 'Surat Masuk', 'Request Update', '', 13, '2024-03-03 20:02:04', '2024-03-04 02:53:54'),
-(32, 'SM0008', '2024-03-04', '2024-03-06', 'Bandung Lautan Api', 4, NULL, 5, 'assets/letter-file/IBJD0DVg23aGOtlY50j3wIbjJLyQ5KeRKo0byLY6.pdf', 'Surat Masuk', 'Approve', '', 13, '2024-03-04 08:14:10', '2024-03-04 09:12:29'),
-(33, 'SM0009', '2024-03-04', '2024-03-09', 'Bandung', 4, NULL, 5, 'assets/letter-file/1BFGUP6pgwjEgZGkpKZEW1bLTEfXvmFxVVaFCnCC.pdf', 'Surat Masuk', 'pending', NULL, 13, '2024-03-04 09:15:31', '2024-03-04 09:15:31'),
-(34, 'SK0003', '2024-03-04', '2024-03-06', '1', 3, 5, NULL, 'assets/letter-file/W14BcIEyvRoRALsZfWw8bXOvVg29Cx2VJygczM5l.pdf', 'Surat Keluar', 'Request Update', 'misalkan', 13, '2024-03-04 09:17:34', '2024-03-04 09:40:50');
+CREATE TABLE `avatar` (
+  `id` int NOT NULL,
+  `url` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `avatar`
+--
+
+INSERT INTO `avatar` (`id`, `url`) VALUES
+(1, 'assets/avatar/avatar-1.jpg'),
+(2, 'assets/avatar/avatar-2.jpg'),
+(3, 'assets/avatar/avatar-3.jpg'),
+(4, 'assets/avatar/avatar-4.jpg'),
+(5, 'assets/avatar/avatar-5.jpg'),
+(6, 'assets/avatar/avatar-6.jpg'),
+(7, 'assets/avatar/avatar-7.png'),
+(8, 'assets/avatar/avatar-8.png'),
+(9, 'assets/avatar/avatar-9.png'),
+(10, 'assets/avatar/avatar-10.png'),
+(11, 'assets/avatar/avatar-11.jpg'),
+(12, 'assets/avatar/avatar-12.jpg');
 
 -- --------------------------------------------------------
 
@@ -123,8 +121,8 @@ INSERT INTO `arsip_surat` (`id_arsip_surat`, `kode_surat`, `tanggal_surat`, `tan
 --
 
 CREATE TABLE `departemen` (
-  `id_departemen` bigint(20) UNSIGNED NOT NULL,
-  `nama_departemen` varchar(255) NOT NULL,
+  `id_departemen` bigint UNSIGNED NOT NULL,
+  `nama_departemen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -149,16 +147,16 @@ INSERT INTO `departemen` (`id_departemen`, `nama_departemen`, `created_at`, `upd
 --
 
 CREATE TABLE `karyawan` (
-  `id_karyawan` int(11) NOT NULL,
-  `nama_karyawan` varchar(255) NOT NULL,
-  `nik` varchar(255) NOT NULL,
-  `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
+  `id_karyawan` int NOT NULL,
+  `nama_karyawan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nik` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_kelamin` enum('Laki-laki','Perempuan') COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `alamat` text NOT NULL,
-  `kontak` varchar(25) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `status_karyawan` enum('Karyawan Kontrak','Karyawan Tetap') NOT NULL,
-  `pendidikan_terakhir` varchar(255) NOT NULL,
+  `alamat` text COLLATE utf8mb4_general_ci NOT NULL,
+  `kontak` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `status_karyawan` enum('Karyawan Kontrak','Karyawan Tetap') COLLATE utf8mb4_general_ci NOT NULL,
+  `pendidikan_terakhir` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -189,8 +187,8 @@ INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `nik`, `jenis_kelamin`, 
 --
 
 CREATE TABLE `kategori_arsip` (
-  `id_kategori_arsip` bigint(20) NOT NULL,
-  `nama_kategori_arsip` varchar(100) NOT NULL,
+  `id_kategori_arsip` bigint NOT NULL,
+  `nama_kategori_arsip` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -215,57 +213,16 @@ INSERT INTO `kategori_arsip` (`id_kategori_arsip`, `nama_kategori_arsip`, `creat
 --
 
 CREATE TABLE `notifikasi` (
-  `id_notifikasi` int(11) NOT NULL,
-  `keterangan` text NOT NULL,
-  `id_arsip_surat` bigint(20) NOT NULL,
-  `level` enum('karyawan','admin','manajer') NOT NULL DEFAULT 'karyawan',
-  `tipe_arsip` enum('surat','karyawan') NOT NULL DEFAULT 'surat',
+  `id_notifikasi` int NOT NULL,
+  `keterangan` text COLLATE utf8mb4_general_ci NOT NULL,
+  `id_arsip_surat` bigint NOT NULL,
+  `level` enum('karyawan','admin','manajer') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'karyawan',
+  `tipe_arsip` enum('surat','karyawan') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'surat',
+  `user_id` bigint DEFAULT NULL,
   `read_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `notifikasi`
---
-
-INSERT INTO `notifikasi` (`id_notifikasi`, `keterangan`, `id_arsip_surat`, `level`, `tipe_arsip`, `read_at`, `created_at`, `updated_at`) VALUES
-(77, 'Ada Surat Masuk baru<br>Kode :SM0001<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 22, 'manajer', 'surat', '2024-01-03 22:39:15', '2024-01-03 22:38:58', '2024-01-03 22:39:15'),
-(78, 'Surat Masuk Not Approve<br>Kode :SM0001<br> Keterangan: salahhh', 22, 'karyawan', 'surat', '2024-01-03 22:40:06', '2024-01-03 22:39:36', '2024-01-03 22:40:06'),
-(79, 'Ada Surat Keluar baru<br>Kode :SK0001<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 23, 'manajer', 'surat', '2024-01-03 22:40:27', '2024-01-03 22:40:01', '2024-01-03 22:40:27'),
-(80, 'Surat Keluar Approve<br>Kode :SK0001', 23, 'karyawan', 'surat', '2024-01-03 22:40:43', '2024-01-03 22:40:37', '2024-01-03 22:40:43'),
-(81, 'Masa berlaku arsip karyawan sebentar lagi habis<br>Kode :AK0001', 7, 'karyawan', 'karyawan', '2024-01-03 22:41:05', '2024-01-03 22:41:00', '2024-01-03 22:41:05'),
-(82, 'Ada Surat Masuk baru<br>Kode :SM0002<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 24, 'manajer', 'surat', '2024-01-04 03:14:34', '2024-01-04 03:12:14', '2024-01-04 03:14:34'),
-(83, 'Surat Masuk Approve<br>Kode :SM0002', 24, 'karyawan', 'surat', '2024-01-09 03:15:25', '2024-01-04 03:14:46', '2024-01-09 03:15:25'),
-(84, 'Ada Surat Masuk baru<br>Kode :SM0003<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 25, 'manajer', 'surat', '2024-01-09 03:16:33', '2024-01-09 03:15:05', '2024-01-09 03:16:33'),
-(85, 'Surat Masuk Request Update<br>Kode :SM0003<br> Keterangan: tolong diupdate lagi, ada yang salah', 25, 'karyawan', 'surat', '2024-01-09 03:18:38', '2024-01-09 03:18:18', '2024-01-09 03:18:38'),
-(86, 'Masa berlaku arsip karyawan sebentar lagi habis<br>Kode :AK0001', 7, 'karyawan', 'karyawan', '2024-01-09 03:25:24', '2024-01-09 03:19:23', '2024-01-09 03:25:24'),
-(87, 'Masa berlaku arsip karyawan sebentar lagi habis<br>Kode :AK0001', 7, 'karyawan', 'karyawan', NULL, '2024-03-03 16:48:09', '2024-03-03 16:48:09'),
-(88, 'Ada Surat Masuk baru<br>Kode :SM0003<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 26, 'manajer', 'surat', NULL, '2024-03-03 17:05:44', '2024-03-03 17:05:44'),
-(89, 'Ada Surat Masuk baru<br>Kode :SM0004<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 27, 'manajer', 'surat', NULL, '2024-03-03 17:07:55', '2024-03-03 17:07:55'),
-(90, 'Update Surat Masuk<br>Kode :SM0004<br> Keterangan: Surat telah di update oleh Ilham Prasetia', 27, 'manajer', 'surat', NULL, '2024-03-03 17:09:03', '2024-03-03 17:09:03'),
-(91, 'Update Surat Masuk<br>Kode :SM0003<br> Keterangan: Surat telah di update oleh Ilham Prasetia', 26, 'manajer', 'surat', NULL, '2024-03-03 17:12:51', '2024-03-03 17:12:51'),
-(92, 'Surat Masuk Approve<br>Kode :SM0004', 27, 'karyawan', 'surat', NULL, '2024-03-03 17:14:01', '2024-03-03 17:14:01'),
-(93, 'Ada Surat Keluar baru<br>Kode :SK0002<br> Keterangan: Surat baru dibuat oleh Ilham Prasetia', 28, 'manajer', 'surat', NULL, '2024-03-03 17:15:25', '2024-03-03 17:15:25'),
-(94, 'Ada Surat Masuk baru<br>Kode :SM0005<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 29, 'manajer', 'surat', NULL, '2024-03-04 02:57:21', '2024-03-04 02:57:21'),
-(95, 'Ada Surat Masuk baru<br>Kode :SM0006<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 30, 'manajer', 'surat', NULL, '2024-03-04 03:00:40', '2024-03-04 03:00:40'),
-(96, 'Ada Surat Masuk baru<br>Kode :SM0007<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 31, 'manajer', 'surat', NULL, '2024-03-04 03:02:05', '2024-03-04 03:02:05'),
-(97, 'Masa berlaku arsip karyawan sebentar lagi habis<br>Kode :AK0001', 7, 'karyawan', 'karyawan', NULL, '2024-03-04 09:47:03', '2024-03-04 09:47:03'),
-(98, 'Surat Masuk Request Update<br>Kode :SM0007<br> Keterangan: betul ada', 31, 'karyawan', 'surat', NULL, '2024-03-04 09:53:54', '2024-03-04 09:53:54'),
-(99, 'Surat Masuk Request Update<br>Kode :SM0006<br> Keterangan: `1', 30, 'karyawan', 'surat', NULL, '2024-03-04 15:06:05', '2024-03-04 15:06:05'),
-(100, 'Ada Surat Masuk baru<br>Kode :SM0008<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 32, 'manajer', 'surat', NULL, '2024-03-04 15:14:10', '2024-03-04 15:14:10'),
-(101, 'Ada komentar untuk kode surat SM0008', 32, 'manajer', 'surat', NULL, '2024-03-04 15:27:15', '2024-03-04 15:27:15'),
-(102, 'Ada komentar untuk kode surat SM0008', 32, 'manajer', 'surat', NULL, '2024-03-04 15:27:58', '2024-03-04 15:27:58'),
-(103, 'Ada komentar untuk kode surat SM0008', 32, 'manajer', 'surat', NULL, '2024-03-04 15:33:54', '2024-03-04 15:33:54'),
-(104, 'Upload Dokumen Arsip Surat Baru dari kode surat SM0008', 32, 'karyawan', 'surat', NULL, '2024-03-04 15:49:46', '2024-03-04 15:49:46'),
-(105, 'Ada komentar untuk kode surat SM0008', 32, 'manajer', 'surat', NULL, '2024-03-04 15:57:49', '2024-03-04 15:57:49'),
-(106, 'Upload Dokumen Arsip Surat Baru dari kode surat SM0008', 32, 'karyawan', 'surat', NULL, '2024-03-04 15:58:56', '2024-03-04 15:58:56'),
-(107, 'Dokumen berhasil di approve', 32, 'manajer', 'surat', NULL, '2024-03-04 16:12:29', '2024-03-04 16:12:29'),
-(108, 'Ada Surat Masuk baru<br>Kode :SM0009<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 33, 'manajer', 'surat', NULL, '2024-03-04 16:15:31', '2024-03-04 16:15:31'),
-(109, 'Ada Surat Keluar baru<br>Kode :SK0003<br> Keterangan: Surat baru dibuat oleh Bandung@gmail.com', 34, 'manajer', 'surat', NULL, '2024-03-04 16:17:35', '2024-03-04 16:17:35'),
-(110, 'Ada komentar untuk kode surat SK0003', 34, 'manajer', 'surat', NULL, '2024-03-04 16:29:21', '2024-03-04 16:29:21'),
-(111, 'Upload Dokumen Arsip Surat Baru dari kode surat SK0003', 34, 'karyawan', 'surat', NULL, '2024-03-04 16:32:27', '2024-03-04 16:32:27'),
-(112, 'Ada komentar untuk kode surat SK0003', 34, 'manajer', 'surat', NULL, '2024-03-04 16:40:51', '2024-03-04 16:40:51');
 
 -- --------------------------------------------------------
 
@@ -274,8 +231,8 @@ INSERT INTO `notifikasi` (`id_notifikasi`, `keterangan`, `id_arsip_surat`, `leve
 --
 
 CREATE TABLE `penerima_surat` (
-  `id_penerima_surat` bigint(11) NOT NULL,
-  `nama_penerima_surat` varchar(100) NOT NULL,
+  `id_penerima_surat` bigint NOT NULL,
+  `nama_penerima_surat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -305,8 +262,8 @@ INSERT INTO `penerima_surat` (`id_penerima_surat`, `nama_penerima_surat`, `creat
 --
 
 CREATE TABLE `pengirim_surat` (
-  `id_pengirim_surat` bigint(20) UNSIGNED NOT NULL,
-  `nama_pengirim_surat` varchar(255) NOT NULL,
+  `id_pengirim_surat` bigint UNSIGNED NOT NULL,
+  `nama_pengirim_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -334,13 +291,13 @@ INSERT INTO `pengirim_surat` (`id_pengirim_surat`, `nama_pengirim_surat`, `creat
 --
 
 CREATE TABLE `users` (
-  `id_user` bigint(20) UNSIGNED NOT NULL,
-  `nama_lengkap` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `profile` varchar(255) DEFAULT NULL,
-  `level` enum('karyawan','admin','manajer') NOT NULL DEFAULT 'karyawan',
-  `id_departemen` bigint(20) DEFAULT NULL,
+  `id_user` bigint UNSIGNED NOT NULL,
+  `nama_lengkap` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `profile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` enum('karyawan','admin','manajer') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'karyawan',
+  `id_departemen` bigint DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -350,10 +307,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama_lengkap`, `email`, `password`, `profile`, `level`, `id_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Subur Permana', 'admin@gmail.com', '$2a$12$hufEzqWdxOY173bdg1AgPeh6kQQQgkIInTzO7vV/bocM6ryzjIUae', 'assets/profile-images/0jbnvp8Y48HvZAkxRAxD2hSD7EI2LrtlFkAP1KSU.jpg', 'admin', 2, '2022-01-03 00:21:03', '2024-01-02 18:04:09'),
+(1, 'Subur Permana', 'admin@gmail.com', '$2a$12$hufEzqWdxOY173bdg1AgPeh6kQQQgkIInTzO7vV/bocM6ryzjIUae', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2022-01-03 00:21:03', '2024-03-11 02:50:50'),
 (2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2a$12$ZGGDuYoGTtdKkBTp5NSsYebj6wXOwmmCj4ifk/SHA4booJT6LTz3S', NULL, 'manajer', 1, '2023-10-03 07:02:43', '2024-01-02 18:02:16'),
-(9, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$e1KSghBnG5WH7V6pEewRfOA7mKIuWqgHlj9NHFG5QkIZ87diUkQ.S', 'assets/profile-images/ejHgivyaurjnISGVHn752wQS4DuufSlZWrT8dDh4.jpg', 'karyawan', 5, '2023-10-11 10:31:55', '2024-01-09 03:25:04'),
-(13, 'Bandung@gmail.com', 'bandung@gmail.com', '$2y$10$0PrKlnaUeWedi.i4E08uuOV1RjtmYV0mLw0geq2vDevawp17WTCne', NULL, 'karyawan', 5, '2024-03-03 10:02:14', '2024-03-03 10:02:14');
+(9, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$e1KSghBnG5WH7V6pEewRfOA7mKIuWqgHlj9NHFG5QkIZ87diUkQ.S', 'assets/profile-images/17101308381093.jpg', 'karyawan', 3, '2023-10-11 10:31:55', '2024-03-11 04:20:38'),
+(13, 'Bandung@gmail.com', 'bandung@gmail.com', '$2y$10$0PrKlnaUeWedi.i4E08uuOV1RjtmYV0mLw0geq2vDevawp17WTCne', NULL, 'karyawan', 5, '2024-03-03 10:02:14', '2024-03-03 10:02:14'),
+(14, 'Gold D. Roger', 'roger@gmail.com', '$2y$10$OEa4ykAf5zLzJQDv3jrTu.Y7xULhlooIUqNjlXmBwr0ISloIg4AMC', NULL, 'karyawan', 1, '2024-03-10 10:10:49', '2024-03-10 10:10:49');
 
 --
 -- Indexes for dumped tables
@@ -376,6 +334,12 @@ ALTER TABLE `arsip_karyawan`
 --
 ALTER TABLE `arsip_surat`
   ADD PRIMARY KEY (`id_arsip_surat`);
+
+--
+-- Indexes for table `avatar`
+--
+ALTER TABLE `avatar`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `departemen`
@@ -428,61 +392,67 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `arsip_dokumentasi`
 --
 ALTER TABLE `arsip_dokumentasi`
-  MODIFY `id_arsip_dokumentasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_arsip_dokumentasi` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `arsip_karyawan`
 --
 ALTER TABLE `arsip_karyawan`
-  MODIFY `id_arsip_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_arsip_karyawan` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `arsip_surat`
 --
 ALTER TABLE `arsip_surat`
-  MODIFY `id_arsip_surat` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_arsip_surat` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `avatar`
+--
+ALTER TABLE `avatar`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `departemen`
 --
 ALTER TABLE `departemen`
-  MODIFY `id_departemen` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_departemen` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_karyawan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `kategori_arsip`
 --
 ALTER TABLE `kategori_arsip`
-  MODIFY `id_kategori_arsip` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_kategori_arsip` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `id_notifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id_notifikasi` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `penerima_surat`
 --
 ALTER TABLE `penerima_surat`
-  MODIFY `id_penerima_surat` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_penerima_surat` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pengirim_surat`
 --
 ALTER TABLE `pengirim_surat`
-  MODIFY `id_pengirim_surat` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pengirim_surat` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_user` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
