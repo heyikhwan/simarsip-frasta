@@ -13,6 +13,7 @@
             font-family: "Calibri", Courier, monospace;
             width: 1200px;
             font-size: 14px;
+            padding: 0 30px;
         }
 
         #print .title {
@@ -84,14 +85,15 @@
 <body>
 
     <div id="print">
-        <table class='table1'>
+        <table class='table'>
             <tr>
-                <td><img src='{{ Storage::url('assets/profile-images/logo.jpeg') }}' height="200" width="200"></td>
+                <td><img src='{{ url('storage/assets/profile-images/logo.jpeg') }}' height="200" width="200"></td>
                 <td>
                     <h2 style="font-size: 2.5rem">LAPORAN ARSIP DOKUMENTASI</h2>
                     <h2 style="font-size: 2.5rem">SISTEM INFORMASI MANAJEMEN ARSIP</h2>
                     <h2 style="font-size: 2.5rem">PT. FRASTA SURVEY INDONESIA</h2>
-                    <p style="font-size:25px;"><i>Jl. Raya Tajem No.Km 2, Kenayan, Wedomartani, Kec. Ngemplak, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55584</i></p>
+                    <p style="font-size:25px;"><i>Jl. Raya Tajem No.Km 2, Kenayan, Wedomartani, Kec. Ngemplak, Kabupaten
+                            Sleman, Daerah Istimewa Yogyakarta 55584</i></p>
                 </td>
             </tr>
         </table>
@@ -111,21 +113,21 @@
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 @foreach ($item as $e)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $e->kode_arsip_dokumentasi }}</td>
-                        <td style="text-align: center">{{ date('d-m-Y', strtotime($e->tanggal_dokumentasi)) }}
-                        </td>
-                        <td>
-                            {{ $e->departemen->nama_departemen }}
-                        </td>
-                        <td>
-                            {{ $e->keterangan }}
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $e->kode_arsip_dokumentasi }}</td>
+                    <td style="text-align: center">{{ date('d-m-Y', strtotime($e->tanggal_dokumentasi)) }}
+                    </td>
+                    <td>
+                        {{ $e->departemen->nama_departemen }}
+                    </td>
+                    <td>
+                        {{ $e->keterangan }}
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>

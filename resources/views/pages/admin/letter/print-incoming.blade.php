@@ -13,6 +13,7 @@
             font-family: "Calibri", Courier, monospace;
             width: 1200px;
             font-size: 14px;
+            padding: 0 30px;
         }
 
         #print .title {
@@ -81,7 +82,7 @@
     <div id="print">
         <table class='table1'>
             <tr>
-                <td><img src='{{ Storage::url('assets/profile-images/logo.jpeg') }}' height="200" width="200"></td>
+                <td><img src='{{ url('storage/assets/profile-images/logo.jpeg') }}' height="200" width="200"></td>
                 <td>
                     <h2 style="font-size: 2.5rem">LAPORAN SURAT MASUK</h2>
                     <h2 style="font-size: 2.5rem">SISTEM INFORMASI MANAJEMEN ARSIP</h2>

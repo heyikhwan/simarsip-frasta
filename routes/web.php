@@ -82,8 +82,8 @@ Route::prefix('admin')
         //print
         Route::get('print/surat-masuk', [PrintController::class, 'index'])->name('print-surat-masuk');
         Route::get('print/surat-keluar', [PrintController::class, 'outgoing'])->name('print-surat-keluar');
-        Route::get('print/arsip-karyawan', [PrintController::class, 'employeeArchive'])->name('print-arsip-karyawan');
-        Route::get('print/dokumentasi', [PrintController::class, 'dokumentasi'])->name('print-dokumentasi');
+        Route::match(['GET', 'POST'], 'print/arsip-karyawan', [PrintController::class, 'employeeArchive']);
+        Route::match(['GET', 'POST'], 'print/dokumentasi', [PrintController::class, 'dokumentasi']);
 
         Route::resource('user', UserController::class);
         Route::resource('setting', SettingController::class, [
@@ -92,4 +92,6 @@ Route::prefix('admin')
         Route::get('setting/password', [SettingController::class, 'change_password'])->name('change-password');
         Route::post('setting/upload-profile', [SettingController::class, 'upload_profile'])->name('profile-upload');
         Route::post('change-password', [SettingController::class, 'update_password'])->name('update.password');
+
+        Route::post('read-notif', [SettingController::class, 'read_notification'])->name('read-notif');
     });

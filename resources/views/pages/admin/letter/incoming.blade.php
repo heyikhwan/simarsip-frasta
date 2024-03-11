@@ -75,7 +75,7 @@
                                     <tr>
                                         <th width="10">No.</th>
                                         <th>Tanggal</th>
-                                        <th>Penerima</th>
+                                        <th>Nama Penginput</th>
                                         <th>Departemen</th>
                                         <th>Aksi</th>
                                         <th>Komentar</th>
@@ -111,12 +111,12 @@
                     name: 'tanggal_surat'
                 },
                 {
-                    data: 'penerima_surat.nama_penerima_surat',
-                    name: 'penerima_surat.nama_penerima_surat'
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap'
                 },
                 {
-                    data: 'departemen.nama_departemen',
-                    name: 'departemen.nama_departemen'
+                    data: 'nama_departemen',
+                    name: 'nama_departemen',
                 },
                 {
                     data: 'action',
@@ -130,7 +130,7 @@
                     name: 'komentar',
                     render: function(data) {
                         if (data) {
-                            return data
+                            return '<span class="badge bg-info text-capitalize">Ada Komentar</span>';
                         } else {
                             return "-"
                         }
@@ -153,22 +153,6 @@
                     }
                 },
             ],
-
-            // createdRow: function(row, data, dataIndex) {
-            //     // Jika status sama dengan 'Request Update', ganti nilai status dengan 'komentar_request'
-            //     $('td:eq(6)', row).html("-");
-            //     if (data.status_surat === 'Request Update') {
-            //         $('td:eq(6)', row).html(data.komentar_request);
-            //     }
-
-            //     if (data.status_surat === 'Not Approve') {
-            //         if (data.komentar_not_approve) {
-            //             $('td:eq(6)', row).html(data.komentar_not_approve);
-            //         } else {
-            //             $('td:eq(6)', row).html('-');
-            //         }
-            //     }
-            // }
         });
     </script>
 @endpush

@@ -27,7 +27,7 @@ class PrintController extends Controller
         //         ->whereDate('tanggal_surat', '<=', $sampaiTanggal)
         //         ->get();
         // } else {
-            // Jika input dari dan sampai tidak ada, tampilkan semua data
+        // Jika input dari dan sampai tidak ada, tampilkan semua data
         //     $items = $query->get();
         // }
 
@@ -68,48 +68,56 @@ class PrintController extends Controller
 
     public function employeeArchive(Request $request)
     {
-        // Mengambil nilai dari request
-        $dariTanggal = $request->input('dari');
-        $sampaiTanggal = $request->input('sampai');
+        if ($request->method() == 'POST') {
+            // Mengambil nilai dari request
+            $dariTanggal = $request->input('dari');
+            $sampaiTanggal = $request->input('sampai');
 
-        // Menambahkan filter berdasarkan tanggal dari dan sampai
-        $query = ArsipKaryawan::with('employee', 'departemen', 'category');
+            // Menambahkan filter berdasarkan tanggal dari dan sampai
+            $query = ArsipKaryawan::with('employee', 'departemen', 'category');
 
-        if ($dariTanggal && $sampaiTanggal) {
-            $items = $query->whereDate('created_at', '>=', $dariTanggal)
-                ->whereDate('created_at', '<=', $sampaiTanggal)
-                ->get();
-        } else {
-            // Jika input dari dan sampai tidak ada, tampilkan semua data
-            $items = $query->get();
+            if ($dariTanggal && $sampaiTanggal) {
+                $items = $query->whereDate('created_at', '>=', $dariTanggal)
+                    ->whereDate('created_at', '<=', $sampaiTanggal)
+                    ->get();
+            } else {
+                // Jika input dari dan sampai tidak ada, tampilkan semua data
+                $items = $query->get();
+            }
+
+            return view('pages.admin.arsip-karyawan.print-employee-archive', [
+                'item' => $items
+            ]);
         }
 
-        return view('pages.admin.arsip-karyawan.print-employee-archive', [
-            'item' => $items
-        ]);
+        return view('pages.admin.arsip-karyawan.print-index');
     }
 
 
     public function dokumentasi(Request $request)
     {
-        // Mengambil nilai dari request
-        $dariTanggal = $request->input('dari');
-        $sampaiTanggal = $request->input('sampai');
+        if ($request->method() == 'POST') {
+            // Mengambil nilai dari request
+            $dariTanggal = $request->input('dari');
+            $sampaiTanggal = $request->input('sampai');
 
-        // Menambahkan filter berdasarkan tanggal dari dan sampai
-        $query = Dokumentasi::with('employee', 'departemen');
+            // Menambahkan filter berdasarkan tanggal dari dan sampai
+            $query = Dokumentasi::with('employee', 'departemen');
 
-        if ($dariTanggal && $sampaiTanggal) {
-            $items = $query->whereDate('tanggal_dokumentasi', '>=', $dariTanggal)
-                ->whereDate('tanggal_dokumentasi', '<=', $sampaiTanggal)
-                ->get();
-        } else {
-            // Jika input dari dan sampai tidak ada, tampilkan semua data
-            $items = $query->get();
+            if ($dariTanggal && $sampaiTanggal) {
+                $items = $query->whereDate('tanggal_dokumentasi', '>=', $dariTanggal)
+                    ->whereDate('tanggal_dokumentasi', '<=', $sampaiTanggal)
+                    ->get();
+            } else {
+                // Jika input dari dan sampai tidak ada, tampilkan semua data
+                $items = $query->get();
+            }
+
+            return view('pages.admin.documentation.print-dokumentasi', [
+                'item' => $items
+            ]);
         }
 
-        return view('pages.admin.documentation.print-dokumentasi', [
-            'item' => $items
-        ]);
+        return view('pages.admin.documentation.print-index');
     }
 }

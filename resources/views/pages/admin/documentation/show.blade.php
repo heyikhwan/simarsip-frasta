@@ -70,9 +70,9 @@
                         <div class="card-body">
                             <div class="mb-3 row">
 
-                                <img src="{{ Storage::url($item->file_arsip_dokumentasi) }}" width="500" height="375">
+                                <img src="{{ url('storage/' . $item->file_arsip_dokumentasi) }}" width="500" height="375">
                                 <a class="btn btn-sm btn-primary text-center mt-3" target="_blank"
-                                    href="{{ Storage::url($item->file_arsip_dokumentasi) }}">View
+                                    href="{{ url('storage/' . $item->file_arsip_dokumentasi) }}">View
                                     Fullscreen</a>
                             </div>
                         </div>

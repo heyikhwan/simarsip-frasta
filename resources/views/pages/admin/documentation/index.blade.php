@@ -28,7 +28,7 @@
                         <div class="card-header">
                             List Arsip Dokumentasi
 
-                            <form action="{{ route('print-dokumentasi') }}" method="GET" target="_blank"
+                            {{-- <form action="{{ route('print-dokumentasi') }}" method="GET" target="_blank"
                                 class="d-flex gap-2">
                                 <div class="form-group d-flex">
                                     <input type="date" name="dari" class="form-control"
@@ -39,7 +39,7 @@
                                 <button type="submit" class="btn btn-sm btn-primary">
                                     <i data-feather="printer"></i> &nbsp; Cetak Laporan
                                 </button>
-                            </form>
+                            </form> --}}
                         </div>
                         <div class="card-body">
                             @if (auth()->user()->level !== 'manajer')
@@ -73,8 +73,9 @@
                                     <tr>
                                         <th width="10">No.</th>
                                         <th>Kode Arsip</th>
-                                        <th>Tanggal Dokumentasi</th>
+                                        <th>Nama Penginput</th>
                                         <th>Departemen</th>
+                                        <th>Tanggal Dokumentasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -107,12 +108,16 @@
                     name: 'kode_arsip_dokumentasi'
                 },
                 {
-                    data: 'tanggal_dokumentasi',
-                    name: 'tanggal_dokumentasi'
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap'
                 },
                 {
-                    data: 'departemen.nama_departemen',
-                    name: 'departemen.nama_departemen'
+                    data: 'nama_departemen',
+                    name: 'nama_departemen'
+                },
+                {
+                    data: 'tanggal_dokumentasi',
+                    name: 'tanggal_dokumentasi'
                 },
                 {
                     data: 'action',

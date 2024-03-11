@@ -77,7 +77,7 @@
                                     <tr>
                                         <th width="10">No.</th>
                                         <th>Tanggal</th>
-                                        <th>Pengirim</th>
+                                        <th>Nama Penginput</th>
                                         <th>Departemen</th>
                                         <th>Aksi</th>
                                         <th>Komentar</th>
@@ -113,12 +113,12 @@
                     name: 'tanggal_surat'
                 },
                 {
-                    data: 'pengirim_surat.nama_pengirim_surat',
-                    name: 'pengirim_surat.nama_pengirim_surat'
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap'
                 },
                 {
-                    data: 'departemen.nama_departemen',
-                    name: 'departemen.nama_departemen'
+                    data: 'nama_departemen',
+                    name: 'nama_departemen'
                 },
                 {
                     data: 'action',
@@ -132,7 +132,7 @@
                     name: 'komentar',
                     render: function(data) {
                         if (data) {
-                            return data
+                            return '<span class="badge bg-info text-capitalize">Ada Komentar</span>';
                         } else {
                             return "-"
                         }

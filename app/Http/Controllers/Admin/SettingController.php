@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Avatar;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
 use App\Http\Controllers\Controller;
-
+use App\Models\Notifikasi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -16,9 +18,11 @@ class SettingController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $avatar = Avatar::all();
 
         return view('pages.admin.user.profile', [
-            'user' => $user
+            'user' => $user,
+            'avatar' => $avatar
         ]);
     }
 
@@ -86,24 +90,43 @@ class SettingController extends Controller
 
     public function upload_profile(Request $request)
     {
-        $validatedData = $request->validate([
-            'profile' => 'required|image|file|max:1024',
+        $request->validate([
+            'profile' => 'nullable|image|file|max:5120',
+        ], [
+            'profile.max' => ':attribute maksimal 5 MB',
         ]);
 
-        $id = $request->id;
-        $item = User::findOrFail($id);
+        $item = User::findOrFail(auth()->user()->id_user);
 
-        //dd($item);
+        if ($request->hasFile('profile')) {
+            if (Storage::exists($item->profile)) {
+                Storage::delete($item->profile);
+            }
 
-        if ($request->file('profile')) {
-            Storage::delete($item->profile);
             $item->profile = $request->file('profile')->store('assets/profile-images');
+        } else {
+            if ($request->has('avatar')) {
+                // delete old file
+                if (Storage::exists($item->profile)) {
+                    Storage::delete($item->profile);
+                }
+
+                // save new file with new name
+                $name = Str::slug(microtime(true));
+                // get avatar from latest .
+                $extension = substr($request->avatar, strrpos($request->avatar, '.') + 1);
+                $name .= '.' . $extension;
+
+                // copy file from $request->avatar to storage folder
+                Storage::putFileAs('assets/profile-images', 'storage/' . $request->avatar, $name);
+                $item->profile = 'assets/profile-images/' . $name;
+            }
         }
 
         $item->save();
 
         return redirect()
-            ->route('user.index')
+            ->back()
             ->with('success', 'Sukses! Photo Pengguna telah diperbarui');
     }
 
@@ -125,5 +148,16 @@ class SettingController extends Controller
         return redirect()
             ->route('change-password')
             ->with('success', 'Sukses! Password telah diperbarui');
+    }
+
+    public function read_notification(Request $request)
+    {
+        $data = json_decode($request->notif);
+
+        foreach ($data as $value) {
+            Notifikasi::where('id_notifikasi', $value->id_notifikasi)->update(['read_at' => date('Y-m-d H:i:s')]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

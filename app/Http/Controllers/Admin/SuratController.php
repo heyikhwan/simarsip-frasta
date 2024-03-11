@@ -65,19 +65,26 @@ class SuratController extends Controller
     {
         $surat = Surat::where("id_arsip_surat", $id_komentar)->first();
 
-        $surat->update([
-            "status_surat" => "Request Update",
-            "komentar" => $request->komentar
-        ]);
+        if ($request->btn_tipe == 'approve') {
+            $this->approve_doc($request, $id_komentar);
+        }
 
-        Notifikasi::create([
-            'keterangan' => "Ada komentar untuk kode surat " . $surat->kode_surat,
-            'id_arsip_surat' => $surat->id_arsip_surat,
-            'tipe_arsip' => 'surat',
-            'level' => 'manajer',
-            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-        ]);
+        if ($request->btn_tipe == 'revisi') {
+            $surat->update([
+                "status_surat" => "Request Update",
+                "komentar" => $request->komentar
+            ]);
+
+            Notifikasi::create([
+                'keterangan' => "Ada komentar untuk kode surat " . $surat->kode_surat,
+                'id_arsip_surat' => $surat->id_arsip_surat,
+                'tipe_arsip' => 'surat',
+                'level' => 'manajer',
+                'user_id' => auth()->user()->id_user,
+                'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+            ]);
+        }
 
         $redirect = "";
         if ($surat->tipe_surat == "Surat Masuk") {
@@ -113,6 +120,7 @@ class SuratController extends Controller
             'id_arsip_surat' => $surat->id_arsip_surat,
             'tipe_arsip' => 'surat',
             'level' => 'karyawan',
+            'user_id' => auth()->user()->id_user,
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
         ]);
@@ -143,6 +151,7 @@ class SuratController extends Controller
             'id_arsip_surat' => $surat->id_arsip_surat,
             'tipe_arsip' => 'surat',
             'level' => 'manajer',
+            'user_id' => auth()->user()->id_user,
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
         ]);
@@ -186,7 +195,6 @@ class SuratController extends Controller
 
     public function store(Request $request)
     {
-
         if ($request->tipe_surat == 'Surat Masuk') {
             $validatedData = $request->validate([
                 'kode_surat' => [
@@ -241,6 +249,7 @@ class SuratController extends Controller
             'id_arsip_surat' => $letter->id_arsip_surat,
             'tipe_arsip' => 'surat',
             'level' => 'manajer',
+            'user_id' => auth()->user()->id_user,
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
         ]);
@@ -270,6 +279,7 @@ class SuratController extends Controller
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat,
                 'id_arsip_surat' => $letter->id_arsip_surat,
                 'level' => 'karyawan',
+                'user_id' => auth()->user()->id_user,
                 'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
                 'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             ]);
@@ -281,6 +291,7 @@ class SuratController extends Controller
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'id_arsip_surat' => $letter->id_arsip_surat,
                 'level' => 'karyawan',
+                'user_id' => auth()->user()->id_user,
                 'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
                 'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             ]);
@@ -292,6 +303,7 @@ class SuratController extends Controller
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'id_arsip_surat' => $letter->id_arsip_surat,
                 'level' => 'karyawan',
+                'user_id' => auth()->user()->id_user,
                 'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
                 'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             ]);
@@ -304,7 +316,17 @@ class SuratController extends Controller
     public function incoming_mail()
     {
         if (request()->ajax()) {
-            $query = Surat::with(['departemen', 'penerima_surat'])->where('tipe_surat', 'Surat Masuk')->latest()->get();
+            $query = Surat::with(['departemen', 'penerima_surat', 'user'])
+                ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
+                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+                ->where('tipe_surat', 'Surat Masuk')
+                ->select(
+                    'arsip_surat.*',
+                    'users.nama_lengkap',
+                    'departemen.nama_departemen',
+                )
+                ->latest()
+                ->get();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
@@ -342,14 +364,14 @@ class SuratController extends Controller
                     <i class="far fa-trash-alt"></i> &nbsp; Hapus
                     </button>
                     </form>';
-                        if ($item->status_surat == "Revisi") {
-                            $buttons .= '<form action="' . url('/admin/letter/surat-masuk/' . $item->id_arsip_surat . '/approve_doc') . '" method="POST" onsubmit="return confirm(' . "'Anda Ingin Approve Data Ini?'" . ')">
-                                ' . method_field('PUT') . csrf_field() . '
-                            <button class="btn btn-primary btn-xs">
-                            <i class="far fa-thumbs-up"></i> &nbsp; Approve
-                            </button>
-                            </form>';
-                        }
+                        // if ($item->status_surat == "Revisi") {
+                        //     $buttons .= '<form action="' . url('/admin/letter/surat-masuk/' . $item->id_arsip_surat . '/approve_doc') . '" method="POST" onsubmit="return confirm(' . "'Anda Ingin Approve Data Ini?'" . ')">
+                        //         ' . method_field('PUT') . csrf_field() . '
+                        //     <button class="btn btn-primary btn-xs">
+                        //     <i class="far fa-thumbs-up"></i> &nbsp; Approve
+                        //     </button>
+                        //     </form>';
+                        // }
                     }
 
                     return $buttons;
@@ -369,7 +391,17 @@ class SuratController extends Controller
     public function outgoing_mail()
     {
         if (request()->ajax()) {
-            $query = Surat::with(['departemen', 'pengirim_surat'])->where('tipe_surat', 'Surat Keluar')->latest()->get();
+            $query = Surat::with(['departemen', 'pengirim_surat', 'user'])
+                ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
+                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+                ->where('tipe_surat', 'Surat Keluar')
+                ->select(
+                    'arsip_surat.*',
+                    'users.nama_lengkap',
+                    'departemen.nama_departemen',
+                )
+                ->latest()
+                ->get();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
@@ -378,7 +410,7 @@ class SuratController extends Controller
             </a>
             ';
 
-                    if (auth()->user()->level == 'karyawan') {
+                    if (auth()->user()->level == 'karyawan' && $item->user_id == auth()->user()->id_user) {
                         if ($item->status_surat == 'pending' || $item->status_surat == 'Request Update') {
                             $buttons .= '<a class="btn btn-primary btn-xs" href="' . route('letter.edit', $item->id_arsip_surat) . '">
                     <i class="fas fa-edit"></i> &nbsp; Ubah
@@ -403,14 +435,14 @@ class SuratController extends Controller
                 <i class="far fa-trash-alt"></i> &nbsp; Hapus
                 </button>
                 </form>';
-                    if ($item->status_surat == "Revisi") {
-                        $buttons .= '<form action="' . url('/admin/letter/surat-masuk/' . $item->id_arsip_surat . '/approve_doc') . '" method="POST" onsubmit="return confirm(' . "'Anda Ingin Approve Data Ini?'" . ')">
-                            ' . method_field('PUT') . csrf_field() . '
-                        <button class="btn btn-primary btn-xs">
-                        <i class="far fa-thumbs-up"></i> &nbsp; Approve
-                        </button>
-                        </form>';
-                    }
+                        // if ($item->status_surat == "Revisi") {
+                        //     $buttons .= '<form action="' . url('/admin/letter/surat-masuk/' . $item->id_arsip_surat . '/approve_doc') . '" method="POST" onsubmit="return confirm(' . "'Anda Ingin Approve Data Ini?'" . ')">
+                        //     ' . method_field('PUT') . csrf_field() . '
+                        // <button class="btn btn-primary btn-xs">
+                        // <i class="far fa-thumbs-up"></i> &nbsp; Approve
+                        // </button>
+                        // </form>';
+                        // }
                     }
 
                     return $buttons;
@@ -512,6 +544,7 @@ class SuratController extends Controller
             'keterangan' => 'Update ' . $type . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: Surat telah di update oleh ' . auth()->user()->nama_lengkap,
             'id_arsip_surat' => $letter->id_arsip_surat,
             'level' => 'manajer',
+            'user_id' => auth()->user()->id_user,
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
         ]);

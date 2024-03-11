@@ -93,10 +93,10 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <embed src="{{ Storage::url($item->file_arsip_karyawan) }}" width="500" height="375"
+                                <embed src="{{ url('storage/' . $item->file_arsip_karyawan) }}" width="500" height="375"
                                     type="application/pdf">
                                 <a class="btn btn-sm btn-primary text-center mt-3" target="_blank"
-                                    href="{{ Storage::url($item->file_arsip_karyawan) }}">View
+                                    href="{{ url('storage/' . $item->file_arsip_karyawan) }}">View
                                     Fullscreen</a>
                             </div>
                         </div>

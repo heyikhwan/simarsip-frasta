@@ -44,30 +44,46 @@ class ArsipKaryawanController extends Controller
                     'id_arsip_surat' => $value->id_arsip_karyawan,
                     'tipe_arsip' => 'karyawan',
                     'level' => 'karyawan',
+                    'user_id' => $value->user_id,
                     'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
                     'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
                 ]);
             }
         }
         if (request()->ajax()) {
-            $query = ArsipKaryawan::with('employee', 'departemen')->latest()->get();
+            $query = ArsipKaryawan::with('employee', 'departemen')
+                ->leftJoin('users', 'users.id_user', '=', 'arsip_karyawan.user_id')
+                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+                ->select(
+                    'arsip_karyawan.*',
+                    'users.nama_lengkap',
+                    'departemen.nama_departemen',
+                )
+                ->latest()
+                ->get();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
-                    return '
-            <a class="btn btn-success btn-xs" href="' . route('arsip-karyawan.show', $item->id_arsip_karyawan) . '">
-            <i class="fa fa-search-plus"></i> &nbsp; Detail
-            </a>
-            <a class="btn btn-primary btn-xs" href="' . route('arsip-karyawan.edit', $item->id_arsip_karyawan) . '">
-            <i class="fas fa-edit"></i> &nbsp; Ubah
-            </a>
-            <form action="' . route('arsip-karyawan.destroy', $item->id_arsip_karyawan) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini dari situs anda?'" . ')">
-            ' . method_field('delete') . csrf_field() . '
-            <button type="submit" class="btn btn-danger btn-xs">
-            <i class="far fa-trash-alt"></i> &nbsp; Hapus
-            </button>
-            </form>
-            ';
+                    $button = '
+                    <a class="btn btn-success btn-xs" href="' . route('arsip-karyawan.show', $item->id_arsip_karyawan) . '">
+                    <i class="fa fa-search-plus"></i> &nbsp; Detail
+                    </a>
+                    ';
+
+                    if ($item->user_id == auth()->user()->id_user) {
+                        $button .= '
+                            <a class="btn btn-primary btn-xs" href="' . route('arsip-karyawan.edit', $item->id_arsip_karyawan) . '">
+                        <i class="fas fa-edit"></i> &nbsp; Ubah
+                        </a>
+                        <form action="' . route('arsip-karyawan.destroy', $item->id_arsip_karyawan) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini dari situs anda?'" . ')">
+                        ' . method_field('delete') . csrf_field() . '
+                        <button type="submit" class="btn btn-danger btn-xs">
+                        <i class="far fa-trash-alt"></i> &nbsp; Hapus
+                        </button>
+                        </form>';
+                    }
+
+                    return $button;
                 })
                 ->editColumn('post_status', function ($item) {
                     return $item->post_status == 'Published' ? '<div class="badge bg-green-soft text-green">' . $item->post_status . '</div>' : '<div class="badge bg-gray-200 text-dark">' . $item->post_status . '</div>';
@@ -144,6 +160,7 @@ class ArsipKaryawanController extends Controller
             $validatedData['file_arsip_karyawan'] = $request->file('file_arsip_karyawan')->store('assets/file-arsip-karyawan');
         }
 
+        $validatedData['user_id'] = auth()->user()->id_user;
 
         ArsipKaryawan::create($validatedData);
 

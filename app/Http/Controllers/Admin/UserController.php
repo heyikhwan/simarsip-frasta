@@ -37,7 +37,7 @@ class UserController extends Controller
                 ->editColumn('name', function ($item) {
                     return $item->profile ?
                         '<div class="d-flex align-items-center">
-                <div class="avatar me-2"><img class="avatar-img img-fluid" src="' . Storage::url($item->profile) . '" /></div>' .
+                <div class="avatar me-2"><img class="avatar-img img-fluid" src="' . url('storage/' . $item->profile) . '" /></div>' .
                         $item->nama_lengkap . '
                 </div>'
                         :

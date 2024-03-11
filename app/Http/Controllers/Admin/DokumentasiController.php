@@ -21,24 +21,40 @@ class DokumentasiController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Dokumentasi::with('departemen')->latest()->get();
+            $query = Dokumentasi::with('departemen')
+                ->leftJoin('users', 'users.id_user', '=', 'arsip_dokumentasi.user_id')
+                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+                ->select(
+                    'arsip_dokumentasi.*',
+                    'users.nama_lengkap',
+                    'departemen.nama_departemen',
+                )
+                ->latest()
+                ->get();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
-                    return '
-                <a class="btn btn-success btn-xs" href="' . route('documentation.show', $item->id_arsip_dokumentasi) . '">
-                <i class="fa fa-search-plus"></i> &nbsp; Detail
-                </a>
-                <a class="btn btn-primary btn-xs" href="' . route('documentation.edit', $item->id_arsip_dokumentasi) . '">
-                <i class="fas fa-edit"></i> &nbsp; Ubah
-                </a>
-                <form action="' . route('documentation.destroy', $item->id_arsip_dokumentasi) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini dari situs anda?'" . ')">
-                ' . method_field('delete') . csrf_field() . '
-                <button type="submit" class="btn btn-danger btn-xs">
-                <i class="far fa-trash-alt"></i> &nbsp; Hapus
-                </button>
-                </form>
-                ';
+                    $button = '
+                    <a class="btn btn-success btn-xs" href="' . route('documentation.show', $item->id_arsip_dokumentasi) . '">
+                    <i class="fa fa-search-plus"></i> &nbsp; Detail
+                    </a>
+                    ';
+
+                    if ($item->user_id == auth()->user()->id_user) {
+                        $button .= '
+                        <a class="btn btn-primary btn-xs" href="' . route('documentation.edit', $item->id_arsip_dokumentasi) . '">
+                    <i class="fas fa-edit"></i> &nbsp; Ubah
+                    </a>
+                    <form action="' . route('documentation.destroy', $item->id_arsip_dokumentasi) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini dari situs anda?'" . ')">
+                    ' . method_field('delete') . csrf_field() . '
+                    <button type="submit" class="btn btn-danger btn-xs">
+                    <i class="far fa-trash-alt"></i> &nbsp; Hapus
+                    </button>
+                    </form>
+                        ';
+                    }
+
+                    return $button;
                 })
                 ->editColumn('post_status', function ($item) {
                     return $item->post_status == 'Published' ? '<div class="badge bg-green-soft text-green">' . $item->post_status . '</div>' : '<div class="badge bg-gray-200 text-dark">' . $item->post_status . '</div>';
@@ -104,6 +120,8 @@ class DokumentasiController extends Controller
         if ($request->file('file_arsip_dokumentasi')) {
             $validatedData['file_arsip_dokumentasi'] = $request->file('file_arsip_dokumentasi')->store('assets/file-arsip-dokumentasi');
         }
+
+        $validatedData['user_id'] = auth()->user()->id_user;
 
         Dokumentasi::create($validatedData);
 

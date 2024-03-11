@@ -27,7 +27,7 @@
                     <div class="card card-header-actions mb-4">
                         <div class="card-header">
                             List Arsip Karyawan
-                            <form action="{{ route('print-arsip-karyawan') }}" method="GET" target="_blank"
+                            {{-- <form action="{{ route('print-arsip-karyawan') }}" method="GET" target="_blank"
                                 class="d-flex gap-2">
                                 <div class="form-group d-flex">
                                     <input type="date" name="dari" class="form-control"
@@ -38,7 +38,7 @@
                                 <button type="submit" class="btn btn-sm btn-primary">
                                     <i data-feather="printer"></i> &nbsp; Cetak Laporan
                                 </button>
-                            </form>
+                            </form> --}}
                         </div>
                         <div class="card-body">
                             @if (auth()->user()->level !== 'manajer')
@@ -72,9 +72,9 @@
                                     <tr>
                                         <th width="10">No.</th>
                                         <th>Kode Arsip</th>
-                                        <th>Nama Karyawan</th>
+                                        <th>Nama Penginput</th>
                                         <th>Departemen</th>
-                                        <th>Kontak</th>
+                                        {{-- <th>Kontak</th> --}}
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -107,17 +107,17 @@
                     name: 'kode_arsip_karyawan'
                 },
                 {
-                    data: 'employee.nama_karyawan',
-                    name: 'employee.nama_karyawan'
+                    data: 'nama_lengkap',
+                    name: 'nama_lengkap'
                 },
                 {
-                    data: 'departemen.nama_departemen',
-                    name: 'departemen.nama_departemen'
+                    data: 'nama_departemen',
+                    name: 'nama_departemen'
                 },
-                {
-                    data: 'employee.kontak',
-                    name: 'employee.kontak'
-                },
+                // {
+                //     data: 'employee.kontak',
+                //     name: 'employee.kontak'
+                // },
                 {
                     data: 'action',
                     name: 'action',

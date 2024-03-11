@@ -1,11 +1,12 @@
 @php
-    use App\Models\Notifikasi;
-    $notification = Notifikasi::where('level', auth()->user()->level)
-        ->where('read_at', null)
-        ->latest()
-        ->get();
+use App\Models\Notifikasi;
+$notification = Notifikasi::leftJoin('users', 'users.id_user', '=', 'notifikasi.user_id')
+->where('notifikasi.level', auth()->user()->level)
+->where('notifikasi.read_at', null)
+->latest('notifikasi.created_at')
+->get();
 
-    use Carbon\Carbon;
+use Carbon\Carbon;
 @endphp
 
 <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
@@ -34,44 +35,66 @@
         <!-- * * Note: * * Visible only below the lg breakpoint-->
 
         <!-- User Dropdown-->
-        <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+        <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4" onclick="readNotif('{{ $notification }}')">
             <a class="btn btn-icon btn-transparent-dark dropdown-toggle position-relative" id="navbarDropdownUserImage"
                 href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 @if (count($notification) > 0)
-                    <div class="text-danger position-absolute" style="right:10px;top:10px">
-                        {{ count($notification) }}
-                    </div>
+                <div class="text-danger position-absolute" style="right:10px;top:10px" id="notif-count">
+                    {{ count($notification) }}
+                </div>
                 @endif
                 <i class="far fa-bell"></i>
             </a>
             @if (count($notification) > 0)
-                <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-                    aria-labelledby="navbarDropdownUserImage" style="height: 30rem; overflow: scroll">
-                    @foreach ($notification as $item)
-                        <form action="{{ route('notification', $item->id_notifikasi) }}" method="post">
-                            @csrf
-                            <button type="submit"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <input type="text" name="id_surat" value="{{ $item->id_arsip_surat }}" hidden>
-                                <input type="text" name="tipe_arsip" value="{{ $item->tipe_arsip }}" hidden>
-                                <div>
-                                    @php
-                                        echo $item->keterangan;
+            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
+                aria-labelledby="navbarDropdownUserImage" style="height: 30rem; overflow: scroll; width: 400px">
+                @foreach ($notification as $item)
+                <form action="{{ route('notification', $item->id_notifikasi) }}" method="post">
+                    @csrf
+                    <button type="submit" class="dropdown-item d-flex align-items-center justify-content-between">
+                        <input type="text" name="id_surat" value="{{ $item->id_arsip_surat }}" hidden>
+                        <input type="text" name="tipe_arsip" value="{{ $item->tipe_arsip }}" hidden>
 
-                                        echo "<br>";
-                                        \Carbon\Carbon::setLocale("id");
-                                        $updatedAt = Carbon::parse($item->updated_at);
+                        <div class="d-flex gap-3">
+                            <div>
+                                @if ($item->profile != null)
+                                <img class="img-fluid rounded-circle" width="50"
+                                    src="{{ url('storage/' . $item->profile) }}" />
+                                @else
+                                <img class="img-fluid rounded-circle" width="50"
+                                    src="https://ui-avatars.com/api/?name={{ $item->nama_lengkap }}" />
+                                @endif
+                            </div>
 
-                                        echo "<b>". $updatedAt->diffForHumans() ."</b>";
+                            <div>
+                                <p class="text-wrap mb-1">{!! $item->keterangan !!}</p>
+                                @php
+                                \Carbon\Carbon::setLocale("id");
+                                $updatedAt = Carbon::parse($item->updated_at);
+                                @endphp
 
-                                    @endphp
-                                </div>
-                            </button>
-                        </form>
-                        <div class="dropdown-divider"></div>
-                    @endforeach
-                </div>
+                                <small class="d-block fw-bold">{{ $updatedAt->diffForHumans() }}</small>
+                            </div>
+
+                        </div>
+                        {{-- <div>
+                            @php
+                            echo $item->keterangan;
+
+                            echo "<br>";
+                            \Carbon\Carbon::setLocale("id");
+                            $updatedAt = Carbon::parse($item->updated_at);
+
+                            echo "<b>". $updatedAt->diffForHumans() ."</b>";
+
+                            @endphp
+                        </div> --}}
+                    </button>
+                </form>
+                <div class="dropdown-divider"></div>
+                @endforeach
+            </div>
             @endif
         </li>
         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
@@ -79,19 +102,19 @@
                 href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 @if (Auth::user()->profile != null)
-                    <img class="img-fluid" src="{{ Storage::url(Auth::user()->profile) }}" />
+                <img class="img-fluid" src="{{ url('storage/' . Auth::user()->profile) }}" />
                 @else
-                    <img class="img-fluid" src="https://ui-avatars.com/api/?name={{ Auth::user()->nama_lengkap }}" />
+                <img class="img-fluid" src="https://ui-avatars.com/api/?name={{ Auth::user()->nama_lengkap }}" />
                 @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
                 aria-labelledby="navbarDropdownUserImage">
                 <h6 class="dropdown-header d-flex align-items-center">
                     @if (Auth::user()->profile != null)
-                        <img class="dropdown-user-img" src="{{ Storage::url(Auth::user()->profile) }}" />
+                    <img class="dropdown-user-img" src="{{ url('storage/' . Auth::user()->profile) }}" />
                     @else
-                        <img class="dropdown-user-img"
-                            src="https://ui-avatars.com/api/?name={{ Auth::user()->nama_lengkap }}" />
+                    <img class="dropdown-user-img"
+                        src="https://ui-avatars.com/api/?name={{ Auth::user()->nama_lengkap }}" />
                     @endif
 
                     <div class="dropdown-user-details">
@@ -100,7 +123,7 @@
                     </div>
                 </h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ route('setting.index') }}">
                     <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
                     Account
                 </a>
@@ -115,3 +138,28 @@
         </li>
     </ul>
 </nav>
+
+@push('addon-script')
+    <script>
+        function readNotif(notif) {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('read-notif') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    notif: notif
+
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $("#notif-count").remove();
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    </script>
+    
+@endpush

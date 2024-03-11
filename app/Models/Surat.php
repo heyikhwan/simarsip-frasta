@@ -43,4 +43,9 @@ class Surat extends Model
     {
         return $this->belongsTo(PenerimaSurat::class, 'id_penerima_surat', 'id_penerima_surat');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
+    }
 }
