@@ -1,109 +1,110 @@
 @extends('layouts.admin')
 
 @section('title')
-    Surat Keluar
+Surat Keluar
 @endsection
 
 @section('container')
-    <main>
-        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
-            <div class="container-xl px-4">
-                <div class="page-header-content">
-                    <div class="row align-items-center justify-content-between pt-3">
-                        <div class="col-auto mb-3">
-                            <h1 class="page-header-title">
-                                <div class="page-header-icon"><i data-feather="user"></i></div>
-                                Surat Keluar
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Main page content-->
-        <div class="container-xl px-4 mt-4">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card card-header-actions mb-4">
-                        <div class="card-header">
-                            List Surat Keluar
-                            {{-- <a class="btn btn-sm btn-primary"
-                                href="{{ route('print-surat-keluar') }}?tipe_surat=surat-keluar" target="_blank">
-                                <i data-feather="printer"></i> &nbsp;
-                                Cetak Laporan
-                            </a> --}}
-                            {{-- <form action="{{ route('print-surat-keluar') }}" method="GET" target="_blank"
-                                class="d-flex gap-2">
-                                <div class="form-group d-flex">
-                                    <input type="date" name="dari" class="form-control"
-                                        style="border-right: none !important; border-top-right-radius: 0px; border-bottom-right-radius: 0px; width: 143px;">
-                                    <input type="date" name="sampai" class="form-control"
-                                        style="border-left: none !important; border-top-left-radius: 0px; border-bottom-left-radius: 0px; width: 143px;">
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary">
-                                    <i data-feather="printer"></i> &nbsp; Cetak Laporan
-                                </button>
-                            </form> --}}
-                        </div>
-                        <div class="card-body">
-                            @if (auth()->user()->level !== 'manajer')
-                                <a class="btn btn-sm btn-primary mb-2" href="{{ route('letter.create') }}">
-                                    +
-                                    Tambah Surat
-                                </a>
-                            @endif
-                            {{-- Alert --}}
-                            @if (session()->has('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                    <button class="btn-close" type="button" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                                </div>
-                            @endif
-                            @if ($errors->any())
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                    <button class="btn-close" type="button" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                                </div>
-                            @endif
-                            {{-- List Data --}}
-                            <table class="table table-striped table-hover table-sm" id="crudTable">
-                                <thead>
-                                    <tr>
-                                        <th width="10">No.</th>
-                                        <th>Tanggal</th>
-                                        <th>Nama Penginput</th>
-                                        <th>Departemen</th>
-                                        <th>Aksi</th>
-                                        <th>Komentar</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+<main>
+    <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+        <div class="container-xl px-4">
+            <div class="page-header-content">
+                <div class="row align-items-center justify-content-between pt-3">
+                    <div class="col-auto mb-3">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="user"></i></div>
+                            Surat Keluar
+                        </h1>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </header>
+    <!-- Main page content-->
+    <div class="container-xl px-4 mt-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-header-actions mb-4">
+                    <div class="card-header">
+                        List Surat Keluar
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-1 mb-3">
+                            @if (auth()->user()->level !== 'manajer')
+                            <a class="btn btn-sm btn-primary mb-2" href="{{ route('letter.create') }}">
+                                +
+                                Tambah Surat
+                            </a>
+                            @endif
+
+                            @if (auth()->user()->level == 'manajer')
+                            <button type="button" class="btn btn-sm btn-danger" id="btnBulkDelete"
+                                onclick="handleBulkDelete()" disabled><i class="fas fa-trash me-1"></i>Hapus Data (<span
+                                    id="countData">0</span>)</button>
+                            @endif
+                        </div>
+
+                        {{-- Alert --}}
+                        <div id="alert-container"></div>
+                        @if (session()->has('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+                        @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+                        {{-- List Data --}}
+                        <table class="table table-striped table-hover table-sm" id="crudTable">
+                            <thead>
+                                <tr>
+                                    <th width="10" class="text-center">
+                                        <input type="checkbox" id="checkAll">
+                                    </th>
+                                    <th width="10">No.</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Penginput</th>
+                                    <th>Departemen</th>
+                                    <th>Aksi</th>
+                                    <th>Komentar</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 @endsection
 
 @push('addon-script')
-    <script>
-        var datatable = $('#crudTable').DataTable({
+<script>
+    var datatable = $('#crudTable').DataTable({
             processing: true,
             serverSide: true,
             ordering: true,
             ajax: {
                 url: '{!! url()->current() !!}',
             },
-            columns: [{
+            columns: [
+                {
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searcable: false,
+                },    
+                {
                     "data": 'DT_RowIndex',
                     orderable: false,
                     searchable: false
@@ -154,22 +155,59 @@
                         }
                     }
                 },
-            ],
-            // createdRow: function(row, data, dataIndex) {
-            //     // Jika status sama dengan 'Request Update', ganti nilai status dengan 'komentar_request'
-            //     $('td:eq(6)', row).html("-");
-            //     if (data.status_surat === 'Request Update') {
-            //         $('td:eq(6)', row).html(data.komentar_request);
-            //     }
-
-            //     if (data.status_surat === 'Not Approve') {
-            //         if (data.komentar_not_approve){
-            //             $('td:eq(6)', row).html(data.komentar_not_approve);
-            //         } else {
-            //             $('td:eq(6)', row).html('-');
-            //         }
-            //     }
-            // }
+            ]
         });
-    </script>
+</script>
+<script>
+    let checkedItem = [];
+    
+        $('#checkAll').click(function() {
+            let isChecked = $(this).is(':checked');
+            $('.checkItem').prop('checked', isChecked);
+            updateCheckedItems();
+        });
+    
+        $(document).on('change', '.checkItem', function() {
+            updateCheckedItems();
+        });
+    
+        function updateCheckedItems() {
+            checkedItem = [];
+            $('.checkItem:checked').each(function() {
+                checkedItem.push($(this).val());
+            });
+    
+            let isAllChecked = $('.checkItem:checked').length === $('.checkItem').length;
+            $('#checkAll').prop('checked', isAllChecked);
+            $('#btnBulkDelete').prop('disabled', checkedItem.length === 0);
+            $('#countData').text(checkedItem.length);
+        }
+    
+        const handleBulkDelete = () => {
+            if (checkedItem.length > 0) {
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                    $.ajax({
+                        url: "{{ route('letter.bulk-delete') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            ids: checkedItem,
+                        },
+                        success: function(response) {
+                            if (response.status) {
+                                datatable.ajax.reload();
+    
+                                $('#alert-container').html(
+                                    '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                    response.message +
+                                    '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                    '</div>'
+                                );
+                            }
+                        }
+                    });
+                }
+            }
+        }
+</script>
 @endpush

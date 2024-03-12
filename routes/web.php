@@ -72,7 +72,7 @@ Route::prefix('admin')
         Route::post('letter/approval/{id}', [SuratController::class, 'approval_letter'])->name('approval');
         Route::post('letter/notification/{id}', [SuratController::class, 'goToNotification'])->name('notification');
 
-
+        Route::post('letter/bulk-delete', [SuratController::class, 'bulk_delete'])->name('letter.bulk-delete');
 
         Route::get('letter/surat/{id}', [SuratController::class, 'show'])->name('detail-surat');
         Route::put('letter/surat/{id}', [SuratController::class, 'update_komentar'])->name('detail-surat');

@@ -329,6 +329,9 @@ class SuratController extends Controller
                 ->get();
 
             return Datatables::of($query)
+                ->addColumn('checkbox', function ($item) {
+                    return '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>';
+                })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
                 <i class="fa fa-search-plus"></i> &nbsp; Detail
@@ -381,7 +384,7 @@ class SuratController extends Controller
                 })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['action', 'post_status'])
+                ->rawColumns(['checkbox', 'action', 'post_status'])
                 ->make();
         }
 
@@ -404,6 +407,9 @@ class SuratController extends Controller
                 ->get();
 
             return Datatables::of($query)
+                ->addColumn('checkbox', function ($item) {
+                    return '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>';
+                })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
             <i class="fa fa-search-plus"></i> &nbsp; Detail
@@ -452,7 +458,7 @@ class SuratController extends Controller
                 })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['action', 'post_status'])
+                ->rawColumns(['checkbox', 'action', 'post_status'])
                 ->make();
         }
 
@@ -570,5 +576,17 @@ class SuratController extends Controller
         return redirect()
             ->route($redirect)
             ->with('success', 'Sukses! 1 Data Berhasil Dihapus');
+    }
+
+    public function bulk_delete(Request $request)
+    {
+        $ids = $request->ids;
+
+        Surat::whereIn('id_arsip_surat', $ids)->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sukses! ' . count($ids) . ' Data Berhasil Dihapus',
+        ]);
     }
 }
