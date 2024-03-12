@@ -85,13 +85,16 @@ Detail Surat
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <button type="submit" class="btn btn-primary btn-sm" value="approve" name="btn_tipe">
+                                            <button type="submit" class="btn btn-primary btn-sm" value="approve"
+                                                name="btn_tipe">
                                                 <i class="fa fa-check" style="margin-right: 5px"></i> Approve
                                             </button>
-                                            <button type="submit" class="btn btn-warning btn-sm" value="revisi" name="btn_tipe">
+                                            <button type="submit" class="btn btn-warning btn-sm" value="revisi"
+                                                name="btn_tipe">
                                                 <i class="fa fa-edit" style="margin-right: 5px"></i> Revisi
                                             </button>
-                                            <a href="{{ route('surat-masuk') }}" class="btn btn-danger btn-sm"><i class="fa fa-times" style="margin-right: 5px"></i>Batal</a>
+                                            <a href="{{ route('surat-masuk') }}" class="btn btn-danger btn-sm"><i
+                                                    class="fa fa-times" style="margin-right: 5px"></i>Batal</a>
                                             {{-- <button type="reset" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-times" style="margin-right: 5px"></i> Batal
                                             </button> --}}
@@ -115,7 +118,8 @@ Detail Surat
                                     <tr>
                                         <th>Upload Dokumen</th>
                                         <td>
-                                            <input type="file" name="dokumen" class="form-control" required>
+                                            <input type="file" name="dokumen" class="form-control" accept=".pdf"
+                                                required>
                                         </td>
                                     </tr>
                                     <tr>

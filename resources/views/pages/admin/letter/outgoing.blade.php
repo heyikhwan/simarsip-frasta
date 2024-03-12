@@ -143,7 +143,7 @@
                     name: 'status_surat',
                     render: function(data, type, full, meta) {
                         // Check the status and add a corresponding badge
-                        if (data === 'pending' || data === 'Request Update') {
+                        if (data === 'Pending' || data === 'Request Update') {
                             return '<span class="badge bg-warning">' + data + '</span>';
                         } else if (data === 'Not Approve') {
                             return '<span class="badge bg-danger">' + data + '</span>';

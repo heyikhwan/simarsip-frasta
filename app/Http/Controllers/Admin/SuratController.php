@@ -177,7 +177,7 @@ class SuratController extends Controller
                 return redirect('admin/letter/surat/' . $request->id_surat);
             }
 
-            if ($letter->status_surat == 'pending') {
+            if ($letter->status_surat == 'Pending') {
                 return redirect('admin/letter/surat/' . $request->id_surat);
             }
 
@@ -336,7 +336,7 @@ class SuratController extends Controller
                 ';
 
                     if (auth()->user()->level == 'karyawan') {
-                        if ($item->status_surat == 'pending' || $item->status_surat == 'Request Update') {
+                        if ($item->status_surat == 'Pending' || $item->status_surat == 'Request Update') {
                             if ($item->user_id == Auth::user()->id_user) {
                                 $buttons .= '<a class="btn btn-primary btn-xs" href="' . route('letter.edit', $item->id_arsip_surat) . '">
                             <i class="fas fa-edit"></i> &nbsp; Ubah
@@ -345,7 +345,7 @@ class SuratController extends Controller
                             }
                         }
 
-                        if ($item->status_surat == 'pending' || $item->status_surat == 'Request Update') {
+                        if ($item->status_surat == 'Pending' || $item->status_surat == 'Request Update') {
                             if ($item->user_id == Auth::user()->id_user) {
                                 $buttons .= '<form action="' . route('letter.destroy', $item->id_arsip_surat) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini?'" . ')">
                         ' . method_field('delete') . csrf_field() . '
@@ -411,14 +411,14 @@ class SuratController extends Controller
             ';
 
                     if (auth()->user()->level == 'karyawan' && $item->user_id == auth()->user()->id_user) {
-                        if ($item->status_surat == 'pending' || $item->status_surat == 'Request Update') {
+                        if ($item->status_surat == 'Pending' || $item->status_surat == 'Request Update') {
                             $buttons .= '<a class="btn btn-primary btn-xs" href="' . route('letter.edit', $item->id_arsip_surat) . '">
                     <i class="fas fa-edit"></i> &nbsp; Ubah
                     </a>
                     ';
                         }
 
-                        if ($item->status_surat == 'pending' || $item->status_surat == 'Request Update') {
+                        if ($item->status_surat == 'Pending' || $item->status_surat == 'Request Update') {
                             $buttons .= '<form action="' . route('letter.destroy', $item->id_arsip_surat) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini?'" . ')">
                     ' . method_field('delete') . csrf_field() . '
                     <button class="btn btn-danger btn-xs">
@@ -536,7 +536,7 @@ class SuratController extends Controller
         }
 
 
-        $validatedData['status_surat'] = 'pending';
+        $validatedData['status_surat'] = 'Pending';
         $item->update($validatedData);
 
         $letter = Surat::findOrFail($id);

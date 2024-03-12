@@ -13,55 +13,58 @@ class PrintController extends Controller
 {
     public function index(Request $request)
     {
-        // Mengambil nilai dari request
-        // $dariTanggal = $request->input('dari');
-        // $sampaiTanggal = $request->input('sampai');
+        if ($request->method() == 'POST') {
+            // Mengambil nilai dari request
+            $dariTanggal = $request->input('dari');
+            $sampaiTanggal = $request->input('sampai');
 
-        // Menambahkan filter berdasarkan tanggal dari dan sampai
-        $query = Surat::with(['departemen', 'penerima_surat'])
-            ->where('tipe_surat', 'Surat Masuk')
-            ->get();
+            // Menambahkan filter berdasarkan tanggal dari dan sampai
+            $query = Surat::with(['departemen', 'penerima_surat'])
+                ->where('tipe_surat', 'Surat Masuk');
 
-        // if ($dariTanggal && $sampaiTanggal) {
-        //     $items = $query->whereDate('tanggal_surat', '>=', $dariTanggal)
-        //         ->whereDate('tanggal_surat', '<=', $sampaiTanggal)
-        //         ->get();
-        // } else {
-        // Jika input dari dan sampai tidak ada, tampilkan semua data
-        //     $items = $query->get();
-        // }
+            if ($dariTanggal && $sampaiTanggal) {
+                $query = $query->whereDate('tanggal_surat', '>=', $dariTanggal)
+                    ->whereDate('tanggal_surat', '<=', $sampaiTanggal)
+                    ->get();
+            } else {
+                // Jika input dari dan sampai tidak ada, tampilkan semua data
+                $query = $query->get();
+            }
 
-        return view('pages.admin.letter.print-incoming', [
-            'item' => $query
-        ]);
+            return view('pages.admin.letter.print-incoming', [
+                'item' => $query
+            ]);
+        }
+
+        return view('pages.admin.letter.print-incoming-index');
     }
-
-
-
 
     public function outgoing(Request $request)
     {
-        // Mengambil nilai dari request
-        // $dariTanggal = $request->input('dari');
-        // $sampaiTanggal = $request->input('sampai');
+        if ($request->method() == 'POST') {
+            // Mengambil nilai dari request
+            $dariTanggal = $request->input('dari');
+            $sampaiTanggal = $request->input('sampai');
 
-        // Menambahkan filter berdasarkan tanggal dari dan sampai
-        $query = Surat::with(['departemen', 'pengirim_surat'])
-            ->where('tipe_surat', 'Surat Keluar')
-            ->get();
+            // Menambahkan filter berdasarkan tanggal dari dan sampai
+            $query = Surat::with(['departemen', 'pengirim_surat'])
+                ->where('tipe_surat', 'Surat Keluar');
 
-        // if ($dariTanggal && $sampaiTanggal) {
-        //     $items = $query->whereDate('tanggal_surat', '>=', $dariTanggal)
-        //         ->whereDate('tanggal_surat', '<=', $sampaiTanggal)
-        //         ->get();
-        // } else {
-        //     // Jika input dari dan sampai tidak ada, tampilkan semua data
-        //     $items = $query->get();
-        // }
+            if ($dariTanggal && $sampaiTanggal) {
+                $query = $query->whereDate('tanggal_surat', '>=', $dariTanggal)
+                    ->whereDate('tanggal_surat', '<=', $sampaiTanggal)
+                    ->get();
+            } else {
+                // Jika input dari dan sampai tidak ada, tampilkan semua data
+                $query = $query->get();
+            }
 
-        return view('pages.admin.letter.print-outgoing', [
-            'item' => $query
-        ]);
+            return view('pages.admin.letter.print-outgoing', [
+                'item' => $query
+            ]);
+        }
+
+        return view('pages.admin.letter.print-outgoing-index');
     }
 
 

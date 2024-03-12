@@ -78,7 +78,7 @@ CREATE TABLE `arsip_surat` (
   `id_penerima_surat` bigint DEFAULT NULL,
   `file_arsip_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tipe_surat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_surat` enum('pending','Approve','Not Approve','Request Update','Revisi') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `status_surat` enum('Pending','Approve','Not Approve','Request Update','Revisi') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
   `komentar` text COLLATE utf8mb4_unicode_ci,
   `user_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

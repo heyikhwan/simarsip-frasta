@@ -122,8 +122,10 @@
 
             @if (auth()->user()->level !== 'admin')
 
-            <a class="nav-link {{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'active' : 'collapsed' }}" href="javascript:void(0);" data-bs-toggle="collapse"
-                data-bs-target="#collapseLaporan" aria-expanded="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'true' : 'false' }}" aria-controls="collapseLaporan">
+            <a class="nav-link {{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'active' : 'collapsed' }}"
+                href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseLaporan"
+                aria-expanded="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'true' : 'false' }}"
+                aria-controls="collapseLaporan">
                 <div class="nav-link-icon"><i class="fa fa-print"></i></div>
                 Cetak Laporan
                 <div class="sidenav-collapse-arrow"><svg class="svg-inline--fa fa-angle-down" aria-hidden="true"
@@ -134,12 +136,13 @@
                         </path>
                     </svg></div>
             </a>
-            <div class="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'show' : 'collapse' }}" id="collapseLaporan" data-bs-parent="#accordionSidenav">
+            <div class="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'show' : 'collapse' }}"
+                id="collapseLaporan" data-bs-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav">
-                    <a class="nav-link {{ request()->is('admin/letter/surat-masuk') ? 'active' : '' }}"
-                        href="{{ route('print-surat-masuk') }}" target="_blank">Laporan Surat Masuk</a>
-                    <a class="nav-link {{ request()->is('admin/letter/surat-keluar') ? 'active' : '' }}"
-                        href="{{ route('print-surat-keluar') }}" target="_blank">Laporan Surat Keluar</a>
+                    <a class="nav-link {{ request()->is('admin/print/surat-masuk') ? 'active' : '' }}"
+                        href="{{ url('admin/print/surat-masuk') }}">Laporan Surat Masuk</a>
+                    <a class="nav-link {{ request()->is('admin/print/surat-keluar') ? 'active' : '' }}"
+                        href="{{ url('admin/print/surat-keluar') }}">Laporan Surat Keluar</a>
 
                     <a class="nav-link {{ request()->is('admin/print/arsip-karyawan') ? 'active' : '' }}"
                         href="{{ url('admin/print/arsip-karyawan') }}">Laporan Arsip Karyawan</a>

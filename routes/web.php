@@ -80,8 +80,8 @@ Route::prefix('admin')
         Route::get('letter/download/{id}', [SuratController::class, 'download_letter'])->name('download-surat');
 
         //print
-        Route::get('print/surat-masuk', [PrintController::class, 'index'])->name('print-surat-masuk');
-        Route::get('print/surat-keluar', [PrintController::class, 'outgoing'])->name('print-surat-keluar');
+        Route::match(['GET', 'POST'], 'print/surat-masuk', [PrintController::class, 'index']);
+        Route::match(['GET', 'POST'], 'print/surat-keluar', [PrintController::class, 'outgoing']);
         Route::match(['GET', 'POST'], 'print/arsip-karyawan', [PrintController::class, 'employeeArchive']);
         Route::match(['GET', 'POST'], 'print/dokumentasi', [PrintController::class, 'dokumentasi']);
 
