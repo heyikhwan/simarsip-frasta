@@ -122,9 +122,9 @@
 
             @if (auth()->user()->level !== 'admin')
 
-            <a class="nav-link {{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'active' : 'collapsed' }}"
+            <a class="nav-link {{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-masuk') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-keluar') ? 'active' : 'collapsed' }}"
                 href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseLaporan"
-                aria-expanded="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'true' : 'false' }}"
+                aria-expanded="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-masuk') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-keluar') ? 'true' : 'false' }}"
                 aria-controls="collapseLaporan">
                 <div class="nav-link-icon"><i class="fa fa-print"></i></div>
                 Cetak Laporan
@@ -136,7 +136,7 @@
                         </path>
                     </svg></div>
             </a>
-            <div class="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') ? 'show' : 'collapse' }}"
+            <div class="{{ request()->is('admin/print/arsip-karyawan') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-masuk') || request()->is('admin/print/dokumentasi') || request()->is('admin/print/surat-keluar') ? 'show' : 'collapse' }}"
                 id="collapseLaporan" data-bs-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav">
                     <a class="nav-link {{ request()->is('admin/print/surat-masuk') ? 'active' : '' }}"
