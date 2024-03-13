@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Karyawan;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class KaryawanController extends Controller
@@ -78,6 +80,21 @@ class KaryawanController extends Controller
 
         Karyawan::create($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menambahkan karyawan baru<br>Nama Karyawan: ' . $request->nama_karyawan,
+                'url' => route('karyawan.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('employee.index')
             ->with('success', 'Sukses! 1 Data Berhasil Disimpan');
@@ -130,6 +147,21 @@ class KaryawanController extends Controller
 
         Karyawan::where('id_karyawan', $id_karyawan)->update($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data karyawan',
+                'url' => route('karyawan.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('employee.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diperbarui');
@@ -144,6 +176,21 @@ class KaryawanController extends Controller
     public function destroy($id)
     {
         $item = Karyawan::findorFail($id);
+
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus departemen ' . $item->nama_departemen,
+                'url' => route('departemen.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

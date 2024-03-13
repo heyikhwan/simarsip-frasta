@@ -12,6 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 use App\Models\User;
 use App\Models\Departemen;
+use App\Models\Notifikasi;
 
 class UserController extends Controller
 {
@@ -77,6 +78,21 @@ class UserController extends Controller
         // dd($validatedData);
         User::create($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menambahkan data user baru<br>Nama: ' . $request->nama_lengkap,
+                'url' => route('user.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('user.index')
             ->with('success', 'Sukses! Data Pengguna Berhasil Disimpan');
@@ -132,10 +148,27 @@ class UserController extends Controller
             unset($validatedData['password']);
         }
 
-
         $validatedData['id_departemen'] = $request->id_departemen;
+        $validatedData['level'] = $request->level;
 
         $user->update($validatedData);
+
+        if (auth()->user()->level == 'admin') {
+            $penerima = User::where('level', 'admin')
+                ->where('id_user', '<>', auth()->user()->id_user)
+                ->get();
+
+            foreach ($penerima as $value) {
+                Notifikasi::create([
+                    'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data user',
+                    'url' => route('user.index'),
+                    'user_id' => auth()->user()->id_user,
+                    'penerima_id' => $value->id_user,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+        }
 
         $route = 'user.index';
         switch (Auth::user()->level) {
@@ -159,6 +192,21 @@ class UserController extends Controller
         $item = User::findorFail($id);
 
         Storage::delete($item->profile);
+
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus data user ' . $item->nama_lengkap,
+                'url' => route('user.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

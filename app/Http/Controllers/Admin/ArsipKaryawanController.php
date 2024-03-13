@@ -12,6 +12,7 @@ use App\Models\Departemen;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Notifikasi;
+use App\Models\User;
 use Carbon\Carbon;
 
 class ArsipKaryawanController extends Controller
@@ -24,29 +25,30 @@ class ArsipKaryawanController extends Controller
 
     public function index()
     {
-        $a = ArsipKaryawan::with('employee', 'departemen')->get();
+        $a = ArsipKaryawan::with('employee', 'departemen')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
         foreach ($a as $key => $value) {
             $date_end = explode(' sampai ', $value->retensi_arsip)[1];
             $date_end = \Carbon\Carbon::parse($date_end);
 
-
             $days_until_expiry = now()->diffInDays($date_end, false);
 
-
             $existingNotification = Notifikasi::whereDate('created_at', now()->toDateString())
-                ->where('id_arsip_surat', $value->id_arsip_karyawan)
-                ->where('level', 'karyawan')
+                ->where('url', route('arsip-karyawan.show', $value->id_arsip_karyawan))
                 ->exists();
+
+            $manajer = User::where('level', 'manajer')->first();
 
             if ($days_until_expiry < 30 && !$existingNotification) {
                 Notifikasi::create([
                     'keterangan' => 'Masa berlaku arsip karyawan sebentar lagi habis<br>Kode :' . $value->kode_arsip_karyawan,
-                    'id_arsip_surat' => $value->id_arsip_karyawan,
-                    'tipe_arsip' => 'karyawan',
-                    'level' => 'karyawan',
-                    'user_id' => $value->user_id,
-                    'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-                    'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                    'url' => route('arsip-karyawan.show', $value->id_arsip_karyawan),
+                    'penerima_id' => $value->user_id,
+                    'user_id' => $manajer->user_id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ]);
             }
         }
@@ -109,9 +111,6 @@ class ArsipKaryawanController extends Controller
         $employees = Karyawan::all();
         $categories = Kategori::all();
 
-        // Menghitung jumlah arsip karyawan
-        // $countAK = ArsipKaryawan::count();
-
         // Membuat kode arsip karyawan unik
         $codeAK = $this->generateUniqueCode('AK', 0);
 
@@ -138,12 +137,6 @@ class ArsipKaryawanController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->merge(['retensi_arsip' => $request->from . ' sampai ' . $request->to]);
@@ -162,19 +155,29 @@ class ArsipKaryawanController extends Controller
 
         $validatedData['user_id'] = auth()->user()->id_user;
 
-        ArsipKaryawan::create($validatedData);
+        $arsip = ArsipKaryawan::create($validatedData);
+
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Ada arsip karyawan baru<br>Kode: ' . $arsip->kode_arsip_karyawan . '<br>Keterangan: Arsip Karyawan dibuat oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('arsip-karyawan.show', $arsip->id_arsip_karyawan),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         return redirect()
             ->route('arsip-karyawan.index')
             ->with('success', 'Sukses! 1 Data Berhasil Disimpan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $item = ArsipKaryawan::with('departemen', 'employee', 'category')->findOrFail($id);
@@ -184,12 +187,6 @@ class ArsipKaryawanController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $departments = Departemen::all();
@@ -212,13 +209,6 @@ class ArsipKaryawanController extends Controller
         return Storage::download($item->file_arsip_karyawan);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->merge(['retensi_arsip' => $request->from . ' sampai ' . $request->to]);
@@ -238,20 +228,46 @@ class ArsipKaryawanController extends Controller
 
         $item->update($validatedData);
 
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Ada perubahan arsip karyawan<br>Kode: ' . $item->kode_arsip_karyawan . '<br>Keterangan: Arsip Karyawan diubah oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('arsip-karyawan.show', $item->id_arsip_karyawan),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('arsip-karyawan.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $item = ArsipKaryawan::findorFail($id);
+
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus arsip karyawan<br>Kode: ' . $item->kode_arsip_karyawan,
+                'url' => route('arsip-karyawan.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

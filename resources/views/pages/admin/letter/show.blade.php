@@ -72,7 +72,7 @@ Detail Surat
                                     <td>{{ $item->departemen->nama_departemen }}</td>
                                 </tr>
                                 @if (Auth::user()->level == "manajer")
-                                @if ($item->status_surat == "pending" || $item->status_surat == "Revisi")
+                                @if ($item->status_surat == "Pending" || $item->status_surat == "Revisi")
                                 <form action="{{ url('/admin/letter/surat/' . $item->id_arsip_surat ) }}" method="POST">
                                     {{ csrf_field() }}
                                     @method("PUT")

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dokumentasi;
 use App\Models\Departemen;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -123,7 +125,23 @@ class DokumentasiController extends Controller
 
         $validatedData['user_id'] = auth()->user()->id_user;
 
-        Dokumentasi::create($validatedData);
+        $dokumentasi = Dokumentasi::create($validatedData);
+
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Ada arsip dokumentasi baru<br>Kode: ' . $dokumentasi->kode_arsip_dokumentasi . '<br>Keterangan: Arsip Dokumentasi dibuat oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('arsip-dokumentasi.show', $dokumentasi->id_arsip_dokumentasi),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         return redirect()
             ->route('documentation.index')
@@ -197,6 +215,22 @@ class DokumentasiController extends Controller
         $validatedData['id_karyawan'] = Auth::user()->id_user;
         $item->update($validatedData);
 
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Ada perubahan arsip dokumentasi<br>Kode: ' . $item->kode_arsip_dokumentasi . '<br>Keterangan: Arsip Dokumentasi diubah oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('arsip-dokumentasi.show', $item->id_arsip_dokumentasi),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('documentation.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diubah');
@@ -212,6 +246,22 @@ class DokumentasiController extends Controller
     public function destroy($id)
     {
         $item = Dokumentasi::findorFail($id);
+
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus arsip dokumentasi<br>Kode: ' . $item->kode_arsip_dokumentasi,
+                'url' => route('arsip-dokumentasi.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

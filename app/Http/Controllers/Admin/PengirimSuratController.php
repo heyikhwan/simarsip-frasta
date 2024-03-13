@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
 use App\Models\PengirimSurat;
-
+use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class PengirimSuratController extends Controller
@@ -56,6 +57,21 @@ class PengirimSuratController extends Controller
 
         PengirimSurat::create($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menambahkan data pengirim surat baru<br>Nama Pengirim: ' . $request->nama_pengirim_surat,
+                'url' => route('pengirim.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('pengirim.index')
             ->with('success', 'Sukses! 1 Data Berhasil Disimpan');
@@ -81,6 +97,21 @@ class PengirimSuratController extends Controller
         PengirimSurat::where('id_pengirim_surat', $id)
             ->update($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data pengirim surat',
+                'url' => route('pengirim.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('pengirim.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diperbarui');
@@ -89,6 +120,21 @@ class PengirimSuratController extends Controller
     public function destroy($id)
     {
         $item = PengirimSurat::findorFail($id);
+
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus data pengirim surat ' . $item->nama_pengirim_surat,
+                'url' => route('pengirim.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

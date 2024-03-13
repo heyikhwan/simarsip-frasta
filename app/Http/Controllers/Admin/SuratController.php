@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use App\Models\Departemen;
-use App\Models\Surat;
-use App\Models\PengirimSurat;
-use App\Models\PenerimaSurat;
-use App\Models\Notifikasi;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+
+use App\Models\Surat;
+use App\Models\Departemen;
+use App\Models\Notifikasi;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\PenerimaSurat;
+use App\Models\PengirimSurat;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class SuratController extends Controller
 {
@@ -77,12 +79,11 @@ class SuratController extends Controller
 
             Notifikasi::create([
                 'keterangan' => "Ada komentar untuk kode surat " . $surat->kode_surat,
-                'id_arsip_surat' => $surat->id_arsip_surat,
-                'tipe_arsip' => 'surat',
-                'level' => 'manajer',
+                'url' => route('detail-surat', $surat->id_arsip_surat),
                 'user_id' => auth()->user()->id_user,
-                'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-                'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                'penerima_id' => $surat->user_id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
 
@@ -115,15 +116,19 @@ class SuratController extends Controller
             "status_surat" => "Revisi"
         ]);
 
-        Notifikasi::create([
-            'keterangan' => "Upload Dokumen Arsip Surat Baru dari kode surat " . $surat->kode_surat,
-            'id_arsip_surat' => $surat->id_arsip_surat,
-            'tipe_arsip' => 'surat',
-            'level' => 'karyawan',
-            'user_id' => auth()->user()->id_user,
-            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-        ]);
+        $penerima = User::where("level", "manajer")
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => "Upload Dokumen Arsip Surat Baru dari kode surat " . $surat->kode_surat,
+                'url' => route('detail-surat', $surat->id_arsip_surat),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $redirect = "";
         if ($surat->tipe_surat == "Surat Masuk") {
@@ -148,12 +153,11 @@ class SuratController extends Controller
 
         Notifikasi::create([
             'keterangan' => "Dokumen berhasil di approve",
-            'id_arsip_surat' => $surat->id_arsip_surat,
-            'tipe_arsip' => 'surat',
-            'level' => 'manajer',
             'user_id' => auth()->user()->id_user,
-            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+            'url' => route('detail-surat', $surat->id_arsip_surat),
+            'penerima_id' => $surat->user_id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
         $redirect = "";
@@ -244,15 +248,19 @@ class SuratController extends Controller
 
         $letter = Surat::create($validatedData);
 
-        Notifikasi::create([
-            'keterangan' => 'Ada ' . $type . ' baru<br>Kode :' . $letter->kode_surat . '<br> Keterangan: Surat baru dibuat oleh ' . auth()->user()->nama_lengkap,
-            'id_arsip_surat' => $letter->id_arsip_surat,
-            'tipe_arsip' => 'surat',
-            'level' => 'manajer',
-            'user_id' => auth()->user()->id_user,
-            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-        ]);
+        $penerima = User::where("level", "manajer")
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Ada ' . $type . ' baru<br>Kode :' . $letter->kode_surat . '<br> Keterangan: Surat baru dibuat oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('detail-surat', $letter->id_arsip_surat),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         return redirect()
             ->route($redirect)
@@ -277,11 +285,11 @@ class SuratController extends Controller
         if ($status == 'Approve') {
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat,
-                'id_arsip_surat' => $letter->id_arsip_surat,
-                'level' => 'karyawan',
+                'url' => route('detail-surat', $letter->id_arsip_surat),
                 'user_id' => auth()->user()->id_user,
-                'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-                'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                'penerima_id' => $letter->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
 
@@ -289,11 +297,11 @@ class SuratController extends Controller
             $letter->update(['komentar_request' => $komentar]);
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
-                'id_arsip_surat' => $letter->id_arsip_surat,
-                'level' => 'karyawan',
+                'url' => route('detail-surat', $letter->id_arsip_surat),
                 'user_id' => auth()->user()->id_user,
-                'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-                'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                'penerima_id' => $letter->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
 
@@ -301,11 +309,11 @@ class SuratController extends Controller
             $letter->update(['komentar_not_approve' => $komentar]);
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
-                'id_arsip_surat' => $letter->id_arsip_surat,
-                'level' => 'karyawan',
+                'url' => route('detail-surat', $letter->id_arsip_surat),
                 'user_id' => auth()->user()->id_user,
-                'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-                'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
+                'penerima_id' => $letter->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
         }
         return redirect()
@@ -546,14 +554,23 @@ class SuratController extends Controller
         $item->update($validatedData);
 
         $letter = Surat::findOrFail($id);
-        Notifikasi::create([
-            'keterangan' => 'Update ' . $type . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: Surat telah di update oleh ' . auth()->user()->nama_lengkap,
-            'id_arsip_surat' => $letter->id_arsip_surat,
-            'level' => 'manajer',
-            'user_id' => auth()->user()->id_user,
-            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->toDateTimeString(),
-        ]);
+
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => 'Update ' . $type . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: Surat telah di update oleh ' . auth()->user()->nama_lengkap,
+                'url' => route('detail-surat', $letter->id_arsip_surat),
+                'penerima_id' => $value->id_user,
+                'user_id' => auth()->user()->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route($redirect)
             ->with('success', 'Sukses! 1 Data Berhasil Diubah');
@@ -571,6 +588,22 @@ class SuratController extends Controller
 
         Storage::delete($item->file_arsip_surat);
 
+        $penerima = User::where('level', 'karyawan')
+            ->orWhere('level', 'manajer')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' Menghapus ' . $item->tipe_surat . '<br>Kode :' . $item->kode_surat,
+                'url' => route($item->kode_surat),
+                'penerima_id' => $value->id_user,
+                'user_id' => auth()->user()->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         $item->delete();
 
         return redirect()
@@ -581,6 +614,30 @@ class SuratController extends Controller
     public function bulk_delete(Request $request)
     {
         $ids = $request->ids;
+
+        $surats = Surat::whereIn('id_arsip_surat', $ids)->get();
+
+        foreach ($surats as $surat) {
+            $penerima = User::where('level', 'karyawan')
+                ->orWhere('level', 'manajer')
+                ->where('id_user', '<>', auth()->user()->id_user)
+                ->get();
+
+            foreach ($penerima as $value) {
+                Notifikasi::create([
+                    'keterangan' => auth()->user()->nama_lengkap . ' Menghapus ' . $surat->tipe_surat . '<br>Kode :' . $surat->kode_surat,
+                    'url' => route(Str::slug($surat->tipe_surat)),
+                    'penerima_id' => $value->id_user,
+                    'user_id' => auth()->user()->id_user,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+        }
+
+        foreach ($surats as $surat) {
+            Storage::delete($surat->file_arsip_surat);
+        }
 
         Surat::whereIn('id_arsip_surat', $ids)->delete();
 

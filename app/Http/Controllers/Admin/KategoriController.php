@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 
@@ -69,6 +71,21 @@ class KategoriController extends Controller
 
         Kategori::create($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menambahkan data kategori arsip baru<br>Kategori Arsip: ' . $request->nama_kategori_arsip,
+                'url' => route('kategori.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('kategori.index')
             ->with('success', 'Sukses! 1 Data Berhasil Disimpan');
@@ -113,6 +130,21 @@ class KategoriController extends Controller
         Kategori::where('id_kategori_arsip', $id)
             ->update($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data kategori arsip',
+                'url' => route('kategori.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('kategori.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diperbarui');
@@ -127,6 +159,21 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         $item = Kategori::findorFail($id);
+
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus data kategori arsip ' . $item->nama_kategori_arsip,
+                'url' => route('kategori.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

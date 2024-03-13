@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 
 use App\Models\PenerimaSurat;
-
+use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
 class PenerimaSuratController extends Controller
@@ -55,6 +56,21 @@ class PenerimaSuratController extends Controller
 
         PenerimaSurat::create($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menambahkan data penerima surat baru<br>Nama Pengirim: ' . $request->nama_penerima_surat,
+                'url' => route('penerima.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()
             ->route('penerima.index')
             ->with('success', 'Sukses! 1 Data Berhasil Disimpan');
@@ -79,6 +95,22 @@ class PenerimaSuratController extends Controller
         PenerimaSurat::where('id_penerima_surat', $id)
             ->update($validatedData);
 
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data penerima surat',
+                'url' => route('penerima.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
+
+
         return redirect()
             ->route('penerima.index')
             ->with('success', 'Sukses! 1 Data Berhasil Diperbarui');
@@ -87,6 +119,21 @@ class PenerimaSuratController extends Controller
     public function destroy($id)
     {
         $item = PenerimaSurat::findorFail($id);
+
+        $penerima = User::where('level', 'admin')
+            ->where('id_user', '<>', auth()->user()->id_user)
+            ->get();
+
+        foreach ($penerima as $value) {
+            Notifikasi::create([
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus data penerima surat ' . $item->nama_penerima_surat,
+                'url' => route('penerima.index'),
+                'user_id' => auth()->user()->id_user,
+                'penerima_id' => $value->id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $item->delete();
 

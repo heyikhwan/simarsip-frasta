@@ -1,10 +1,14 @@
 @php
 use App\Models\Notifikasi;
+
 $notification = Notifikasi::leftJoin('users', 'users.id_user', '=', 'notifikasi.user_id')
-->where('notifikasi.level', auth()->user()->level)
-->where('notifikasi.read_at', null)
+->where('notifikasi.penerima_id', auth()->user()->id_user)
 ->latest('notifikasi.created_at')
 ->get();
+
+$notificationCount = Notifikasi::where('notifikasi.penerima_id', auth()->user()->id_user)
+->where('notifikasi.read_at', null)
+->count();
 
 use Carbon\Carbon;
 @endphp
@@ -39,22 +43,19 @@ use Carbon\Carbon;
             <a class="btn btn-icon btn-transparent-dark dropdown-toggle position-relative" id="navbarDropdownUserImage"
                 href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-                @if (count($notification) > 0)
+                @if ($notificationCount > 0)
                 <div class="text-danger position-absolute" style="right:10px;top:10px" id="notif-count">
-                    {{ count($notification) }}
+                    {{ $notificationCount }}
                 </div>
                 @endif
                 <i class="far fa-bell"></i>
             </a>
-            @if (count($notification) > 0)
+            @if (!empty($notification))
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
                 aria-labelledby="navbarDropdownUserImage" style="height: 30rem; overflow: scroll; width: 400px">
                 @foreach ($notification as $item)
-                <form action="{{ route('notification', $item->id_notifikasi) }}" method="post">
-                    @csrf
+                <form action="{{ url($item->url) }}" method="GET">
                     <button type="submit" class="dropdown-item d-flex align-items-center justify-content-between">
-                        <input type="text" name="id_surat" value="{{ $item->id_arsip_surat }}" hidden>
-                        <input type="text" name="tipe_arsip" value="{{ $item->tipe_arsip }}" hidden>
 
                         <div class="d-flex gap-3">
                             <div>
@@ -70,7 +71,6 @@ use Carbon\Carbon;
                             <div>
                                 <p class="text-wrap mb-1">{!! $item->keterangan !!}</p>
                                 @php
-                                \Carbon\Carbon::setLocale("id");
                                 $updatedAt = Carbon::parse($item->updated_at);
                                 @endphp
 
@@ -78,18 +78,6 @@ use Carbon\Carbon;
                             </div>
 
                         </div>
-                        {{-- <div>
-                            @php
-                            echo $item->keterangan;
-
-                            echo "<br>";
-                            \Carbon\Carbon::setLocale("id");
-                            $updatedAt = Carbon::parse($item->updated_at);
-
-                            echo "<b>". $updatedAt->diffForHumans() ."</b>";
-
-                            @endphp
-                        </div> --}}
                     </button>
                 </form>
                 <div class="dropdown-divider"></div>
