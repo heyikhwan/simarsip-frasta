@@ -157,8 +157,10 @@ class ArsipKaryawanController extends Controller
 
         $arsip = ArsipKaryawan::create($validatedData);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -228,8 +230,10 @@ class ArsipKaryawanController extends Controller
 
         $item->update($validatedData);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -253,8 +257,10 @@ class ArsipKaryawanController extends Controller
     {
         $item = ArsipKaryawan::findorFail($id);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 

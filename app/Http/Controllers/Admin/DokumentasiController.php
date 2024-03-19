@@ -127,15 +127,17 @@ class DokumentasiController extends Controller
 
         $dokumentasi = Dokumentasi::create($validatedData);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+            $query->where('level', 'karyawan')
+                ->orWhere('level', 'manajer');
+        })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => 'Ada arsip dokumentasi baru<br>Kode: ' . $dokumentasi->kode_arsip_dokumentasi . '<br>Keterangan: Arsip Dokumentasi dibuat oleh ' . auth()->user()->nama_lengkap,
-                'url' => route('arsip-dokumentasi.show', $dokumentasi->id_arsip_dokumentasi),
+                'url' => route('documentation.show', $dokumentasi->id_arsip_dokumentasi),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -215,15 +217,17 @@ class DokumentasiController extends Controller
         $validatedData['id_karyawan'] = Auth::user()->id_user;
         $item->update($validatedData);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+            $query->where('level', 'karyawan')
+                ->orWhere('level', 'manajer');
+        })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => 'Ada perubahan arsip dokumentasi<br>Kode: ' . $item->kode_arsip_dokumentasi . '<br>Keterangan: Arsip Dokumentasi diubah oleh ' . auth()->user()->nama_lengkap,
-                'url' => route('arsip-dokumentasi.show', $item->id_arsip_dokumentasi),
+                'url' => route('documentation.show', $item->id_arsip_dokumentasi),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -247,15 +251,17 @@ class DokumentasiController extends Controller
     {
         $item = Dokumentasi::findorFail($id);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+            $query->where('level', 'karyawan')
+                ->orWhere('level', 'manajer');
+        })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => auth()->user()->nama_lengkap . ' menghapus arsip dokumentasi<br>Kode: ' . $item->kode_arsip_dokumentasi,
-                'url' => route('arsip-dokumentasi.index'),
+                'url' => route('documentation.index'),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),

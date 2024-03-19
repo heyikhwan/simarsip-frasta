@@ -338,7 +338,7 @@ class SuratController extends Controller
 
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
-                    return '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>';
+                    return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
@@ -416,7 +416,7 @@ class SuratController extends Controller
 
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
-                    return '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>';
+                    return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
@@ -555,8 +555,10 @@ class SuratController extends Controller
 
         $letter = Surat::findOrFail($id);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -588,8 +590,10 @@ class SuratController extends Controller
 
         Storage::delete($item->file_arsip_surat);
 
-        $penerima = User::where('level', 'karyawan')
-            ->orWhere('level', 'manajer')
+        $penerima = User::where(function ($query) {
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -618,8 +622,10 @@ class SuratController extends Controller
         $surats = Surat::whereIn('id_arsip_surat', $ids)->get();
 
         foreach ($surats as $surat) {
-            $penerima = User::where('level', 'karyawan')
-                ->orWhere('level', 'manajer')
+            $penerima = User::where(function ($query) {
+                    $query->where('level', 'karyawan')
+                        ->orWhere('level', 'manajer');
+                })
                 ->where('id_user', '<>', auth()->user()->id_user)
                 ->get();
 

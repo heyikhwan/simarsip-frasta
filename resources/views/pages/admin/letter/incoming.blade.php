@@ -69,7 +69,9 @@ Surat Masuk
                             <thead>
                                 <tr>
                                     <th width="10" class="text-center">
+                                        @if (auth()->user()->level == 'manajer')
                                         <input type="checkbox" id="checkAll">
+                                        @endif
                                     </th>
                                     <th width="10">No.</th>
                                     <th>Tanggal</th>
