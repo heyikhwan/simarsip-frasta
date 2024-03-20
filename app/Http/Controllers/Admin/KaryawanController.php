@@ -87,7 +87,7 @@ class KaryawanController extends Controller
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => auth()->user()->nama_lengkap . ' menambahkan karyawan baru<br>Nama Karyawan: ' . $request->nama_karyawan,
-                'url' => route('karyawan.index'),
+                'url' => route('employee.index'),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -154,7 +154,7 @@ class KaryawanController extends Controller
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => auth()->user()->nama_lengkap . ' melakukan perubahan data karyawan',
-                'url' => route('karyawan.index'),
+                'url' => route('employee.index'),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -183,8 +183,8 @@ class KaryawanController extends Controller
 
         foreach ($penerima as $value) {
             Notifikasi::create([
-                'keterangan' => auth()->user()->nama_lengkap . ' menghapus departemen ' . $item->nama_departemen,
-                'url' => route('departemen.index'),
+                'keterangan' => auth()->user()->nama_lengkap . ' menghapus karyawan ' . $item->nama_karyawan,
+                'url' => route('employee.index'),
                 'user_id' => auth()->user()->id_user,
                 'penerima_id' => $value->id_user,
                 'created_at' => date('Y-m-d H:i:s'),
