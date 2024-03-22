@@ -77,9 +77,10 @@ Surat Masuk
                                     <th>Tanggal</th>
                                     <th>Nama Penginput</th>
                                     <th>Departemen</th>
-                                    <th>Aksi</th>
+                                    <th>Perihal</th>
                                     <th>Komentar</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -126,11 +127,8 @@ Surat Masuk
                     name: 'nama_departemen',
                 },
                 {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searcable: false,
-                    width: '15%'
+                    data: 'perihal',
+                    name: 'perihal',
                 },
                 {
                     data: 'komentar',
@@ -158,6 +156,13 @@ Surat Masuk
                             return '<span class="badge bg-success">' + data + '</span>';
                         }
                     }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searcable: false,
+                    width: '15%'
                 },
             ],
         });

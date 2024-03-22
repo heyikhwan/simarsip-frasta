@@ -115,7 +115,8 @@ class DokumentasiController extends Controller
             'id_departemen' => 'required',
             'tanggal_dokumentasi' => 'required',
             'id_karyawan' => 'required',
-            'keterangan' => 'required',
+            'judul' => 'required',
+            'deskripsi' => 'required',
             'file_arsip_dokumentasi' => 'required|mimes:jpg,png|file',
         ]);
 
@@ -206,7 +207,8 @@ class DokumentasiController extends Controller
             'kode_arsip_dokumentasi' => 'required',
             'id_departemen' => 'required',
             'tanggal_dokumentasi' => 'required',
-            'keterangan' => 'required'
+            'judul' => 'required',
+            'deskripsi' => 'required'
         ]);
 
         $item = Dokumentasi::findOrFail($id);

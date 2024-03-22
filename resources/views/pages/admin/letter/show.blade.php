@@ -80,7 +80,7 @@ Detail Surat
                                         <th>Komentar</th>
                                         <td>
                                             <textarea name="komentar" class="form-control" id="komentar" rows="5"
-                                                placeholder="Masukkan Komentar"></textarea>
+                                                placeholder="Masukkan Komentar">{{ $item->komentar }}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -101,15 +101,24 @@ Detail Surat
                                         </td>
                                     </tr>
                                 </form>
-                                @endif
-                                @endif
-                                @if($item->status_surat == "Request Update")
+                                @else
                                 <tr>
                                     <th>Komentar</th>
                                     <td>
-                                        {{ $item->komentar }}
+                                        {{ $item->komentar ?? '-' }}
                                     </td>
                                 </tr>
+                                @endif
+                                @endif
+                                @if (Auth::user()->level == "karyawan")
+                                <tr>
+                                    <th>Komentar</th>
+                                    <td>
+                                        {{ $item->komentar ?? '-' }}
+                                    </td>
+                                </tr>
+                                @endif
+                                @if($item->status_surat == "Request Update")
                                 @if (Auth::user()->level == "karyawan" && $item->user_id == Auth::user()->id_user)
                                 <form action="{{ url('/admin/letter/surat/'. $item->id_arsip_surat . '/dokumen') }}"
                                     method="POST" enctype="multipart/form-data">

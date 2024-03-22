@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Avatar extends Model
+class KategoriArsip extends Model
 {
     use HasFactory;
 
-    protected $table = 'avatar';
-    protected $primaryKey = 'id_avatar';
+    protected $table = 'kategori_arsip';
+    protected $primaryKey = 'id_kategori_arsip';
     protected $guarded = [];
 }

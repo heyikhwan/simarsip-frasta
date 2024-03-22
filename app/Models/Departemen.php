@@ -11,9 +11,7 @@ class Departemen extends Model
 
     protected $table = 'departemen';
     protected $primaryKey = 'id_departemen';
-    protected $fillable = [
-        'nama_departemen',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [];
 }

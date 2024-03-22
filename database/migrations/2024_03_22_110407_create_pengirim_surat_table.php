@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSendersTable extends Migration
+class CreatePengirimSuratTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateSendersTable extends Migration
      */
     public function up()
     {
-        Schema::create('senders', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('address');
-            $table->string('phone');
-            $table->string('email');
+        Schema::create('pengirim_surat', function (Blueprint $table) {
+            $table->id('id_pengirim_surat');
+            $table->string('nama_pengirim_surat', 100);
             $table->timestamps();
+            $table->dateTime('deleted_at')->nullable();
         });
     }
 
@@ -30,6 +28,6 @@ class CreateSendersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('senders');
+        Schema::dropIfExists('pengirim_surat');
     }
 }

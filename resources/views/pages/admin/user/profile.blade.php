@@ -130,10 +130,10 @@ Profile Pengguna
                     <div class="d-flex gap-2 flex-wrap">
                         @foreach ($avatar as $item)
                         <div>
-                            <label for="avatar-{{ $item->id }}" id="label-avatar-{{ $item->id }}" class="label-avatar">
+                            <label for="avatar-{{ $item->id_avatar }}" id="label-avatar-{{ $item->id_avatar }}" class="label-avatar">
                                 <img width="100" class="img-fluid" src="{{ url('storage/' . $item->url) }}" alt="" />
                             </label>
-                            <input type="radio" name="avatar" id="avatar-{{ $item->id }}" class="d-none avatar"
+                            <input type="radio" name="avatar" id="avatar-{{ $item->id_avatar }}" class="d-none avatar"
                                 value="{{ $item->url }}" onchange="handleAvatarSelection(this)">
                         </div>
                         @endforeach

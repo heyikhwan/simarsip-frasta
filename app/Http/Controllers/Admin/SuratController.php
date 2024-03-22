@@ -148,7 +148,6 @@ class SuratController extends Controller
 
         $surat->update([
             "status_surat" => "Approve",
-            "komentar" => ""
         ]);
 
         Notifikasi::create([
