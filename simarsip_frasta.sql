@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 22, 2024 at 07:01 AM
+-- Generation Time: Mar 24, 2024 at 08:05 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.7
 
@@ -104,16 +104,18 @@ CREATE TABLE `avatar` (
 --
 
 INSERT INTO `avatar` (`id_avatar`, `url`, `created_at`, `updated_at`) VALUES
-(1, 'assets/avatar/avatar-1.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(2, 'assets/avatar/avatar-2.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(3, 'assets/avatar/avatar-3.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(4, 'assets/avatar/avatar-4.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(5, 'assets/avatar/avatar-5.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(6, 'assets/avatar/avatar-6.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(7, 'assets/avatar/avatar-7.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(8, 'assets/avatar/avatar-8.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(9, 'assets/avatar/avatar-9.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(10, 'assets/avatar/avatar-10.jpg', '2024-03-22 06:59:41', '2024-03-22 06:59:41');
+(1, 'assets/avatar/avatar-1.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(2, 'assets/avatar/avatar-2.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(3, 'assets/avatar/avatar-3.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(4, 'assets/avatar/avatar-4.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(5, 'assets/avatar/avatar-5.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(6, 'assets/avatar/avatar-6.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(7, 'assets/avatar/avatar-7.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(8, 'assets/avatar/avatar-8.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(9, 'assets/avatar/avatar-9.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(10, 'assets/avatar/avatar-10.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(11, 'assets/avatar/avatar-11.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(12, 'assets/avatar/avatar-12.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13');
 
 -- --------------------------------------------------------
 
@@ -133,13 +135,13 @@ CREATE TABLE `departemen` (
 --
 
 INSERT INTO `departemen` (`id_departemen`, `nama_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Legal', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(2, 'IT', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(3, 'HRD', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(4, 'Akuntansi', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(5, 'Lelang', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(6, 'Marketing', '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(7, 'Office Boy', '2024-03-22 06:59:41', '2024-03-22 06:59:41');
+(1, 'Legal', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(2, 'IT', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(3, 'HRD', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(4, 'Akuntansi', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(5, 'Lelang', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(6, 'Marketing', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(7, 'Office Boy', '2024-03-24 08:03:13', '2024-03-24 08:03:13');
 
 -- --------------------------------------------------------
 
@@ -178,8 +180,8 @@ INSERT INTO `karyawan` (`id_karyawan`, `nama_karyawan`, `nik`, `jenis_kelamin`, 
 (8, 'Erfan Efendi', '39001002456654', 'Laki-laki', '1999-10-10', 'Jl. Candi Gebang No. 11', '081345677654', 'erfanefendi@gmail.com', 'Karyawan Tetap', 'SMA', '2023-10-11 03:08:43', '2023-10-11 03:08:43', NULL),
 (9, 'Tanzilul Furqon', '3132313244556677', 'Laki-laki', '1999-06-08', 'Dsn. Gowok No. 13', '0877745679876', 'tanzilulfurqon@gmail.com', 'Karyawan Tetap', 'SMA', '2023-10-11 03:10:42', '2023-10-11 03:10:42', NULL),
 (10, 'Nafa Septiana', '313344555667788', 'Perempuan', '1999-11-18', 'Jl. Kledokan No. A4', '081345678765', 'nafaseptiana@gmail.com', 'Karyawan Tetap', 'SMA', '2023-10-11 03:45:33', '2023-10-11 03:45:33', NULL),
-(13, 'Ilham Prasetia', '3602110311990005', 'Laki-laki', '1998-11-03', 'Jl. Siliwangi No. 9', '083841371077', 'ilhamprasetia44@gmail.com', 'Karyawan Tetap', 'SMA', '2024-01-08 19:20:49', '2024-01-08 19:20:49', NULL),
-(14, 'Miftahul Arifin', '371212131314140001', 'Laki-laki', '2000-01-03', 'Jl. Tresno No. A2', '081910894911', 'miftahularifin@gmail.com', 'Karyawan Kontrak', 'SMA', '2024-01-08 19:22:43', '2024-03-13 07:34:33', NULL);
+(11, 'Ilham Prasetia', '3602110311990005', 'Laki-laki', '1998-11-03', 'Jl. Siliwangi No. 9', '083841371077', 'ilhamprasetia44@gmail.com', 'Karyawan Tetap', 'SMA', '2024-01-08 19:20:49', '2024-01-08 19:20:49', NULL),
+(12, 'Miftahul Arifin', '371212131314140001', 'Laki-laki', '2000-01-03', 'Jl. Tresno No. A2', '081910894911', 'miftahularifin@gmail.com', 'Karyawan Kontrak', 'SMA', '2024-01-08 19:22:43', '2024-03-13 07:34:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -200,12 +202,12 @@ CREATE TABLE `kategori_arsip` (
 --
 
 INSERT INTO `kategori_arsip` (`id_kategori_arsip`, `nama_kategori_arsip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'SKCK', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL),
-(2, 'KTP', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL),
-(3, 'Ijazah SMA', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL),
-(4, 'Ijazah S1', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL),
-(5, 'Lisensi SKB', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL),
-(6, 'Lisensi ASKB', '2024-03-22 06:59:42', '2024-03-22 06:59:42', NULL);
+(1, 'SKCK', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
+(2, 'KTP', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
+(3, 'Ijazah SMA', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
+(4, 'Ijazah S1', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
+(5, 'Lisensi SKB', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
+(6, 'Lisensi ASKB', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,16 +308,16 @@ CREATE TABLE `pengirim_surat` (
 --
 
 INSERT INTO `pengirim_surat` (`id_pengirim_surat`, `nama_pengirim_surat`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 'Casemiro', '2022-01-03 06:49:49', '2024-01-08 19:23:45', NULL),
-(3, 'Pepe', '2023-10-11 04:31:17', '2024-01-08 19:24:11', NULL),
-(4, 'Luca Modric', '2023-10-11 04:33:30', '2024-01-08 19:23:30', NULL),
-(5, 'Toni Kroos', '2023-10-11 04:35:25', '2024-01-06 00:46:39', NULL),
-(6, 'Sergio Ramos', '2023-10-11 04:37:49', '2024-01-05 22:56:51', NULL),
-(7, 'Karim Benzema', '2023-11-23 19:08:29', '2024-01-05 22:56:38', NULL),
-(8, 'Gareth Bale', '2023-11-23 19:08:48', '2024-01-05 22:56:27', NULL),
-(9, 'Iker Casillas', '2023-11-23 19:09:14', '2024-01-05 22:03:45', NULL),
-(10, 'Cristiano Ronaldo', '2023-11-23 19:09:26', '2024-01-05 22:03:15', NULL),
-(16, 'Dani Carvajal', '2024-01-08 19:24:43', '2024-01-08 19:25:12', NULL);
+(1, 'Casemiro', '2022-01-03 06:49:49', '2024-01-08 19:23:45', NULL),
+(2, 'Pepe', '2023-10-11 04:31:17', '2024-01-08 19:24:11', NULL),
+(3, 'Luca Modric', '2023-10-11 04:33:30', '2024-01-08 19:23:30', NULL),
+(4, 'Toni Kroos', '2023-10-11 04:35:25', '2024-01-06 00:46:39', NULL),
+(5, 'Sergio Ramos', '2023-10-11 04:37:49', '2024-01-05 22:56:51', NULL),
+(6, 'Karim Benzema', '2023-11-23 19:08:29', '2024-01-05 22:56:38', NULL),
+(7, 'Gareth Bale', '2023-11-23 19:08:48', '2024-01-05 22:56:27', NULL),
+(8, 'Iker Casillas', '2023-11-23 19:09:14', '2024-01-05 22:03:45', NULL),
+(9, 'Cristiano Ronaldo', '2023-11-23 19:09:26', '2024-01-05 22:03:15', NULL),
+(10, 'Dani Carvajal', '2024-01-08 19:24:43', '2024-01-08 19:25:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -330,7 +332,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `profile` text COLLATE utf8mb4_unicode_ci,
   `level` enum('karyawan','admin','manajer') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'karyawan',
-  `id_departemen` bigint UNSIGNED NOT NULL,
+  `id_departemen` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -340,9 +342,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama_lengkap`, `email`, `password`, `profile`, `level`, `id_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$aBMAZSrZewpQP83fgiXJPeIkAFlgX6CgNCb6qk17gGo0XlpsOKEmC', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$HFI/92aw5v1BzFgp6VosqetARa.TGtO3AA3TEOa1H7QcAqvAgXgTm', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-22 06:59:41', '2024-03-22 06:59:41'),
-(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$RW6094DBHoM3YKd9EdFGXOdDo/qX12MgWfaFCq2XvA2fUYUF9UrqG', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-22 06:59:41', '2024-03-22 06:59:41');
+(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$fbQIpqWMVUkigGoSKFaxtefmMi./AvqLeFdqm4kpD4SuCXDOnqSOS', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$LYMpeRrTK17Qu6U1YRHemOV716vdQ0PWJnZql6orycIAxqYsaJRvu', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
+(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$sRHrqAE6puPSoaUp.k0MhuIUZHyZZUdjyPdmESP2g0tZcTB749ZKO', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-24 08:03:13', '2024-03-24 08:03:13');
 
 --
 -- Indexes for dumped tables
@@ -461,7 +463,7 @@ ALTER TABLE `arsip_surat`
 -- AUTO_INCREMENT for table `avatar`
 --
 ALTER TABLE `avatar`
-  MODIFY `id_avatar` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_avatar` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `departemen`
@@ -473,7 +475,7 @@ ALTER TABLE `departemen`
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id_karyawan` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_karyawan` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `kategori_arsip`
@@ -503,7 +505,7 @@ ALTER TABLE `penerima_surat`
 -- AUTO_INCREMENT for table `pengirim_surat`
 --
 ALTER TABLE `pengirim_surat`
-  MODIFY `id_pengirim_surat` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pengirim_surat` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`

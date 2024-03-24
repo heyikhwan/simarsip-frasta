@@ -73,7 +73,7 @@
                                             <td>{{ $item->departemen->nama_departemen }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Retensi Arsip</th>
+                                            <th>Masa Berlaku</th>
                                             <td>{{ $item->retensi_arsip }}</td>
                                         </tr>
                                     </tbody>

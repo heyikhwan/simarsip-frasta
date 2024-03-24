@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->text('profile')->nullable();
             $table->enum('level', ['karyawan','admin','manajer'])->default('karyawan');
-            $table->foreignId('id_departemen')->references('id_departemen')->on('departemen')->constrained();
+            $table->foreignId('id_departemen')->nullable()->references('id_departemen')->on('departemen')->constrained();
             $table->timestamps();
         });
 

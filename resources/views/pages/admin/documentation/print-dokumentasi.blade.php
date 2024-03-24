@@ -109,7 +109,8 @@
                 <th>Kode Arsip</th>
                 <th>Tanggal Dokumentasi</th>
                 <th>Departemen</th>
-                <th>Keterangan</th>
+                <th>Judul</th>
+                <th>Deskripsi</th>
             </thead>
             <tbody>
                 @php
@@ -125,7 +126,10 @@
                         {{ $e->departemen->nama_departemen }}
                     </td>
                     <td>
-                        {{ $e->keterangan }}
+                        {{ $e->judul }}
+                    </td>
+                    <td>
+                        {{ $e->deskripsi }}
                     </td>
                 </tr>
                 @endforeach

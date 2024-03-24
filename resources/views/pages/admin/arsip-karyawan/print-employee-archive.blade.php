@@ -114,7 +114,7 @@
                 <th>Departemen</th>
                 <th>Kontak</th>
                 <th>Email</th>
-                <th>Retensi Arsip</th>
+                <th>Masa Berlaku</th>
             </thead>
             <tbody>
                 @php

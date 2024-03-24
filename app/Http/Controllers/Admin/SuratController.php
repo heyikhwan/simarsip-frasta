@@ -599,7 +599,7 @@ class SuratController extends Controller
         foreach ($penerima as $value) {
             Notifikasi::create([
                 'keterangan' => auth()->user()->nama_lengkap . ' Menghapus ' . $item->tipe_surat . '<br>Kode :' . $item->kode_surat,
-                'url' => route($item->kode_surat),
+                'url' => route(Str::slug($item->tipe_surat)),
                 'penerima_id' => $value->id_user,
                 'user_id' => auth()->user()->id_user,
                 'created_at' => date('Y-m-d H:i:s'),

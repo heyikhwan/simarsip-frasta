@@ -49,8 +49,12 @@
                                             <td>{{ $item->departemen->nama_departemen }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Keterangan</th>
-                                            <td>{{ $item->keterangan }}</td>
+                                            <th>Judul</th>
+                                            <td>{{ $item->judul }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Deskrispsi</th>
+                                            <td>{{ $item->deskripsi }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

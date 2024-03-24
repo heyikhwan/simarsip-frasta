@@ -20,11 +20,42 @@ class CreateAvatarTable extends Migration
             $table->timestamps();
         });
 
-        for ($i = 1; $i <= 10; $i++) {
-            Avatar::create([
-                'url' => 'assets/avatar/avatar-' . $i . '.jpg'
-            ]);
-        }
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-1.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-2.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-3.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-4.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-5.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-6.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-7.png'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-8.png'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-9.png'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-10.png'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-11.jpg'
+        ]);
+        Avatar::create([
+            'url' => 'assets/avatar/avatar-12.jpg'
+        ]);
     }
 
     /**

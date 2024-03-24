@@ -110,13 +110,13 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="perihal" class="col-sm-3 col-form-label">Retensi Arsip</label>
+                                    <label for="perihal" class="col-sm-3 col-form-label">Masa Berlaku</label>
                                     <div class="col-sm-9 d-flex ">
                                         <input type="date" class="form-control @error('from') is-invalid @enderror"
-                                            value="{{ old('from') }}" name="from" placeholder="Retensi arsip.."
+                                            value="{{ old('from') }}" name="from" placeholder="Masa Berlaku.."
                                             required>
                                         <input type="date" class="form-control @error('to') is-invalid @enderror"
-                                            value="{{ old('to') }}" name="to" placeholder="Retensi arsip.."
+                                            value="{{ old('to') }}" name="to" placeholder="Masa Berlaku.."
                                             required>
                                     </div>
                                     @error('retensi_arsip')
