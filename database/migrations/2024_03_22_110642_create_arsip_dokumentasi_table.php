@@ -17,7 +17,6 @@ class CreateArsipDokumentasiTable extends Migration
             $table->id('id_arsip_dokumentasi');
             $table->string('kode_arsip_dokumentasi', 20);
             $table->date('tanggal_dokumentasi')->nullable();
-            $table->foreignId('id_karyawan')->references('id_karyawan')->on('karyawan')->constrained();
             $table->foreignId('id_departemen')->references('id_departemen')->on('departemen')->constrained();
             $table->string('judul', 100);
             $table->text('deskripsi')->nullable();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 24, 2024 at 08:05 AM
+-- Generation Time: Mar 25, 2024 at 02:42 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.7
 
@@ -31,7 +31,6 @@ CREATE TABLE `arsip_dokumentasi` (
   `id_arsip_dokumentasi` bigint UNSIGNED NOT NULL,
   `kode_arsip_dokumentasi` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tanggal_dokumentasi` date DEFAULT NULL,
-  `id_karyawan` bigint UNSIGNED NOT NULL,
   `id_departemen` bigint UNSIGNED NOT NULL,
   `judul` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deskripsi` text COLLATE utf8mb4_unicode_ci,
@@ -104,18 +103,18 @@ CREATE TABLE `avatar` (
 --
 
 INSERT INTO `avatar` (`id_avatar`, `url`, `created_at`, `updated_at`) VALUES
-(1, 'assets/avatar/avatar-1.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(2, 'assets/avatar/avatar-2.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(3, 'assets/avatar/avatar-3.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(4, 'assets/avatar/avatar-4.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(5, 'assets/avatar/avatar-5.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(6, 'assets/avatar/avatar-6.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(7, 'assets/avatar/avatar-7.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(8, 'assets/avatar/avatar-8.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(9, 'assets/avatar/avatar-9.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(10, 'assets/avatar/avatar-10.png', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(11, 'assets/avatar/avatar-11.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(12, 'assets/avatar/avatar-12.jpg', '2024-03-24 08:03:13', '2024-03-24 08:03:13');
+(1, 'assets/avatar/avatar-1.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(2, 'assets/avatar/avatar-2.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(3, 'assets/avatar/avatar-3.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(4, 'assets/avatar/avatar-4.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(5, 'assets/avatar/avatar-5.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(6, 'assets/avatar/avatar-6.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(7, 'assets/avatar/avatar-7.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(8, 'assets/avatar/avatar-8.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(9, 'assets/avatar/avatar-9.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(10, 'assets/avatar/avatar-10.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(11, 'assets/avatar/avatar-11.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(12, 'assets/avatar/avatar-12.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45');
 
 -- --------------------------------------------------------
 
@@ -135,13 +134,13 @@ CREATE TABLE `departemen` (
 --
 
 INSERT INTO `departemen` (`id_departemen`, `nama_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Legal', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(2, 'IT', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(3, 'HRD', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(4, 'Akuntansi', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(5, 'Lelang', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(6, 'Marketing', '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(7, 'Office Boy', '2024-03-24 08:03:13', '2024-03-24 08:03:13');
+(1, 'Legal', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(2, 'IT', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(3, 'HRD', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(4, 'Akuntansi', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(5, 'Lelang', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(6, 'Marketing', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(7, 'Office Boy', '2024-03-25 02:41:44', '2024-03-25 02:41:44');
 
 -- --------------------------------------------------------
 
@@ -202,12 +201,12 @@ CREATE TABLE `kategori_arsip` (
 --
 
 INSERT INTO `kategori_arsip` (`id_kategori_arsip`, `nama_kategori_arsip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'SKCK', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
-(2, 'KTP', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
-(3, 'Ijazah SMA', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
-(4, 'Ijazah S1', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
-(5, 'Lisensi SKB', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL),
-(6, 'Lisensi ASKB', '2024-03-24 08:03:13', '2024-03-24 08:03:13', NULL);
+(1, 'SKCK', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
+(2, 'KTP', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
+(3, 'Ijazah SMA', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
+(4, 'Ijazah S1', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
+(5, 'Lisensi SKB', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
+(6, 'Lisensi ASKB', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -342,9 +341,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama_lengkap`, `email`, `password`, `profile`, `level`, `id_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$fbQIpqWMVUkigGoSKFaxtefmMi./AvqLeFdqm4kpD4SuCXDOnqSOS', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$LYMpeRrTK17Qu6U1YRHemOV716vdQ0PWJnZql6orycIAxqYsaJRvu', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-24 08:03:13', '2024-03-24 08:03:13'),
-(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$sRHrqAE6puPSoaUp.k0MhuIUZHyZZUdjyPdmESP2g0tZcTB749ZKO', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-24 08:03:13', '2024-03-24 08:03:13');
+(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$1imFSCtSnQjl2yGncTbWn.HxOxMd8l4J9SkWCzS4hmsEwFGtHzHCm', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
+(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$xK8bw2iZb.Ej982URX49gepLEUBdDNSpvxTEP5Th2D4X13r/t6HMi', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
+(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$O.8OCKp0zH3zJmnKSgAra.yjJsLXfikSuh/g1BfR/OFkyzc9/M9gi', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-25 02:41:45', '2024-03-25 02:41:45');
 
 --
 -- Indexes for dumped tables
@@ -355,7 +354,6 @@ INSERT INTO `users` (`id_user`, `nama_lengkap`, `email`, `password`, `profile`, 
 --
 ALTER TABLE `arsip_dokumentasi`
   ADD PRIMARY KEY (`id_arsip_dokumentasi`),
-  ADD KEY `arsip_dokumentasi_id_karyawan_foreign` (`id_karyawan`),
   ADD KEY `arsip_dokumentasi_id_departemen_foreign` (`id_departemen`),
   ADD KEY `arsip_dokumentasi_user_id_foreign` (`user_id`);
 
@@ -522,7 +520,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `arsip_dokumentasi`
   ADD CONSTRAINT `arsip_dokumentasi_id_departemen_foreign` FOREIGN KEY (`id_departemen`) REFERENCES `departemen` (`id_departemen`),
-  ADD CONSTRAINT `arsip_dokumentasi_id_karyawan_foreign` FOREIGN KEY (`id_karyawan`) REFERENCES `karyawan` (`id_karyawan`),
   ADD CONSTRAINT `arsip_dokumentasi_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`);
 
 --

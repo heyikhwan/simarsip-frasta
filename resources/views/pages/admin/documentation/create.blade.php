@@ -110,7 +110,6 @@ Tambah Dokumentasi
                                 </div>
                                 @enderror
                             </div>
-                            <input type="text" name="id_karyawan" value="{{ auth()->user()->id_user }}" hidden>
                             <div class="mb-3 row">
                                 <label for="file_arsip_dokumentasi" class="col-sm-3 col-form-label">File</label>
                                 <div class="col-sm-9">

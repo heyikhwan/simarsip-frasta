@@ -114,7 +114,6 @@ class DokumentasiController extends Controller
             'kode_arsip_dokumentasi' => 'required|unique:arsip_dokumentasi,kode_arsip_dokumentasi',
             'id_departemen' => 'required',
             'tanggal_dokumentasi' => 'required',
-            'id_karyawan' => 'required',
             'judul' => 'required',
             'deskripsi' => 'required',
             'file_arsip_dokumentasi' => 'required|mimes:jpg,png|file',
@@ -201,8 +200,6 @@ class DokumentasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->merge(['id_karyawan' => auth()->user()->id_user]);
-
         $validatedData = $request->validate([
             'kode_arsip_dokumentasi' => 'required',
             'id_departemen' => 'required',
@@ -216,7 +213,6 @@ class DokumentasiController extends Controller
         if ($request->file('file_arsip_dokumentasi')) {
             $validatedData['file_arsip_dokumentasi'] = $request->file('file_arsip_dokumentasi')->store('assets/file-arsip-dokumentasi');
         }
-        $validatedData['id_karyawan'] = Auth::user()->id_user;
         $item->update($validatedData);
 
         $penerima = User::where(function ($query) {
