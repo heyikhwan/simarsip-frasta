@@ -75,7 +75,7 @@
                                         <th>Kode Arsip</th>
                                         <th>Nama Penginput</th>
                                         <th>Departemen</th>
-                                        <th>Tanggal Dokumentasi</th>
+                                        <th>Judul</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -116,8 +116,8 @@
                     name: 'nama_departemen'
                 },
                 {
-                    data: 'tanggal_dokumentasi',
-                    name: 'tanggal_dokumentasi'
+                    data: 'judul',
+                    name: 'judul'
                 },
                 {
                     data: 'action',

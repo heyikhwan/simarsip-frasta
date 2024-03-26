@@ -100,9 +100,9 @@ Tambah Dokumentasi
                             <div class="mb-3 row">
                                 <label for="deskripsi" class="col-sm-3 col-form-label">Deskripsi</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control @error('deskripsi') is-invalid @enderror"
-                                        value="{{ old('deskripsi') }}" name="deskripsi" placeholder="Deskripsi.."
-                                        required>
+                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror"
+                                        name="deskripsi" id="deskripsi" rows="3" placeholder="Deskripsi.."
+                                        required>{{ old('deskripsi') }}</textarea>
                                 </div>
                                 @error('deskripsi')
                                 <div class="invalid-feedback">

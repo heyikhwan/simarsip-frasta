@@ -48,4 +48,9 @@ class Surat extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id_user');
     }
+
+    public function komentar()
+    {
+        return $this->hasMany(KomentarSurat::class, 'id_arsip_surat', 'id_arsip_surat');
+    }
 }

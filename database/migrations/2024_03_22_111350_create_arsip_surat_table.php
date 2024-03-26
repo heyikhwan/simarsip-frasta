@@ -25,7 +25,6 @@ class CreateArsipSuratTable extends Migration
             $table->text('file_arsip_surat')->nullable();
             $table->string('tipe_surat', 30);
             $table->enum('status_surat', ['Pending','Approve','Not Approve','Request Update','Revisi'])->default('Pending');
-            $table->text('komentar')->nullable();
             $table->foreignId('user_id')->references('id_user')->on('users')->constrained();
             $table->timestamps();
         });

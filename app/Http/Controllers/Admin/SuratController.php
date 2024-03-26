@@ -14,6 +14,7 @@ use App\Models\PenerimaSurat;
 use App\Models\PengirimSurat;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Models\KomentarSurat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -73,8 +74,13 @@ class SuratController extends Controller
 
         if ($request->btn_tipe == 'revisi') {
             $surat->update([
-                "status_surat" => "Request Update",
-                "komentar" => $request->komentar
+                "status_surat" => "Request Update"
+            ]);
+
+            KomentarSurat::create([
+                'komentar' => $request->komentar,
+                'id_arsip_surat' => $surat->id_arsip_surat,
+                'id_user' => auth()->user()->id_user,
             ]);
 
             Notifikasi::create([
@@ -293,7 +299,7 @@ class SuratController extends Controller
         }
 
         if ($status == 'Request Update') {
-            $letter->update(['komentar_request' => $komentar]);
+            
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'url' => route('detail-surat', $letter->id_arsip_surat),
@@ -305,7 +311,7 @@ class SuratController extends Controller
         }
 
         if ($status == 'Not Approve') {
-            $letter->update(['komentar_not_approve' => $komentar]);
+            
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'url' => route('detail-surat', $letter->id_arsip_surat),
@@ -338,6 +344,12 @@ class SuratController extends Controller
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
                     return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';
+                })
+                ->addColumn('tanggal_surat', function ($item) {
+                    return date('d-m-Y', strtotime($item->tanggal_surat));
+                })
+                ->addColumn('komentar', function ($item) {
+                    return $item->komentar->count() > 0 ? '<span class="badge badge-warning">Ada Komentar</span>' : '-';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
@@ -391,7 +403,7 @@ class SuratController extends Controller
                 })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['checkbox', 'action', 'post_status'])
+                ->rawColumns(['checkbox', 'action', 'post_status', 'komentar'])
                 ->make();
         }
 
@@ -416,6 +428,12 @@ class SuratController extends Controller
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
                     return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';
+                })
+                ->addColumn('tanggal_surat', function ($item) {
+                    return date('d-m-Y', strtotime($item->tanggal_surat));
+                })
+                ->addColumn('komentar', function ($item) {
+                    return $item->komentar->count() > 0 ? '<span class="badge badge-warning">Ada Komentar</span>' : '-';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
@@ -465,7 +483,7 @@ class SuratController extends Controller
                 })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['checkbox', 'action', 'post_status'])
+                ->rawColumns(['checkbox', 'action', 'post_status', 'komentar'])
                 ->make();
         }
 
@@ -555,9 +573,9 @@ class SuratController extends Controller
         $letter = Surat::findOrFail($id);
 
         $penerima = User::where(function ($query) {
-                $query->where('level', 'karyawan')
-                    ->orWhere('level', 'manajer');
-            })
+            $query->where('level', 'karyawan')
+                ->orWhere('level', 'manajer');
+        })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -590,9 +608,9 @@ class SuratController extends Controller
         Storage::delete($item->file_arsip_surat);
 
         $penerima = User::where(function ($query) {
-                $query->where('level', 'karyawan')
-                    ->orWhere('level', 'manajer');
-            })
+            $query->where('level', 'karyawan')
+                ->orWhere('level', 'manajer');
+        })
             ->where('id_user', '<>', auth()->user()->id_user)
             ->get();
 
@@ -622,9 +640,9 @@ class SuratController extends Controller
 
         foreach ($surats as $surat) {
             $penerima = User::where(function ($query) {
-                    $query->where('level', 'karyawan')
-                        ->orWhere('level', 'manajer');
-                })
+                $query->where('level', 'karyawan')
+                    ->orWhere('level', 'manajer');
+            })
                 ->where('id_user', '<>', auth()->user()->id_user)
                 ->get();
 

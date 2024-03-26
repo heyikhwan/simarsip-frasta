@@ -542,6 +542,7 @@ class ComposerStaticInit3dd19854ed324c05dcc73883b8cc4bba
         'App\\Models\\Karyawan' => __DIR__ . '/../..' . '/app/Models/Karyawan.php',
         'App\\Models\\Kategori' => __DIR__ . '/../..' . '/app/Models/Kategori.php',
         'App\\Models\\KategoriArsip' => __DIR__ . '/../..' . '/app/Models/KategoriArsip.php',
+        'App\\Models\\KomentarSurat' => __DIR__ . '/../..' . '/app/Models/KomentarSurat.php',
         'App\\Models\\Notifikasi' => __DIR__ . '/../..' . '/app/Models/Notifikasi.php',
         'App\\Models\\PenerimaSurat' => __DIR__ . '/../..' . '/app/Models/PenerimaSurat.php',
         'App\\Models\\PengirimSurat' => __DIR__ . '/../..' . '/app/Models/PengirimSurat.php',

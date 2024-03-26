@@ -80,7 +80,15 @@ Detail Surat
                                         <th>Komentar</th>
                                         <td>
                                             <textarea name="komentar" class="form-control" id="komentar" rows="5"
-                                                placeholder="Masukkan Komentar">{{ $item->komentar }}</textarea>
+                                                placeholder="Masukkan Komentar"></textarea>
+
+                                            @foreach ($item->komentar as $kom)
+                                            <div>
+                                                <small class="text-muted" style="font-size: 10px">{{ date('d F Y',
+                                                    strtotime($item->created_at)) }}</small>
+                                                <p class="m-0">{{ $kom->komentar }}</p>
+                                            </div>
+                                            @endforeach
                                         </td>
                                     </tr>
                                     <tr>
@@ -105,7 +113,13 @@ Detail Surat
                                 <tr>
                                     <th>Komentar</th>
                                     <td>
-                                        {{ $item->komentar ?? '-' }}
+                                        @foreach ($item->komentar as $kom)
+                                        <div>
+                                            <small class="text-muted" style="font-size: 10px">{{ date('d F Y H:i',
+                                                strtotime($item->created_at)) }}</small>
+                                            <p class="m-0">{{ $kom->komentar }}</p>
+                                        </div>
+                                        @endforeach
                                     </td>
                                 </tr>
                                 @endif
@@ -114,7 +128,13 @@ Detail Surat
                                 <tr>
                                     <th>Komentar</th>
                                     <td>
-                                        {{ $item->komentar ?? '-' }}
+                                        @foreach ($item->komentar as $kom)
+                                        <div>
+                                            <small class="text-muted" style="font-size: 10px">{{ date('d F Y H:i',
+                                                strtotime($item->created_at)) }}</small>
+                                            <p class="m-0">{{ $kom->komentar }}</p>
+                                        </div>
+                                        @endforeach
                                     </td>
                                 </tr>
                                 @endif

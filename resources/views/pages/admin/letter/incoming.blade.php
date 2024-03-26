@@ -133,13 +133,6 @@ Surat Masuk
                 {
                     data: 'komentar',
                     name: 'komentar',
-                    render: function(data) {
-                        if (data) {
-                            return '<span class="badge bg-info text-capitalize">Ada Komentar</span>';
-                        } else {
-                            return "-"
-                        }
-                    }
                 },
                 {
                     data: 'status_surat',

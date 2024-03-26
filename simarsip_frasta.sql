@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 25, 2024 at 02:42 AM
+-- Generation Time: Mar 26, 2024 at 11:01 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.7
 
@@ -79,7 +79,6 @@ CREATE TABLE `arsip_surat` (
   `file_arsip_surat` text COLLATE utf8mb4_unicode_ci,
   `tipe_surat` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_surat` enum('Pending','Approve','Not Approve','Request Update','Revisi') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `komentar` text COLLATE utf8mb4_unicode_ci,
   `user_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -103,18 +102,18 @@ CREATE TABLE `avatar` (
 --
 
 INSERT INTO `avatar` (`id_avatar`, `url`, `created_at`, `updated_at`) VALUES
-(1, 'assets/avatar/avatar-1.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(2, 'assets/avatar/avatar-2.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(3, 'assets/avatar/avatar-3.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(4, 'assets/avatar/avatar-4.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(5, 'assets/avatar/avatar-5.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(6, 'assets/avatar/avatar-6.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(7, 'assets/avatar/avatar-7.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(8, 'assets/avatar/avatar-8.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(9, 'assets/avatar/avatar-9.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(10, 'assets/avatar/avatar-10.png', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(11, 'assets/avatar/avatar-11.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(12, 'assets/avatar/avatar-12.jpg', '2024-03-25 02:41:45', '2024-03-25 02:41:45');
+(1, 'assets/avatar/avatar-1.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(2, 'assets/avatar/avatar-2.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(3, 'assets/avatar/avatar-3.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(4, 'assets/avatar/avatar-4.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(5, 'assets/avatar/avatar-5.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(6, 'assets/avatar/avatar-6.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(7, 'assets/avatar/avatar-7.png', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(8, 'assets/avatar/avatar-8.png', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(9, 'assets/avatar/avatar-9.png', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(10, 'assets/avatar/avatar-10.png', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(11, 'assets/avatar/avatar-11.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(12, 'assets/avatar/avatar-12.jpg', '2024-03-26 11:01:02', '2024-03-26 11:01:02');
 
 -- --------------------------------------------------------
 
@@ -134,13 +133,13 @@ CREATE TABLE `departemen` (
 --
 
 INSERT INTO `departemen` (`id_departemen`, `nama_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Legal', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(2, 'IT', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(3, 'HRD', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(4, 'Akuntansi', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(5, 'Lelang', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(6, 'Marketing', '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(7, 'Office Boy', '2024-03-25 02:41:44', '2024-03-25 02:41:44');
+(1, 'Legal', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(2, 'IT', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(3, 'HRD', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(4, 'Akuntansi', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(5, 'Lelang', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(6, 'Marketing', '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(7, 'Office Boy', '2024-03-26 11:01:02', '2024-03-26 11:01:02');
 
 -- --------------------------------------------------------
 
@@ -201,12 +200,27 @@ CREATE TABLE `kategori_arsip` (
 --
 
 INSERT INTO `kategori_arsip` (`id_kategori_arsip`, `nama_kategori_arsip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'SKCK', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
-(2, 'KTP', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
-(3, 'Ijazah SMA', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
-(4, 'Ijazah S1', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
-(5, 'Lisensi SKB', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL),
-(6, 'Lisensi ASKB', '2024-03-25 02:41:45', '2024-03-25 02:41:45', NULL);
+(1, 'SKCK', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL),
+(2, 'KTP', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL),
+(3, 'Ijazah SMA', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL),
+(4, 'Ijazah S1', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL),
+(5, 'Lisensi SKB', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL),
+(6, 'Lisensi ASKB', '2024-03-26 11:01:02', '2024-03-26 11:01:02', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `komentar_surat`
+--
+
+CREATE TABLE `komentar_surat` (
+  `id_komentar` bigint UNSIGNED NOT NULL,
+  `id_arsip_surat` bigint UNSIGNED NOT NULL,
+  `id_user` bigint UNSIGNED NOT NULL,
+  `komentar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -238,7 +252,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2024_03_22_110407_create_pengirim_surat_table', 1),
 (12, '2024_03_22_110642_create_arsip_dokumentasi_table', 1),
 (13, '2024_03_22_111138_create_arsip_karyawan_table', 1),
-(14, '2024_03_22_111350_create_arsip_surat_table', 1);
+(14, '2024_03_22_111350_create_arsip_surat_table', 1),
+(15, '2024_03_26_172827_create_komentar_surat_table', 1);
 
 -- --------------------------------------------------------
 
@@ -341,9 +356,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `nama_lengkap`, `email`, `password`, `profile`, `level`, `id_departemen`, `created_at`, `updated_at`) VALUES
-(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$1imFSCtSnQjl2yGncTbWn.HxOxMd8l4J9SkWCzS4hmsEwFGtHzHCm', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-25 02:41:44', '2024-03-25 02:41:44'),
-(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$xK8bw2iZb.Ej982URX49gepLEUBdDNSpvxTEP5Th2D4X13r/t6HMi', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-25 02:41:45', '2024-03-25 02:41:45'),
-(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$O.8OCKp0zH3zJmnKSgAra.yjJsLXfikSuh/g1BfR/OFkyzc9/M9gi', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-25 02:41:45', '2024-03-25 02:41:45');
+(1, 'Subur Permana', 'admin@gmail.com', '$2y$10$qidDRdC0bWeb4hWJF5y7VuTxV/dJiMlnAQ8AJRjT1AjoryELZ52ga', 'assets/profile-images/17101254507367.jpg', 'admin', 2, '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(2, 'Asep Saipul Hamdi', 'manajer@gmail.com', '$2y$10$k833SfAkZZpS9LpAQRTituu8WyaeEcbSMgYmgMSHBg7HTHqyoNW5a', 'assets/profile-images/17101254507367.jpg', 'manajer', 1, '2024-03-26 11:01:02', '2024-03-26 11:01:02'),
+(3, 'Ilham Prasetia', 'karyawan@gmail.com', '$2y$10$ePA68t6dkyB0JcsizJv/OenhNSoASUQfuhZm32BhO.WNyCAI/0sIu', 'assets/profile-images/17101254507367.jpg', 'karyawan', 3, '2024-03-26 11:01:02', '2024-03-26 11:01:02');
 
 --
 -- Indexes for dumped tables
@@ -400,6 +415,14 @@ ALTER TABLE `karyawan`
 --
 ALTER TABLE `kategori_arsip`
   ADD PRIMARY KEY (`id_kategori_arsip`);
+
+--
+-- Indexes for table `komentar_surat`
+--
+ALTER TABLE `komentar_surat`
+  ADD PRIMARY KEY (`id_komentar`),
+  ADD KEY `komentar_surat_id_arsip_surat_foreign` (`id_arsip_surat`),
+  ADD KEY `komentar_surat_id_user_foreign` (`id_user`);
 
 --
 -- Indexes for table `migrations`
@@ -482,10 +505,16 @@ ALTER TABLE `kategori_arsip`
   MODIFY `id_kategori_arsip` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `komentar_surat`
+--
+ALTER TABLE `komentar_surat`
+  MODIFY `id_komentar` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `notifikasi`
@@ -539,6 +568,13 @@ ALTER TABLE `arsip_surat`
   ADD CONSTRAINT `arsip_surat_id_penerima_surat_foreign` FOREIGN KEY (`id_penerima_surat`) REFERENCES `penerima_surat` (`id_penerima_surat`),
   ADD CONSTRAINT `arsip_surat_id_pengirim_surat_foreign` FOREIGN KEY (`id_pengirim_surat`) REFERENCES `pengirim_surat` (`id_pengirim_surat`),
   ADD CONSTRAINT `arsip_surat_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`);
+
+--
+-- Constraints for table `komentar_surat`
+--
+ALTER TABLE `komentar_surat`
+  ADD CONSTRAINT `komentar_surat_id_arsip_surat_foreign` FOREIGN KEY (`id_arsip_surat`) REFERENCES `arsip_surat` (`id_arsip_surat`) ON DELETE CASCADE,
+  ADD CONSTRAINT `komentar_surat_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `notifikasi`

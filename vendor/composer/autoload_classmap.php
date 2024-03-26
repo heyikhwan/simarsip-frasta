@@ -38,6 +38,7 @@ return array(
     'App\\Models\\Karyawan' => $baseDir . '/app/Models/Karyawan.php',
     'App\\Models\\Kategori' => $baseDir . '/app/Models/Kategori.php',
     'App\\Models\\KategoriArsip' => $baseDir . '/app/Models/KategoriArsip.php',
+    'App\\Models\\KomentarSurat' => $baseDir . '/app/Models/KomentarSurat.php',
     'App\\Models\\Notifikasi' => $baseDir . '/app/Models/Notifikasi.php',
     'App\\Models\\PenerimaSurat' => $baseDir . '/app/Models/PenerimaSurat.php',
     'App\\Models\\PengirimSurat' => $baseDir . '/app/Models/PengirimSurat.php',
