@@ -116,7 +116,10 @@ Surat Masuk
                 },
                 {
                     data: 'tanggal_surat',
-                    name: 'tanggal_surat'
+                    name: 'tanggal_surat',
+                    render: function(data, type, full, meta) {
+                        return '<span class"text-nowrap">' + data + '</span>';
+                    }
                 },
                 {
                     data: 'nama_lengkap',

@@ -65,11 +65,11 @@
                                     <label for="masa_berlaku" class="col-sm-3 col-form-label">Masa Berlaku</label>
                                     <div class="col-sm-9 d-flex">
                                         <input type="date" class="form-control @error('from') is-invalid @enderror"
-                                            value="{{ explode(' sampai ', $item->masa_berlaku)[0] }}" name="from"
+                                            value="{{ explode(' sampai ', $item->retensi_arsip)[0] }}" name="from"
                                             placeholder="From.." required>
 
                                         <input type="date" class="form-control @error('to') is-invalid @enderror"
-                                            value="{{ explode(' sampai ', $item->masa_berlaku)[1] }}" name="to"
+                                            value="{{ explode(' sampai ', $item->retensi_arsip)[1] }}" name="to"
                                             placeholder="To.." required>
                                     </div>
                                     @error('masa_berlaku')

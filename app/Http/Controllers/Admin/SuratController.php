@@ -299,7 +299,7 @@ class SuratController extends Controller
         }
 
         if ($status == 'Request Update') {
-            
+
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'url' => route('detail-surat', $letter->id_arsip_surat),
@@ -311,7 +311,7 @@ class SuratController extends Controller
         }
 
         if ($status == 'Not Approve') {
-            
+
             Notifikasi::create([
                 'keterangan' => $type . ' ' . $status . '<br>Kode :' . $letter->kode_surat . '<br> Keterangan: ' . $komentar,
                 'url' => route('detail-surat', $letter->id_arsip_surat),
@@ -328,19 +328,19 @@ class SuratController extends Controller
 
     public function incoming_mail()
     {
-        if (request()->ajax()) {
-            $query = Surat::with(['departemen', 'penerima_surat', 'user'])
-                ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
-                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
-                ->where('tipe_surat', 'Surat Masuk')
-                ->select(
-                    'arsip_surat.*',
-                    'users.nama_lengkap',
-                    'departemen.nama_departemen',
-                )
-                ->latest()
-                ->get();
+        $query = Surat::with(['departemen', 'penerima_surat', 'user'])
+            ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
+            ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+            ->where('tipe_surat', 'Surat Masuk')
+            ->select(
+                'arsip_surat.*',
+                'users.nama_lengkap',
+                'departemen.nama_departemen',
+            )
+            ->latest()
+            ->get();
 
+        if (request()->ajax()) {
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
                     return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';
@@ -412,19 +412,19 @@ class SuratController extends Controller
 
     public function outgoing_mail()
     {
-        if (request()->ajax()) {
-            $query = Surat::with(['departemen', 'pengirim_surat', 'user'])
-                ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
-                ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
-                ->where('tipe_surat', 'Surat Keluar')
-                ->select(
-                    'arsip_surat.*',
-                    'users.nama_lengkap',
-                    'departemen.nama_departemen',
-                )
-                ->latest()
-                ->get();
+        $query = Surat::with(['departemen', 'pengirim_surat', 'user'])
+            ->leftJoin('users', 'users.id_user', '=', 'arsip_surat.user_id')
+            ->leftJoin('departemen', 'departemen.id_departemen', '=', 'users.id_departemen')
+            ->where('tipe_surat', 'Surat Keluar')
+            ->select(
+                'arsip_surat.*',
+                'users.nama_lengkap',
+                'departemen.nama_departemen',
+            )
+            ->latest()
+            ->get();
 
+        if (request()->ajax()) {
             return Datatables::of($query)
                 ->addColumn('checkbox', function ($item) {
                     return auth()->user()->level == 'manajer' ? '<div class="text-center"><input class="checkItem" type="checkbox" value="' . $item->id_arsip_surat . '"></div>' : '';

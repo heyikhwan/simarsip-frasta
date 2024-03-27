@@ -19,6 +19,11 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous">
     </script>
+    <style>
+        .sidenav .sidenav-menu .nav .nav-link {
+            line-height: 25px!important;
+        }
+    </style>
 </head>
 
 <body class="nav-fixed">

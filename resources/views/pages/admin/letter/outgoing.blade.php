@@ -114,7 +114,10 @@ Surat Keluar
                 },
                 {
                     data: 'tanggal_surat',
-                    name: 'tanggal_surat'
+                    name: 'tanggal_surat',
+                    render: function(data, type, full, meta) {
+                        return '<span class"text-nowrap">' + data + '</span>';
+                    }
                 },
                 {
                     data: 'nama_lengkap',
@@ -130,14 +133,7 @@ Surat Keluar
                 },
                 {
                     data: 'komentar',
-                    name: 'komentar',
-                    render: function(data) {
-                        if (data) {
-                            return '<span class="badge bg-info text-capitalize">Ada Komentar</span>';
-                        } else {
-                            return "-"
-                        }
-                    }
+                    name: 'komentar'
                 },
                 {
                     data: 'status_surat',

@@ -236,7 +236,7 @@
             $suratMasukData = Surat::where('tipe_surat', 'Surat Masuk')
                 ->where('status_surat', 'Approve')
                 ->whereYear('created_at', now()->year)
-                ->whereMonth('created_at', $i)
+                ->whereMonth('tanggal_surat', $i)
                 ->count();
 
             $suratMasukArray[] = $suratMasukData;
@@ -244,7 +244,7 @@
             $suratKeluarData = Surat::where('tipe_surat', 'Surat Keluar')
                 ->where('status_surat', 'Approve')
                 ->whereYear('created_at', now()->year)
-                ->whereMonth('created_at', $i)
+                ->whereMonth('tanggal_surat', $i)
                 ->count();
 
             $suratKeluarArray[] = $suratKeluarData;
@@ -256,7 +256,7 @@
             $ArsipKaryawanArray[] = $arsipKaryawanData;
 
             $arsipDokumentasiData = Dokumentasi::whereYear('created_at', now()->year)
-                ->whereMonth('created_at', $i)
+                ->whereMonth('tanggal_dokumentasi', $i)
                 ->count();
 
             $arsipDokumentasiArray[] = $arsipDokumentasiData;
@@ -267,23 +267,27 @@
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
                     label: 'Surat Masuk',
+                    backgroundColor: 'rgb(75, 192, 192)',
                     borderColor: 'rgb(75, 192, 192)',
                     data: @php echo json_encode($suratMasukArray) @endphp,
                 }, {
                     label: 'Surat Keluar',
+                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: @php echo json_encode($suratKeluarArray) @endphp,
                 }, {
                     label: 'Arsip Karyawan',
+                    backgroundColor: 'rgb(255, 205, 86)',
                     borderColor: 'rgb(255, 205, 86)',
                     data: @php echo json_encode($ArsipKaryawanArray) @endphp,
                 }, {
                     label: 'Arsip Dokumentasi',
+                    backgroundColor: 'rgb(54, 162, 235)',
                     borderColor: 'rgb(54, 162, 235)',
                     data: @php echo json_encode($arsipDokumentasiArray) @endphp,
                 }]
