@@ -14,11 +14,14 @@ class CreateKomentarSuratTable extends Migration
     public function up()
     {
         Schema::create('komentar_surat', function (Blueprint $table) {
-            $table->id('id_komentar');
-            $table->foreignId('id_arsip_surat')->references('id_arsip_surat')->on('arsip_surat')->constrained()->onDelete('cascade');
-            $table->foreignId('id_user')->references('id_user')->on('users')->constrained()->onDelete('cascade');
+            $table->integerIncrements('id_komentar');
+            $table->unsignedInteger('id_arsip_surat')->nullable();
+            $table->unsignedInteger('id_user')->nullable();
             $table->string('komentar');
             $table->timestamps();
+
+            $table->foreign('id_arsip_surat')->references('id_arsip_surat')->on('arsip_surat')->constrained()->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('users')->constrained()->onDelete('cascade');
         });
     }
 

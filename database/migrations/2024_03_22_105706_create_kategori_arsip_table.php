@@ -15,7 +15,7 @@ class CreateKategoriArsipTable extends Migration
     public function up()
     {
         Schema::create('kategori_arsip', function (Blueprint $table) {
-            $table->id('id_kategori_arsip');
+            $table->integerIncrements('id_kategori_arsip');
             $table->string('nama_kategori_arsip', 50);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

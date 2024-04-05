@@ -126,7 +126,7 @@ Profile Pengguna
             <form action="{{ route('profile-upload') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <label>Pilih Avatar</label>
+                    {{-- <label>Pilih Avatar</label>
                     <div class="d-flex gap-2 flex-wrap">
                         @foreach ($avatar as $item)
                         <div>
@@ -139,7 +139,7 @@ Profile Pengguna
                         @endforeach
                     </div>
 
-                    <label class="my-2">atau upload photo</label>
+                    <label class="my-2">atau upload photo</label> --}}
                     <input type="file" name="profile" id="profile" accept="image/*" class="form-control">
                 </div>
                 <div class="modal-footer">

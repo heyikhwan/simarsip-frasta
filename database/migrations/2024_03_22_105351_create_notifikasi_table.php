@@ -14,13 +14,16 @@ class CreateNotifikasiTable extends Migration
     public function up()
     {
         Schema::create('notifikasi', function (Blueprint $table) {
-            $table->id('id_notifikasi');
+            $table->integerIncrements('id_notifikasi');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('penerima_id')->nullable();
             $table->text('keterangan')->nullable();
             $table->text('url')->nullable();
-            $table->foreignId('user_id')->references('id_user')->on('users')->constrained()->onDelete('cascade');
-            $table->foreignId('penerima_id')->references('id_user')->on('users')->constrained()->onDelete('cascade');
             $table->dateTime('read_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('penerima_id')->references('id_user')->on('users')->onDelete('cascade');
         });
     }
 

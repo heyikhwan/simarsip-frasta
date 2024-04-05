@@ -18,11 +18,11 @@ class SettingController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $avatar = Avatar::all();
+        // $avatar = Avatar::all();
 
         return view('pages.admin.user.profile', [
             'user' => $user,
-            'avatar' => $avatar
+            // 'avatar' => $avatar
         ]);
     }
 

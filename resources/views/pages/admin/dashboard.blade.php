@@ -272,23 +272,23 @@
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
                     label: 'Surat Masuk',
-                    backgroundColor: 'rgb(75, 192, 192)',
-                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgb(0, 97, 242)',
+                    borderColor: 'rgb(0, 97, 242)',
                     data: @php echo json_encode($suratMasukArray) @endphp,
                 }, {
                     label: 'Surat Keluar',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgb(244, 161, 0)',
+                    borderColor: 'rgb(244, 161, 0)',
                     data: @php echo json_encode($suratKeluarArray) @endphp,
                 }, {
                     label: 'Arsip Karyawan',
-                    backgroundColor: 'rgb(255, 205, 86)',
-                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgb(105, 0, 199)',
+                    borderColor: 'rgb(105, 0, 199)',
                     data: @php echo json_encode($ArsipKaryawanArray) @endphp,
                 }, {
                     label: 'Arsip Dokumentasi',
-                    backgroundColor: 'rgb(54, 162, 235)',
-                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgb(0, 172, 105)',
+                    borderColor: 'rgb(0, 172, 105)',
                     data: @php echo json_encode($arsipDokumentasiArray) @endphp,
                 }]
             },

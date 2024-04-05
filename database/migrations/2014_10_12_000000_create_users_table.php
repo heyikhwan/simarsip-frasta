@@ -16,14 +16,16 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id('id_user');
+            $table->integerIncrements('id_user');
             $table->string('nama_lengkap', 100);
             $table->string('email', 100)->unique()->nullable();
             $table->string('password');
             $table->text('profile')->nullable();
-            $table->enum('level', ['karyawan','admin','manajer'])->default('karyawan');
-            $table->foreignId('id_departemen')->nullable()->references('id_departemen')->on('departemen')->constrained();
+            $table->enum('level', ['karyawan', 'admin', 'manajer'])->default('karyawan');
+            $table->unsignedInteger('id_departemen')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_departemen')->references('id_departemen')->on('departemen')->constrained();
         });
 
         User::create([

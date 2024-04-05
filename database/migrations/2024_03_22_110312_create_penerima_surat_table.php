@@ -14,7 +14,7 @@ class CreatePenerimaSuratTable extends Migration
     public function up()
     {
         Schema::create('penerima_surat', function (Blueprint $table) {
-            $table->id('id_penerima_surat');
+            $table->integerIncrements('id_penerima_surat');
             $table->string('nama_penerima_surat', 100);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

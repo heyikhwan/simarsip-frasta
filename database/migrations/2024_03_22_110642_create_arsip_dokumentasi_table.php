@@ -14,16 +14,19 @@ class CreateArsipDokumentasiTable extends Migration
     public function up()
     {
         Schema::create('arsip_dokumentasi', function (Blueprint $table) {
-            $table->id('id_arsip_dokumentasi');
+            $table->integerIncrements('id_arsip_dokumentasi');
             $table->string('kode_arsip_dokumentasi', 20);
             $table->date('tanggal_dokumentasi')->nullable();
-            $table->foreignId('id_departemen')->references('id_departemen')->on('departemen')->constrained();
+            $table->unsignedInteger('id_departemen')->nullable();
             $table->string('judul', 100);
             $table->text('deskripsi')->nullable();
             $table->text('file_arsip_dokumentasi')->nullable();
-            $table->foreignId('user_id')->references('id_user')->on('users')->constrained();
+            $table->unsignedInteger('user_id')->nullable();
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
+
+            $table->foreign('id_departemen')->references('id_departemen')->on('departemen')->constrained();
+            $table->foreign('user_id')->references('id_user')->on('users')->constrained();
         });
     }
 
