@@ -20,27 +20,27 @@ class CreateDepartemenTable extends Migration
             $table->timestamps();
         });
 
-        Departemen::create([
-            'nama_departemen' => 'Legal',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'IT',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'HRD',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'Akuntansi',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'Lelang',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'Marketing',
-        ]);
-        Departemen::create([
-            'nama_departemen' => 'Office Boy',
-        ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'Legal',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'IT',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'HRD',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'Akuntansi',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'Lelang',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'Marketing',
+        // ]);
+        // Departemen::create([
+        //     'nama_departemen' => 'Office Boy',
+        // ]);
     }
 
     /**

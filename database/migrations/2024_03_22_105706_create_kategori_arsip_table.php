@@ -21,24 +21,24 @@ class CreateKategoriArsipTable extends Migration
             $table->dateTime('deleted_at')->nullable();
         });
 
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'SKCK',
-        ]);
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'KTP',
-        ]);
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'Ijazah SMA',
-        ]);
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'Ijazah S1',
-        ]);
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'Lisensi SKB',
-        ]);
-        KategoriArsip::create([
-            'nama_kategori_arsip' => 'Lisensi ASKB',
-        ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'SKCK',
+        // ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'KTP',
+        // ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'Ijazah SMA',
+        // ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'Ijazah S1',
+        // ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'Lisensi SKB',
+        // ]);
+        // KategoriArsip::create([
+        //     'nama_kategori_arsip' => 'Lisensi ASKB',
+        // ]);
     }
 
     /**

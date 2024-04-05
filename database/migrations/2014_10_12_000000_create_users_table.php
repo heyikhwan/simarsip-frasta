@@ -28,32 +28,32 @@ class CreateUsersTable extends Migration
             $table->foreign('id_departemen')->references('id_departemen')->on('departemen')->constrained();
         });
 
-        User::create([
-            'nama_lengkap' => 'Subur Permana',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin'),
-            'profile' => 'assets/profile-images/17101254507367.jpg',
-            'level' => 'admin',
-            'id_departemen' => 2
-        ]);
+        // User::create([
+        //     'nama_lengkap' => 'Subur Permana',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => Hash::make('admin'),
+        //     'profile' => 'assets/profile-images/17101254507367.jpg',
+        //     'level' => 'admin',
+        //     'id_departemen' => 2
+        // ]);
 
-        User::create([
-            'nama_lengkap' => 'Asep Saipul Hamdi',
-            'email' => 'manajer@gmail.com',
-            'password' => Hash::make('manajer'),
-            'profile' => 'assets/profile-images/17101254507367.jpg',
-            'level' => 'manajer',
-            'id_departemen' => 1
-        ]);
+        // User::create([
+        //     'nama_lengkap' => 'Asep Saipul Hamdi',
+        //     'email' => 'manajer@gmail.com',
+        //     'password' => Hash::make('manajer'),
+        //     'profile' => 'assets/profile-images/17101254507367.jpg',
+        //     'level' => 'manajer',
+        //     'id_departemen' => 1
+        // ]);
 
-        User::create([
-            'nama_lengkap' => 'Ilham Prasetia',
-            'email' => 'karyawan@gmail.com',
-            'password' => Hash::make('karyawan'),
-            'profile' => 'assets/profile-images/17101254507367.jpg',
-            'level' => 'karyawan',
-            'id_departemen' => 3
-        ]);
+        // User::create([
+        //     'nama_lengkap' => 'Ilham Prasetia',
+        //     'email' => 'karyawan@gmail.com',
+        //     'password' => Hash::make('karyawan'),
+        //     'profile' => 'assets/profile-images/17101254507367.jpg',
+        //     'level' => 'karyawan',
+        //     'id_departemen' => 3
+        // ]);
     }
 
     /**
