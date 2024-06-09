@@ -15,13 +15,21 @@
     <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
     <link href="{{ url('/admin/css/styles.css') }}" rel="stylesheet" />
     @stack('addon-style')
-    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-        crossorigin="anonymous"></script>
+    <script data-search-pseudo-elements defer
+        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous">
     </script>
     <style>
         .sidenav .sidenav-menu .nav .nav-link {
-            line-height: 25px!important;
+            line-height: 25px !important;
+        }
+
+        .nav-fixed #layoutSidenav #layoutSidenav_nav {
+            width: 18rem !important;
+        }
+
+        .nav-fixed #layoutSidenav #layoutSidenav_content {
+            padding-left: 18rem !important;
         }
     </style>
 </head>

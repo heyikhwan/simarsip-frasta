@@ -26,7 +26,7 @@ class KaryawanController extends Controller
                 ->addColumn('action', function ($item) {
                     return '
                 <a class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#updateModal' . $item->id_karyawan . '">
-                <i class="fas fa-edit"></i> &nbsp; Ubah
+                <i class="fas fa-search"></i> &nbsp; Detail
                 </a>
                 <form action="' . route('employee.destroy', $item->id_karyawan) . '" method="POST" onsubmit="return confirm(' . "'Anda akan menghapus item ini dari situs anda?'" . ')">
                 ' . method_field('delete') . csrf_field() . '

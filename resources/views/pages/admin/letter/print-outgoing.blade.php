@@ -10,10 +10,10 @@
         #print {
             margin: auto;
             text-align: center;
-            font-family: "Calibri", Courier, monospace;
-            width: 1200px;
+            /* font-family: "Calibri", Courier, monospace; */
+            width: 100%;
             font-size: 14px;
-            padding: 0 30px;
+            /* padding: 0 30px; */
         }
 
         #print .title {
@@ -37,9 +37,9 @@
 
         #print .table1 {
             border-collapse: collapse;
-            width: 90%;
+            /* width: 90%; */
             text-align: center;
-            margin: 10px;
+            /* margin: 10px; */
         }
 
         #print table hr {
@@ -51,6 +51,7 @@
             width: 250px;
             background-position: center;
             background-size: contain;
+            font-weight: bold;
         }
 
         #print table th {
@@ -72,7 +73,7 @@
         }
 
         #content {
-            font-size: 24px;
+            /* font-size: 24px; */
         }
     </style>
     <title>Surat Keluar</title>
@@ -82,12 +83,14 @@
     <div id="print">
         <table class='table1'>
             <tr>
-                <td><img src='{{ url('storage/assets/profile-images/logo.jpeg') }}' height="200" width="200"></td>
+                <td><img src="{{ url('storage/assets/profile-images/logo.jpeg') }}" height="150" width="150"></td>
+
                 <td>
-                    <h2 style="font-size: 2.5rem">LAPORAN SURAT KELUAR</h2>
-                    <h2 style="font-size: 2.5rem">SISTEM INFORMASI MANAJEMEN ARSIP</h2>
-                    <h2 style="font-size: 2.5rem">PT. FRASTA SURVEY INDONESIA</h2>
-                    <p style="font-size:25px;"><i>Jl. Raya Tajem No.Km 2, Panjen, Wedomartani, Ngemplak, Sleman, Daerah Istimewa Yogyakarta. 55584</i></p>
+                    <h2 style="font-size: 1.5rem">LAPORAN SURAT MASUK</h2>
+                    <h2 style="font-size: 1.5rem">SISTEM INFORMASI MANAJEMEN ARSIP</h2>
+                    <h2 style="font-size: 1.5rem">PT. FRASTA SURVEY INDONESIA</h2>
+                    <p style="font-size:15px;"><i>Jl. Raya Tajem No.Km 2, Panjen, Wedomartani, Ngemplak, Sleman, Daerah
+                            Istimewa Yogyakarta. 55584</i></p>
                 </td>
             </tr>
         </table>
@@ -110,30 +113,37 @@
             </thead>
             <tbody>
                 @php
-                    $no = 1;
+                $no = 1;
                 @endphp
                 @foreach ($item as $letter)
-                    <tr>
-                        <td>{{ $no++ }}</td>
-                        <td>{{ $letter->kode_surat }}</td>
-                        <td>{{ $letter->pengirim_surat->nama_pengirim_surat }}</td>
-                        <td style="text-align: center">{{ date('d-m-Y', strtotime($letter->tanggal_surat)) }}
-                        </td>
-                        <td style="text-align: center">
-                            {{ date('d-m-Y', strtotime($letter->tanggal_diterima)) }}</td>
-                        <td>{{ $letter->perihal }}</td>
-                        <td>{{ $letter->departemen->nama_departemen }}</td>
-                        <td>{{ $letter->status_surat }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $letter->kode_surat }}</td>
+                    <td>{{ $letter->pengirim_surat->nama_pengirim_surat }}</td>
+                    <td style="text-align: center">{{ date('d-m-Y', strtotime($letter->tanggal_surat)) }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ date('d-m-Y', strtotime($letter->tanggal_diterima)) }}</td>
+                    <td>{{ $letter->perihal }}</td>
+                    <td>{{ $letter->departemen->nama_departemen }}</td>
+                    <td>{{ $letter->status_surat }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
 
-    <script>
-        window.print();
-        window.onafterprint = window.close;
-    </script>
+        <div class="ttd" style="margin-top: 30px">
+            Yogyakarta, {{ date('d F Y') }}
+            <br>
+            <br>
+            <img src="{{ asset('admin/assets/img/frasta.png') }}" height="60" style="margin-right: 60%">
+            <br>
+            <br>
+            Ir. Arif Setiawan, M.Eng., ASEAN Eng
+            <br>
+            Direktur Utama
+        </div>
+    </div>
 
 </body>
 

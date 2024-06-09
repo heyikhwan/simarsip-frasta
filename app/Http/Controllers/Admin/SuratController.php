@@ -73,6 +73,12 @@ class SuratController extends Controller
         }
 
         if ($request->btn_tipe == 'revisi') {
+            $this->validate($request, [
+                'komentar' => 'required',
+            ], [
+                'komentar.required' => 'Komentar harus diisi'
+            ]);
+
             $surat->update([
                 "status_surat" => "Request Update"
             ]);
@@ -349,7 +355,7 @@ class SuratController extends Controller
                     return date('d-m-Y', strtotime($item->tanggal_surat));
                 })
                 ->addColumn('komentar', function ($item) {
-                    return $item->komentar->count() > 0 ? '<span class="badge badge-warning">Ada Komentar</span>' : '-';
+                    return $item->komentar->count() > 0 && $item->status_surat !== 'Approve' ? '<span class="badge bg-primary">Ada Komentar</span>' : '-';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">
@@ -433,7 +439,7 @@ class SuratController extends Controller
                     return date('d-m-Y', strtotime($item->tanggal_surat));
                 })
                 ->addColumn('komentar', function ($item) {
-                    return $item->komentar->count() > 0 ? '<span class="badge badge-warning">Ada Komentar</span>' : '-';
+                    return $item->komentar->count() > 0 && $item->status_surat !== 'Approve' ? '<span class="badge bg-primary">Ada Komentar</span>' : '-';
                 })
                 ->addColumn('action', function ($item) {
                     $buttons = '<a class="btn btn-success btn-xs" href="' . route('detail-surat', $item->id_arsip_surat) . '">

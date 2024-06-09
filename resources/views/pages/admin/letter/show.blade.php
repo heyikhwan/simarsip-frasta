@@ -79,8 +79,13 @@ Detail Surat
                                     <tr>
                                         <th>Komentar</th>
                                         <td>
-                                            <textarea name="komentar" class="form-control" id="komentar" rows="5"
-                                                placeholder="Masukkan Komentar"></textarea>
+                                            <textarea name="komentar"
+                                                class="form-control @error('komentar') is-invalid @enderror"
+                                                id="komentar" rows="5" placeholder="Masukkan Komentar"></textarea>
+
+                                            @error('komentar')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
 
                                             @foreach ($item->komentar as $kom)
                                             <div>
@@ -101,7 +106,16 @@ Detail Surat
                                                 name="btn_tipe">
                                                 <i class="fa fa-edit" style="margin-right: 5px"></i> Revisi
                                             </button>
-                                            <a href="{{ route('surat-masuk') }}" class="btn btn-danger btn-sm"><i
+
+                                            @php
+                                            if ($item->tipe_surat == 'Surat Masuk') {
+                                            $batalUrl = route('surat-masuk');
+                                            } else {
+                                            $batalUrl = route('surat-keluar');
+                                            }
+                                            @endphp
+
+                                            <a href="{{ $batalUrl }}" class="btn btn-danger btn-sm"><i
                                                     class="fa fa-times" style="margin-right: 5px"></i>Batal</a>
                                             {{-- <button type="reset" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-times" style="margin-right: 5px"></i> Batal

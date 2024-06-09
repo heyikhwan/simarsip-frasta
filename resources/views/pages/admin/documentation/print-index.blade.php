@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-Laporan Arsip Karyawan
+Laporan Arsip Dokumentasi
 @endsection
 
 @section('container')
@@ -13,7 +13,7 @@ Laporan Arsip Karyawan
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="file-text"></i></div>
-                            Laporan Arsip Karyawan
+                            Laporan Arsip Dokumentasi
                         </h1>
                     </div>
                 </div>
@@ -22,31 +22,71 @@ Laporan Arsip Karyawan
     </header>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ url('admin/print/dokumentasi') }}" method="POST" target="_blank">
-                            @csrf
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <img src="{{ asset('admin/assets/img/frasta.png') }}" width="150">
+                    </div>
+                    
+                    <form action="{{ url('admin/print/dokumentasi') }}" method="POST">
+                        @csrf
 
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <label for="dari" class="form-label">Tanggal Dari</label>
-                                    <input type="date" class="form-control" id="dari" name="dari">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="sampai" class="form-label">Tanggal Sampai</label>
-                                    <input type="date" class="form-control" id="sampai" name="sampai">
-                                </div>
+                        <div class="row g-2 align-items-end">
+                            <div class="col">
+                                <small>Tanggal Dari</small>
+                                <input type="date" class="form-control form-control-sm" id="dari" name="dari">
+                            </div>
+                            <div class="col">
+                                <small>Tanggal Sampai</small>
+                                <input type="date" class="form-control form-control-sm" id="sampai" name="sampai">
                             </div>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-sm btn-primary mt-3">
+                            <div class="col">
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     <i data-feather="printer" class="me-2"></i>Cetak Laporan
                                 </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <th width="10">No.</th>
+                        <th>Kode Arsip</th>
+                        <th>Tanggal Dokumentasi</th>
+                        <th>Departemen</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                    </thead>
+                    <tbody>
+                        @php
+                        $no = 1;
+                        @endphp
+                        @foreach ($data as $e)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $e->kode_arsip_dokumentasi }}</td>
+                            <td style="text-align: center">{{ date('d-m-Y', strtotime($e->tanggal_dokumentasi)) }}
+                            </td>
+                            <td>
+                                {{ $e->departemen->nama_departemen }}
+                            </td>
+                            <td>
+                                {{ $e->judul }}
+                            </td>
+                            <td>
+                                {{ $e->deskripsi }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end">
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>

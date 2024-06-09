@@ -8,6 +8,7 @@ use App\Models\Dokumentasi;
 use Illuminate\Http\Request;
 
 use App\Models\Surat;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PrintController extends Controller
 {
@@ -31,12 +32,20 @@ class PrintController extends Controller
                 $query = $query->get();
             }
 
-            return view('pages.admin.letter.print-incoming', [
+            return Pdf::loadView('pages.admin.letter.print-incoming', [
                 'item' => $query
-            ]);
+            ])
+                ->setPaper('A4', 'portrait')
+                ->stream();
         }
 
-        return view('pages.admin.letter.print-incoming-index');
+        $data = Surat::with(['departemen', 'penerima_surat'])
+            ->where('tipe_surat', 'Surat Masuk')
+            ->paginate(20);
+
+        return view('pages.admin.letter.print-incoming-index', [
+            'data' => $data
+        ]);
     }
 
     public function outgoing(Request $request)
@@ -59,12 +68,20 @@ class PrintController extends Controller
                 $query = $query->get();
             }
 
-            return view('pages.admin.letter.print-outgoing', [
+            return Pdf::loadView('pages.admin.letter.print-outgoing', [
                 'item' => $query
-            ]);
+            ])
+                ->setPaper('A4', 'portrait')
+                ->stream();
         }
 
-        return view('pages.admin.letter.print-outgoing-index');
+        $data = Surat::with(['departemen', 'penerima_surat'])
+            ->where('tipe_surat', 'Surat Keluar')
+            ->paginate(20);
+
+        return view('pages.admin.letter.print-outgoing-index', [
+            'data' => $data
+        ]);
     }
 
 
@@ -88,12 +105,19 @@ class PrintController extends Controller
                 $items = $query->get();
             }
 
-            return view('pages.admin.arsip-karyawan.print-employee-archive', [
+            return Pdf::loadView('pages.admin.arsip-karyawan.print-employee-archive', [
                 'item' => $items
-            ]);
+            ])
+                ->setPaper('A4', 'landscape')
+                ->stream();
         }
 
-        return view('pages.admin.arsip-karyawan.print-index');
+        $data = ArsipKaryawan::with('employee', 'departemen', 'category')
+            ->paginate(20);
+
+        return view('pages.admin.arsip-karyawan.print-index', [
+            'data' => $data
+        ]);
     }
 
 
@@ -116,11 +140,18 @@ class PrintController extends Controller
                 $items = $query->get();
             }
 
-            return view('pages.admin.documentation.print-dokumentasi', [
+            return Pdf::loadView('pages.admin.documentation.print-dokumentasi', [
                 'item' => $items
-            ]);
+            ])
+                ->setPaper('A4', 'portrait')
+                ->stream();
         }
 
-        return view('pages.admin.documentation.print-index');
+        $data = Dokumentasi::with('employee', 'departemen')
+            ->paginate(20);
+
+        return view('pages.admin.documentation.print-index', [
+            'data' => $data
+        ]);
     }
 }

@@ -22,31 +22,70 @@ Laporan Surat Keluar
     </header>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ url('admin/print/surat-keluar') }}" method="POST" target="_blank">
-                            @csrf
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <img src="{{ asset('admin/assets/img/frasta.png') }}" width="150">
+                    </div>
+                    
+                    <form action="{{ url('admin/print/surat-keluar') }}" method="POST">
+                        @csrf
 
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <label for="dari" class="form-label">Tanggal Dari</label>
-                                    <input type="date" class="form-control" id="dari" name="dari">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="sampai" class="form-label">Tanggal Sampai</label>
-                                    <input type="date" class="form-control" id="sampai" name="sampai">
-                                </div>
+                        <div class="row g-2 align-items-end">
+                            <div class="col">
+                                <small>Tanggal Dari</small>
+                                <input type="date" class="form-control form-control-sm" id="dari" name="dari">
+                            </div>
+                            <div class="col">
+                                <small>Tanggal Sampai</small>
+                                <input type="date" class="form-control form-control-sm" id="sampai" name="sampai">
                             </div>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-sm btn-primary mt-3">
+                            <div class="col">
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     <i data-feather="printer" class="me-2"></i>Cetak Laporan
                                 </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <th>No.</th>
+                        <th>No. Surat</th>
+                        <th>Pengirim</th>
+                        <th style="text-align: center">Tanggal Surat</th>
+                        <th style="text-align: center">Tanggal Diterima</th>
+                        <th>Perihal</th>
+                        <th>Departemen</th>
+                        <th>Status</th>
+                    </thead>
+                    <tbody>
+                        @php
+                        $no = 1;
+                        @endphp
+                        @foreach ($data as $letter)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $letter->kode_surat }}</td>
+                            <td>{{ $letter->pengirim_surat->nama_pengirim_surat }}</td>
+                            <td style="text-align: center">{{ date('d-m-Y', strtotime($letter->tanggal_surat)) }}
+                            </td>
+                            <td style="text-align: center">
+                                {{ date('d-m-Y', strtotime($letter->tanggal_diterima)) }}</td>
+                            <td>{{ $letter->perihal }}</td>
+                            <td>{{ $letter->departemen->nama_departemen }}</td>
+                            <td>{{ $letter->status_surat }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end">
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>
