@@ -32,10 +32,13 @@ class PrintController extends Controller
                 $query = $query->get();
             }
 
+            $kolom = $request->input('kolom');
+
             return Pdf::loadView('pages.admin.letter.print-incoming', [
-                'item' => $query
+                'item' => $query,
+                'kolom' => $kolom
             ])
-                ->setPaper('A4', 'portrait')
+                ->setPaper('A4', 'landscape')
                 ->stream();
         }
 
@@ -68,10 +71,13 @@ class PrintController extends Controller
                 $query = $query->get();
             }
 
+            $kolom = $request->input('kolom');
+
             return Pdf::loadView('pages.admin.letter.print-outgoing', [
-                'item' => $query
+                'item' => $query,
+                'kolom' => $kolom
             ])
-                ->setPaper('A4', 'portrait')
+                ->setPaper('A4', 'landscape')
                 ->stream();
         }
 
@@ -105,8 +111,11 @@ class PrintController extends Controller
                 $items = $query->get();
             }
 
+            $kolom = $request->input('kolom');
+
             return Pdf::loadView('pages.admin.arsip-karyawan.print-employee-archive', [
-                'item' => $items
+                'item' => $items,
+                'kolom' => $kolom
             ])
                 ->setPaper('A4', 'landscape')
                 ->stream();
@@ -140,10 +149,13 @@ class PrintController extends Controller
                 $items = $query->get();
             }
 
+            $kolom = $request->input('kolom');
+
             return Pdf::loadView('pages.admin.documentation.print-dokumentasi', [
-                'item' => $items
+                'item' => $items,
+                'kolom' => $kolom
             ])
-                ->setPaper('A4', 'portrait')
+                ->setPaper('A4', 'landscape')
                 ->stream();
         }
 

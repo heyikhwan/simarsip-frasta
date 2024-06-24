@@ -103,17 +103,39 @@
 
         <table class="table" border="1" id="content">
             <thead>
+                @if (!empty($kolom['no']))
                 <th width="10">No.</th>
+                @endif
+                @if (!empty($kolom['kode_arsip']))
                 <th>Kode Arsip</th>
+                @endif
+                @if (!empty($kolom['kategori']))
                 <th>Kategori</th>
+                @endif
+                @if (!empty($kolom['nama']))
                 <th>Nama</th>
+                @endif
+                @if (!empty($kolom['jenis_kelamin']))
                 <th>Jenis Kelamin</th>
+                @endif
+                @if (!empty($kolom['alamat']))
                 <th>Alamat</th>
+                @endif
+                @if (!empty($kolom['status']))
                 <th>Status</th>
+                @endif
+                @if (!empty($kolom['departemen']))
                 <th>Departemen</th>
+                @endif
+                @if (!empty($kolom['kontak']))
                 <th>Kontak</th>
+                @endif
+                @if (!empty($kolom['email']))
                 <th>Email</th>
+                @endif
+                @if (!empty($kolom['masa_berlaku']))
                 <th>Masa Berlaku</th>
+                @endif
             </thead>
             <tbody>
                 @php
@@ -121,17 +143,39 @@
                 @endphp
                 @foreach ($item as $e)
                 <tr>
+                    @if (!empty($kolom['no']))
                     <td>{{ $no++ }}</td>
+                    @endif
+                    @if (!empty($kolom['kode_arsip']))
                     <td>{{ $e->kode_arsip_karyawan }}</td>
+                    @endif
+                    @if (!empty($kolom['kategori']))
                     <td>{{ $e->category->nama_kategori_arsip }}</td>
+                    @endif
+                    @if (!empty($kolom['nama']))
                     <td>{{ $e->employee->nama_karyawan }}</td>
+                    @endif
+                    @if (!empty($kolom['jenis_kelamin']))
                     <td>{{ $e->employee->jenis_kelamin }}</td>
+                    @endif
+                    @if (!empty($kolom['alamat']))
                     <td>{{ $e->employee->alamat }}</td>
+                    @endif
+                    @if (!empty($kolom['status']))
                     <td>{{ $e->employee->status_karyawan }}</td>
+                    @endif
+                    @if (!empty($kolom['departemen']))
                     <td>{{ $e->departemen->nama_departemen }}</td>
+                    @endif
+                    @if (!empty($kolom['kontak']))
                     <td>{{ $e->employee->kontak }}</td>
+                    @endif
+                    @if (!empty($kolom['email']))
                     <td>{{ $e->employee->email }}</td>
+                    @endif
+                    @if (!empty($kolom['masa_berlaku']))
                     <td>{{ $e->retensi_arsip }}</td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

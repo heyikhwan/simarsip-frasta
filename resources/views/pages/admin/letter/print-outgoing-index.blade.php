@@ -34,6 +34,111 @@ Laporan Surat Keluar
 
                         <div class="row g-2 align-items-end">
                             <div class="col">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Filter Kolom
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="no" id="no" name="kolom[no]"
+                                                        checked>
+                                                    <label class="form-check-label" for="no">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="no_surat" name="kolom[no_surat]"
+                                                        id="no_surat" checked>
+                                                    <label class="form-check-label" for="no_surat">
+                                                        No. Surat
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="pengirim" name="kolom[pengirim]"
+                                                        id="pengirim" checked>
+                                                    <label class="form-check-label" for="pengirim">
+                                                        Pengirim
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="tgl_surat" name="kolom[tgl_surat]"
+                                                        id="tgl_surat" checked>
+                                                    <label class="form-check-label" for="tgl_surat">
+                                                        Tanggal Surat
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="tgl_diterima" name="kolom[tgl_diterima]"
+                                                        id="tgl_diterima" checked>
+                                                    <label class="form-check-label" for="tgl_diterima">
+                                                        Tanggal Diterima
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="perihal" name="kolom[perihal]"
+                                                        id="perihal" checked>
+                                                    <label class="form-check-label" for="perihal">
+                                                        Perihal
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="department" name="kolom[department]"
+                                                        id="department" checked>
+                                                    <label class="form-check-label" for="department">
+                                                        Department
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="status" name="kolom[status]"
+                                                        id="status" checked>
+                                                    <label class="form-check-label" for="status">
+                                                        Status
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
                                 <small>Tanggal Dari</small>
                                 <input type="date" class="form-control form-control-sm" id="dari" name="dari">
                             </div>
@@ -43,7 +148,7 @@ Laporan Surat Keluar
                             </div>
 
                             <div class="col">
-                                <button type="submit" class="btn btn-sm btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary text-nowrap">
                                     <i data-feather="printer" class="me-2"></i>Cetak Laporan
                                 </button>
                             </div>

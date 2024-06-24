@@ -103,12 +103,27 @@
 
         <table class="table" border="1" id="content">
             <thead>
+                @if (!empty($kolom['no']))
                 <th width="10">No.</th>
+                @endif
+                @if (!empty($kolom['kode_arsip']))
                 <th>Kode Arsip</th>
+                @endif
+                @if (!empty($kolom['tgl_dokumentasi']))
                 <th>Tanggal Dokumentasi</th>
+                @endif
+                @if (!empty($kolom['departemen']))
                 <th>Departemen</th>
+                @endif
+                @if (!empty($kolom['judul']))
                 <th>Judul</th>
+                @endif
+                @if (!empty($kolom['deskripsi']))
                 <th>Deskripsi</th>
+                @endif
+                @if (!empty($kolom['dokumentasi']))
+                <th>Dokumentasi</th>
+                @endif
             </thead>
             <tbody>
                 @php
@@ -116,19 +131,40 @@
                 @endphp
                 @foreach ($item as $e)
                 <tr>
+                    @if (!empty($kolom['no']))
                     <td>{{ $no++ }}</td>
+                    @endif
+                    @if (!empty($kolom['kode_arsip']))
                     <td>{{ $e->kode_arsip_dokumentasi }}</td>
+                    @endif
+                    @if (!empty($kolom['tgl_dokumentasi']))
                     <td style="text-align: center">{{ date('d-m-Y', strtotime($e->tanggal_dokumentasi)) }}
                     </td>
+                    @endif
+                    @if (!empty($kolom['departemen']))
                     <td>
                         {{ $e->departemen->nama_departemen }}
                     </td>
+                    @endif
+                    @if (!empty($kolom['judul']))
                     <td>
                         {{ $e->judul }}
                     </td>
+                    @endif
+                    @if (!empty($kolom['deskripsi']))
                     <td>
                         {{ $e->deskripsi }}
                     </td>
+                    @endif
+                    @if (!empty($kolom['dokumentasi']))
+                    <td>
+                        @if (!empty($e->file_arsip_dokumentasi))
+                            <div style="padding: 10px">
+                                <img src="{{ url('storage/' . $e->file_arsip_dokumentasi) }}" style="width: 120px; height: auto">
+                            </div>
+                        @endif
+                    </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

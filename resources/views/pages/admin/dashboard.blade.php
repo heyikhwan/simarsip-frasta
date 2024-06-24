@@ -11,13 +11,15 @@
                 <div class="page-header-content pt-4">
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto mt-4">
+                            <div class="d-flex mb-3">
+                                <img class="w-25" src="{{url('admin/assets/img/frasta.png')}}" alt="">
+                            </div>
                             <h1 class="page-header-title">
                                 <div class="page-header-icon"><i data-feather="activity"></i></div>
                                 Dashboard
                             </h1>
-                            <div class="page-header-subtitle">Administrator Panel</div>
-                            <div class="page-header-subtitle fw-bold text-white text-capitalize">{{ auth()->user()->level }}
-                            </div>
+                            <div class="page-header-subtitle"></div>
+                            <div class="page-header-subtitle fw-bold text-white text-capitalize"></div>
                         </div>
                         {{-- <div class="col-12 col-xl-auto mt-4">
                             <div class="input-group input-group-joined border-0" style="width: 16.5rem">

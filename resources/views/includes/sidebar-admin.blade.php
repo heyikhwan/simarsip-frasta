@@ -173,7 +173,7 @@
     <div class="sidenav-footer">
         <div class="sidenav-footer-content">
             <div class="sidenav-footer-subtitle">Logged in as:</div>
-            <div class="sidenav-footer-title">{{ Auth::user()->nama_lengkap }}</div>
+            <div class="sidenav-footer-title">{{ Auth::user()->nama_lengkap }} ({{ auth()->user()->level }})</div>
         </div>
     </div>
 </nav>

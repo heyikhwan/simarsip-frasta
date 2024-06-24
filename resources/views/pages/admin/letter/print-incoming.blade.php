@@ -84,7 +84,7 @@
         <table class='table1'>
             <tr>
                 <td><img src="{{ url('storage/assets/profile-images/logo.jpeg') }}" height="150" width="150"></td>
-               
+
                 <td>
                     <h2 style="font-size: 1.5rem">LAPORAN SURAT MASUK</h2>
                     <h2 style="font-size: 1.5rem">SISTEM INFORMASI MANAJEMEN ARSIP</h2>
@@ -102,14 +102,30 @@
 
         <table class="table" border="1" id="content">
             <thead>
+                @if (!empty($kolom['no']))
                 <th>No.</th>
+                @endif
+                @if (!empty($kolom['no_surat']))
                 <th>No. Surat</th>
+                @endif
+                @if (!empty($kolom['penerima']))
                 <th>Penerima</th>
+                @endif
+                @if (!empty($kolom['tgl_surat']))
                 <th style="text-align: center">Tanggal Surat</th>
+                @endif
+                @if (!empty($kolom['tgl_diterima']))
                 <th style="text-align: center">Tanggal Diterima</th>
+                @endif
+                @if (!empty($kolom['perihal']))
                 <th>Perihal</th>
+                @endif
+                @if (!empty($kolom['department']))
                 <th>Departemen</th>
+                @endif
+                @if (!empty($kolom['status']))
                 <th>Status</th>
+                @endif
             </thead>
             <tbody>
                 @php
@@ -117,17 +133,33 @@
                 @endphp
                 @foreach ($item as $letter)
                 <tr>
+                    @if (!empty($kolom['no']))
                     <td>{{ $no++ }}</td>
+                    @endif
+                    @if (!empty($kolom['no_surat']))
                     <td>{{ $letter->kode_surat }}</td>
+                    @endif
+                    @if (!empty($kolom['penerima']))
                     <td>{{ $letter->penerima_surat->nama_penerima_surat }}</td>
+                    @endif
+                    @if (!empty($kolom['tgl_surat']))
                     <td style="text-align: center">
                         {{ date('d-m-Y', strtotime($letter->tanggal_surat)) }}
                     </td>
+                    @endif
+                    @if (!empty($kolom['tgl_diterima']))
                     <td style="text-align: center">
                         {{ date('d-m-Y', strtotime($letter->tanggal_diterima)) }}</td>
+                    @endif
+                    @if (!empty($kolom['perihal']))
                     <td>{{ $letter->perihal }}</td>
+                    @endif
+                    @if (!empty($kolom['department']))
                     <td>{{ $letter->departemen->nama_departemen }}</td>
+                    @endif
+                    @if (!empty($kolom['status']))
                     <td>{{ $letter->status_surat }}</td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
